@@ -21,13 +21,13 @@ class GamePlayScreen : KtxScreen {
     private val shapeRenderer = ShapeRenderer()
 
     private val guiViewport = ScreenViewport()
-    /*private val someFont = FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf")).let {
+    private val someFont = FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf")).let {
         val parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
         parameter.size = 40
         val font = it.generateFont(parameter)
         it.dispose()
         font
-    }*/
+    }
 
     private val viewport = ExtendViewport(50f, 25f, OrthographicCamera().also { it.zoom = 0.5f })
 
