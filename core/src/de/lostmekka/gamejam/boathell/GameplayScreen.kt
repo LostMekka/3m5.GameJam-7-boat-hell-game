@@ -73,7 +73,7 @@ class GamePlayScreen : KtxScreen {
         time += delta
         engine.update(delta)
 
-        val player = player as Entity
+        val player = player
         if (player != null) {
             val pos = player.get<PositionComponent>();
             if (pos != null) {
