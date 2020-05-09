@@ -1,6 +1,7 @@
 package de.lostmekka.gamejam.boathell.entity
 
 import com.badlogic.ashley.core.Engine
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.MathUtils
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
@@ -19,8 +20,8 @@ private fun ensureCircleRange(input: Float): Float {
 }
 
 object Ships {
-    fun addPlayerBoat(engine: Engine) {
-        engine.addEntityWithComponents(
+    fun addPlayerBoat(engine: Engine): Entity {
+        return engine.addEntityWithComponents(
             PositionComponent(x = 0f, y = 0f, rotation = MathUtils.random(360f)),
             SpriteComponent(Textures.boat1.toCenteredSprite()),
             ShipMovementComponent(),

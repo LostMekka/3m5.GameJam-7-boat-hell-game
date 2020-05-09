@@ -20,16 +20,14 @@ class WaterLayer(val texture: Texture, val speed: Float, val wildness: Float = 0
         val texW = 64f
         val texH = 64f
         batch.draw(texture,
-            0f, 0f, w, h,
-            offsetX,
-            offsetY,
-            offsetX + (w / texW) / 4.0f,
-            offsetY + (h / texH) / 4.0f)
+            -0.5f * w, -0.5f * h, w, h,
+            offsetX, offsetY,
+            offsetX + (w),
+            offsetY + (h))
     }
 }
 
 class Water {
-    val batch = SpriteBatch()
     val textureWater1 = Texture(Gdx.files.internal("water1.png")).also {
         it.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat)
     }
@@ -43,20 +41,14 @@ class Water {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     }
 
-    fun draw(t: Float) {
-        batch.use {
-            batch.setColor(0.2f, 0.4f, 0.5f, 1.0f)
-            water1.draw(t, batch);
-            batch.setColor(0.35f, 0.45f, 0.9f, 1.0f)
-            water2.draw(t, batch);
-            batch.setColor(0.4f, 0.6f, 1.0f, 1.0f)
-            water3.draw(t, batch);
-            batch.setColor(0.4f, 0.6f, 1.0f, 1.0f)
-            water4.draw(t, batch);
-        }
-    }
-
-    fun dispose() {
-        batch.dispose()
+    fun draw(t: Float, batch: SpriteBatch) {
+        batch.setColor(0.2f, 0.4f, 0.5f, 1.0f)
+        water1.draw(t, batch);
+        batch.setColor(0.35f, 0.45f, 0.9f, 1.0f)
+        water2.draw(t, batch);
+        batch.setColor(0.4f, 0.6f, 1.0f, 1.0f)
+        water3.draw(t, batch);
+        batch.setColor(0.4f, 0.6f, 1.0f, 1.0f)
+        water4.draw(t, batch);
     }
 }
