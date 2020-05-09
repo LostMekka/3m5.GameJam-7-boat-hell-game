@@ -10,7 +10,7 @@ import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
 
 fun createLittleBoat(): Entity {
     val littleBoat = Entity()
-    littleBoat.add(PositionComponent(x = -2.5f, y = -2.5f, rotation = 0f))
+    littleBoat.add(PositionComponent(x = 0f, y = 0f, rotation = 0f))
     littleBoat.add(SpriteComponent(Sprite(Textures.boat1)))
     littleBoat.add(ShipMovementComponent())
     littleBoat.add(PlayerControlledComponent())

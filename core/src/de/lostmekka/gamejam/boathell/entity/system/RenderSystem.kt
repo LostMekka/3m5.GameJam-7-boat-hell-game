@@ -13,10 +13,13 @@ class RenderSystem : BaseSystem() {
         for (entity in entities) {
             val pos = entity[PositionComponent.mapper]!!
             val spriteComp = entity[SpriteComponent.mapper]!!
+
             val sprite = Sprite(spriteComp.sprite)
-            sprite.rotate(pos.rotation)
-            sprite.setOrigin(pos.x, pos.y)
+
             sprite.setBounds(pos.x, pos.y, spriteComp.width, spriteComp.height)
+            sprite.setOriginCenter()
+            sprite.rotation = pos.rotation
+
             sprite.draw(spriteBatch)
         }
     }
