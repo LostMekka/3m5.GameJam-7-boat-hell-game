@@ -6,9 +6,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
-import javafx.stage.Stage
 import ktx.app.KtxScreen
 import ktx.graphics.use
 
@@ -27,7 +27,6 @@ class GamePlayScreen : KtxScreen {
 
     private val viewport = ExtendViewport(50f, 25f, OrthographicCamera().also { it.zoom = 0.5f })
 
-    // FIXME
     private val stage = Stage(viewport).apply {
         // add actors here
     }
@@ -61,7 +60,6 @@ class GamePlayScreen : KtxScreen {
     }
 
     override fun resize(width: Int, height: Int) {
-        // FIXME
         stage.viewport.update(width, height, true)
         guiViewport.update(width, height, true)
     }
