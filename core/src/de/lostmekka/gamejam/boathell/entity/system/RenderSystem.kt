@@ -18,8 +18,8 @@ class RenderSystem(
         spriteBatch.projectionMatrix = viewport.camera.projection
         for (entity in entities) {
             val pos = entity[PositionComponent.mapper]!!
-            val sprite = entity[SpriteComponent.mapper]!!.sprite
-            spriteBatch.draw(sprite, pos.x, pos.y)
+            val sprite = entity[SpriteComponent.mapper]!!
+            spriteBatch.draw(sprite.sprite, pos.x, pos.y, sprite.width, sprite.height)
         }
     }
 

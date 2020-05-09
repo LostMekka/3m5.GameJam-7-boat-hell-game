@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
+import de.lostmekka.gamejam.boathell.entity.createLittleBoat
 import de.lostmekka.gamejam.boathell.entity.system.RenderSystem
+import de.lostmekka.gamejam.boathell.entity.system.ShipMovementSystem
 import ktx.app.KtxScreen
 import ktx.graphics.use
 
@@ -19,13 +21,13 @@ class GamePlayScreen : KtxScreen {
     private val shapeRenderer = ShapeRenderer()
 
     private val guiViewport = ScreenViewport()
-    private val someFont = FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf")).let {
+    /*private val someFont = FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf")).let {
         val parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
         parameter.size = 40
         val font = it.generateFont(parameter)
         it.dispose()
         font
-    }
+    }*/
 
     private val viewport = ExtendViewport(50f, 25f, OrthographicCamera().also { it.zoom = 0.5f })
 
@@ -34,12 +36,14 @@ class GamePlayScreen : KtxScreen {
     }
 
     private val renderSystem = RenderSystem(batch, shapeRenderer, viewport)
+    private val shipMovementSystem = ShipMovementSystem()
     private val engine = Engine().apply {
+        addEntity(createLittleBoat())
         addSystem(renderSystem)
+        addSystem(shipMovementSystem)
     }
 
     private fun handleInput() {
-        // handle input
     }
 
     private fun update(delta: Float) {

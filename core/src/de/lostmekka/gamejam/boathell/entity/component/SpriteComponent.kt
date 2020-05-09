@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import ktx.ashley.mapperFor
 
 class SpriteComponent(
-    var sprite: Sprite
+    var sprite: Sprite,
+    val width: Float = 5f,
+    val height: Float = 5f
 ): Component {
     companion object {
         val mapper = mapperFor<SpriteComponent>()
