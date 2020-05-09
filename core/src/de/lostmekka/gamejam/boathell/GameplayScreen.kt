@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.createLittleBoat
 import de.lostmekka.gamejam.boathell.entity.system.RenderSystem
 import de.lostmekka.gamejam.boathell.entity.system.ShipMovementSystem
+import de.lostmekka.gamejam.boathell.entity.system.WeaponsSystem
 import ktx.app.KtxScreen
 import ktx.graphics.use
 
@@ -41,6 +42,7 @@ class GamePlayScreen : KtxScreen {
         addEntity(createLittleBoat())
         addSystem(renderSystem)
         addSystem(ShipMovementSystem())
+        addSystem(WeaponsSystem())
     }
 
     private fun handleInput() {
