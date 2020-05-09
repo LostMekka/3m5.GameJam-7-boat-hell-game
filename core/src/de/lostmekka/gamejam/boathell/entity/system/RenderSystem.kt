@@ -1,5 +1,6 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
@@ -11,8 +12,12 @@ class RenderSystem : BaseSystem() {
     fun render(spriteBatch: SpriteBatch) {
         for (entity in entities) {
             val pos = entity[PositionComponent.mapper]!!
-            val sprite = entity[SpriteComponent.mapper]!!
-            spriteBatch.draw(sprite.sprite, pos.x, pos.y, sprite.width, sprite.height)
+            val spriteComp = entity[SpriteComponent.mapper]!!
+            val sprite = Sprite(spriteComp.sprite)
+            sprite.rotate(pos.rotation)
+            sprite.setOrigin(pos.x, pos.y)
+            sprite.setBounds(pos.x, pos.y, spriteComp.width, spriteComp.height)
+            sprite.draw(spriteBatch)
         }
     }
 

@@ -3,10 +3,9 @@ package de.lostmekka.gamejam.boathell.entity.component
 import com.badlogic.ashley.core.Component
 import ktx.ashley.mapperFor
 
-class ShipMovementComponent(
-    var velocity: Float = 0f
+class PlayerControlledComponent(
 ) : Component {
     companion object {
-        val mapper = mapperFor<ShipMovementComponent>()
+        val mapper = mapperFor<PlayerControlledComponent>()
     }
 }
