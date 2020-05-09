@@ -10,6 +10,11 @@ object Textures {
         Texture("boat1.png")
             .filterNearest()
     }
+    val projectile by lazy {
+        Texture("projectile1.png")
+            .filterNearest()
+            .splitSpriteSheet(8, 8, 2, 1)
+    }
 }
 
 fun Texture.filterNearest(): Texture {
@@ -17,9 +22,12 @@ fun Texture.filterNearest(): Texture {
     return this
 }
 
-fun Texture.splitSpriteSheet(spriteWidth: Int, spriteHeight: Int): List<TextureRegion> {
-    val array = TextureRegion.split(this, spriteWidth, spriteHeight)
-    val sprites = mutableListOf<TextureRegion>()
-    for (row in array) for (sprite in row) sprites += sprite
-    return sprites
-}
+fun Texture.splitSpriteSheet(
+    spriteWidth: Int,
+    spriteHeight: Int,
+    countX: Int,
+    countY: Int
+): List<TextureRegion> = TextureRegion
+    .split(this, spriteWidth, spriteHeight)
+    .take(countY)
+    .flatMap { it.take(countX) }
