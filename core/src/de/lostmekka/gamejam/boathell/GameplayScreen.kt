@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.Ships
 import de.lostmekka.gamejam.boathell.entity.system.*
@@ -29,7 +28,8 @@ class GamePlayScreen : KtxScreen {
         font
     }
 
-    private val viewport = ScreenViewport(OrthographicCamera()).also { it.unitsPerPixel = 1.0f / 32.0f / 4.0f }
+    private val camera = OrthographicCamera().also { it.zoom = 4f }
+    private val viewport = ScreenViewport(camera).also { it.unitsPerPixel = 1.0f / 32.0f / 4.0f }
 
     private val stage = Stage(viewport).apply {
         // add actors here
