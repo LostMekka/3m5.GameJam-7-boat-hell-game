@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
-import de.lostmekka.gamejam.boathell.entity.createLittleBoat
+import de.lostmekka.gamejam.boathell.entity.Ships
 import de.lostmekka.gamejam.boathell.entity.system.PlayerControlledBoatSystem
 import de.lostmekka.gamejam.boathell.entity.system.RenderSystem
 import de.lostmekka.gamejam.boathell.entity.system.ShipMovementSystem
@@ -40,7 +40,8 @@ class GamePlayScreen : KtxScreen {
 
     private val renderSystem = RenderSystem()
     private val engine = Engine().apply {
-        addEntity(createLittleBoat())
+        Ships.addPlayerBoat(this)
+
         addSystem(renderSystem)
         addSystem(ShipMovementSystem())
         addSystem(WeaponsSystem())
@@ -59,8 +60,7 @@ class GamePlayScreen : KtxScreen {
         water.clearColor()
         water.draw(time)
 
-        batch.use {
-            it.projectionMatrix = viewport.camera.projection
+        batch.use(viewport.camera.projection) {
             renderSystem.render(it)
         }
 
