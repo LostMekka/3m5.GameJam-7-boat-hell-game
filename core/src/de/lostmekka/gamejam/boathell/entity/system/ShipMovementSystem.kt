@@ -1,12 +1,11 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import de.lostmekka.gamejam.boathell.cosDeg
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
+import de.lostmekka.gamejam.boathell.sinDeg
 import ktx.ashley.allOf
 import ktx.ashley.get
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
 
 class ShipMovementSystem : BaseSystem() {
 
@@ -15,9 +14,8 @@ class ShipMovementSystem : BaseSystem() {
             val pos = entity[PositionComponent.mapper]!!
             val vel = entity[ShipMovementComponent.mapper]!!
             if (vel.velocity > 0) {
-                val alpha = pos.rotation / 180 * PI.toFloat()
-                pos.y += cos(alpha) * vel.velocity
-                pos.x -= sin(alpha) * vel.velocity
+                pos.x += cosDeg(pos.rotation) * vel.velocity
+                pos.y += sinDeg(pos.rotation) * vel.velocity
             }
         }
     }

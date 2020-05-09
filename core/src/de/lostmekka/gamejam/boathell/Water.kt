@@ -4,26 +4,28 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.math.MathUtils
-import ktx.graphics.use
+import kotlin.math.sin
+import kotlin.random.Random
 
 class WaterLayer(val texture: Texture, val speed: Float, val wildness: Float = 0.6f) {
-    private val r1 = MathUtils.random()
-    private val r2 = MathUtils.random()
+    private val r1 = Random.nextFloat()
+    private val r2 = Random.nextFloat()
 
     fun draw(t: Float, batch: SpriteBatch) {
         val f = t * wildness
-        val offsetX = speed * MathUtils.sin(r1 + f * wildness)
-        val offsetY = speed * MathUtils.sin(r2 + f * wildness)
+        val offsetX = speed * sin(r1 + f * wildness)
+        val offsetY = speed * sin(r2 + f * wildness)
         val w = Gdx.graphics.width.toFloat()
         val h = Gdx.graphics.height.toFloat()
         val texW = 64f
         val texH = 64f
-        batch.draw(texture,
+        batch.draw(
+            texture,
             -0.5f * w, -0.5f * h, w, h,
             offsetX, offsetY,
             offsetX + (w),
-            offsetY + (h))
+            offsetY + (h)
+        )
     }
 }
 
