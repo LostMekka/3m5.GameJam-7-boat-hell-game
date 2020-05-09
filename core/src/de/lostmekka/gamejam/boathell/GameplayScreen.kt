@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
+import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.createLittleBoat
@@ -19,6 +20,8 @@ import ktx.graphics.use
 class GamePlayScreen : KtxScreen {
     private val batch = SpriteBatch()
     private val shapeRenderer = ShapeRenderer()
+    val water = Water()
+    var time = 0f;
 
     private val guiViewport = ScreenViewport()
     private val someFont = FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf")).let {
@@ -46,12 +49,13 @@ class GamePlayScreen : KtxScreen {
     }
 
     private fun update(delta: Float) {
+        time += delta;
         engine.update(delta)
     }
 
     private fun draw() {
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
+        water.clearColor()
+        water.draw(time)
 
         batch.use {
             it.projectionMatrix = viewport.camera.projection
@@ -75,6 +79,7 @@ class GamePlayScreen : KtxScreen {
     }
 
     override fun dispose() {
+        water.dispose()
         batch.dispose()
     }
 }
