@@ -15,6 +15,10 @@ object Textures {
             .filterNearest()
             .splitSpriteSheet(8, 8, 2, 1)
     }
+    val ship1 by lazy {
+        Texture("ship1.png")
+            .filterNearest()
+    }
 }
 
 fun Texture.filterNearest(): Texture {

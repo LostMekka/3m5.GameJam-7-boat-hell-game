@@ -10,10 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.Ships
-import de.lostmekka.gamejam.boathell.entity.system.PlayerControlledBoatSystem
-import de.lostmekka.gamejam.boathell.entity.system.RenderSystem
-import de.lostmekka.gamejam.boathell.entity.system.ShipMovementSystem
-import de.lostmekka.gamejam.boathell.entity.system.WeaponsSystem
+import de.lostmekka.gamejam.boathell.entity.system.*
 import ktx.app.KtxScreen
 import ktx.graphics.use
 
@@ -41,11 +38,13 @@ class GamePlayScreen : KtxScreen {
     private val renderSystem = RenderSystem()
     private val engine = Engine().apply {
         Ships.addPlayerBoat(this)
+        Ships.addAIBoat(this, 10f, 10f)
 
         addSystem(renderSystem)
         addSystem(ShipMovementSystem())
         addSystem(WeaponsSystem())
         addSystem(PlayerControlledBoatSystem())
+        addSystem(AIShipSystem())
     }
 
     private fun handleInput() {

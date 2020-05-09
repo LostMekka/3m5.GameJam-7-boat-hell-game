@@ -1,7 +1,5 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import ktx.ashley.allOf
