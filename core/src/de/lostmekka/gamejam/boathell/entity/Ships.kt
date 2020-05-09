@@ -9,10 +9,14 @@ import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
-import kotlin.math.PI
-import kotlin.math.acos
-import kotlin.math.pow
-import kotlin.math.sqrt
+import kotlin.math.*
+
+private fun ensureCircleRange(input: Float): Float {
+    var result = input
+    if (input > 360) result -= 360
+    if (input < 0) result += 360
+    return result
+}
 
 object Ships {
     fun addPlayerBoat(engine: Engine) {
@@ -28,14 +32,25 @@ object Ships {
         engine.addEntityWithComponents(
             PositionComponent(x = x, y = y, rotation = rotation),
             SpriteComponent(Textures.ship1.toCenteredSprite()),
-            ShipMovementComponent(velocity = 0.1f),
+            ShipMovementComponent(velocity = 0.025f),
             AIShipComponent { (playerPos, shipPos) ->
                 val b = sqrt((shipPos.x - playerPos.x).pow(2) + (shipPos.y - playerPos.y).pow(2))
                 val a = sqrt((shipPos.x - playerPos.x).pow(2) + (shipPos.y - playerPos.y + 1).pow(2))
                 val alpha = acos((a * a - b * b - 1) / ((-2) * b))
-                this.rotation = alpha * 180 / PI.toFloat()
-                if (this.rotation > 360) this.rotation -= 360
-                if (this.rotation < 0) this.rotation += 360
+                var rotationGoal = alpha * 180 / PI.toFloat()
+                if (playerPos.x - shipPos.x > 0) rotationGoal *= -1
+                rotationGoal = ensureCircleRange(rotationGoal)
+
+                // approach desired rotation stepwise
+                val step = 2
+                if (abs(rotationGoal - this.rotation) > 180) {
+                    if (rotationGoal > this.rotation + 2) this.rotation -= step
+                    else if (rotationGoal < this.rotation - 2) this.rotation += step
+                } else {
+                    if (rotationGoal > this.rotation + 2) this.rotation += step
+                    else if (rotationGoal < this.rotation - 2) this.rotation -= step
+                }
+                this.rotation = ensureCircleRange(this.rotation)
             }
         )
     }
