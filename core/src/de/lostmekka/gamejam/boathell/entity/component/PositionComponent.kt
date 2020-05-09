@@ -5,7 +5,8 @@ import ktx.ashley.mapperFor
 
 class PositionComponent(
     var x: Float,
-    var y: Float
+    var y: Float,
+    var rotation: Int
 ): Component {
     companion object {
         val mapper = mapperFor<PositionComponent>()
