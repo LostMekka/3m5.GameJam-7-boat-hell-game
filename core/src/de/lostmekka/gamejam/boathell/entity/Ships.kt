@@ -25,14 +25,34 @@ object Ships {
             ShipMovementComponent(),
             PlayerControlledComponent(),
             WeaponOwnerComponent(
-                Weapons.addWeapon(
-                    engine = engine,
-                    cooldownTime = 1f,
-                    offsetAngle = 0f,
-                    offsetX = 0.5f,
-                    offsetY = 0f,
-                    projectileInit = WeaponTriggerStrategies.boring
-                )
+                Iterable {
+                    iterator {
+                        yield(
+                            Weapons.addWeapon(
+                                engine = engine,
+                                cooldownTime = 0.23f,
+                                offsetAngle = 0f,
+                                offsetX = 0.5f,
+                                offsetY = 0f,
+                                projectileInit = WeaponTriggerStrategies.boring
+                            )
+                        )
+                        for (x in -2..2) {
+                            for (y in -1..1 step 2) {
+                                yield(
+                                    Weapons.addWeapon(
+                                        engine = engine,
+                                        cooldownTime = 1f,
+                                        offsetAngle = y * 90f,
+                                        offsetX = x * 0.3f,
+                                        offsetY = y * 0.5f,
+                                        projectileInit = WeaponTriggerStrategies.boring
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }.toMutableList()
             )
         )
     }
