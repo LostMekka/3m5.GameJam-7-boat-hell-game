@@ -2,26 +2,25 @@ package de.lostmekka.gamejam.boathell
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
-import com.badlogic.gdx.utils.TimeUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.createLittleBoat
 import de.lostmekka.gamejam.boathell.entity.system.RenderSystem
 import de.lostmekka.gamejam.boathell.entity.system.ShipMovementSystem
+import de.lostmekka.gamejam.boathell.entity.system.WeaponsSystem
 import ktx.app.KtxScreen
 import ktx.graphics.use
 
 class GamePlayScreen : KtxScreen {
     private val batch = SpriteBatch()
     private val shapeRenderer = ShapeRenderer()
-    val water = Water()
-    var time = 0f;
+    private val water = Water()
+    private var time = 0f
 
     private val guiViewport = ScreenViewport()
     private val someFont = FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf")).let {
@@ -49,7 +48,7 @@ class GamePlayScreen : KtxScreen {
     }
 
     private fun update(delta: Float) {
-        time += delta;
+        time += delta
         engine.update(delta)
     }
 
