@@ -7,13 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import ktx.graphics.use
 
-class WaterLayer(val texture: Texture) {
+class WaterLayer(val texture: Texture, val speed: Float, val wildness: Float = 0.6f) {
     private val r1 = MathUtils.random()
     private val r2 = MathUtils.random()
 
     fun draw(t: Float, batch: SpriteBatch) {
-        val offsetX = r1 * MathUtils.sin(r1 + t)
-        val offsetY = r2 * MathUtils.sin(r2 + t)
+        val f = t * wildness
+        val offsetX = speed * MathUtils.sin(r1 + f * wildness)
+        val offsetY = speed * MathUtils.sin(r2 + f * wildness)
         val w = Gdx.graphics.width.toFloat()
         val h = Gdx.graphics.height.toFloat()
         val texW = 64f
@@ -22,8 +23,8 @@ class WaterLayer(val texture: Texture) {
             0f, 0f, w, h,
             offsetX,
             offsetY,
-            offsetX + w / texW,
-            offsetY + h / texH)
+            offsetX + (w / texW) / 4.0f,
+            offsetY + (h / texH) / 4.0f)
     }
 }
 
@@ -32,10 +33,10 @@ class Water {
     val textureWater1 = Texture(Gdx.files.internal("water1.png")).also {
         it.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat)
     }
-    val water1 = WaterLayer(textureWater1)
-    val water2 = WaterLayer(textureWater1)
-    val water3 = WaterLayer(textureWater1)
-    val water4 = WaterLayer(textureWater1)
+    val water1 = WaterLayer(textureWater1, 0.5f, 0.7f)
+    val water2 = WaterLayer(textureWater1, 0.4f, 0.7f)
+    val water3 = WaterLayer(textureWater1, 0.3f, 0.8f)
+    val water4 = WaterLayer(textureWater1, 0.25f, 0.9f)
 
     fun clearColor() {
         Gdx.gl.glClearColor(0f, 0.5f, 1f, 1f)
