@@ -3,6 +3,7 @@ package de.lostmekka.gamejam.boathell.entity.system
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntitySystem
+import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.utils.ImmutableArray
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
@@ -13,10 +14,8 @@ abstract class BaseSystem(priority: Int = 0): EntitySystem(priority) {
     val entities get() = entitiesInternal
 
     override fun addedToEngine(engine: Engine) {
-        entitiesInternal = engine.getEntitiesFor(
-            allOf(
-                PositionComponent::class,
-                SpriteComponent::class
-            ).get())
+        entitiesInternal = engine.getEntitiesFor(familyBuilder().get())
     }
+
+    abstract fun familyBuilder(): Family.Builder
 }

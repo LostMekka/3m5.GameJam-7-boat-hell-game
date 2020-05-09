@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.utils.viewport.Viewport
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
+import ktx.ashley.allOf
 import ktx.ashley.get
 
 class RenderSystem(
@@ -21,4 +22,9 @@ class RenderSystem(
             spriteBatch.draw(sprite, pos.x, pos.y)
         }
     }
+
+    override fun familyBuilder() = allOf(
+        PositionComponent::class,
+        SpriteComponent::class
+    )
 }
