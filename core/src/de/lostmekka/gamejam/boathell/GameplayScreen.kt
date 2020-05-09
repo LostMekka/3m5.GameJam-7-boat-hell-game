@@ -2,6 +2,7 @@ package de.lostmekka.gamejam.boathell
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
@@ -33,13 +34,9 @@ class GamePlayScreen : KtxScreen {
         font
     }
 
-    private val camera = OrthographicCamera().also { it.zoom = 4f }
-    private val viewport = ScreenViewport(camera).also { it.unitsPerPixel = 1.0f / 32.0f / 4.0f }
-
-    private val stage = Stage(viewport).apply {
-        // add actors here
-    }
-
+    val camera = OrthographicCamera().apply { zoom = 4f }
+    private val viewport = ScreenViewport(camera).apply { unitsPerPixel = 1.0f / 32.0f / 4.0f }
+    private val stage = Stage(viewport)
     private val renderSystem = RenderSystem()
     private val engine = Engine().apply {
         Ships.addPlayerBoat(this)
@@ -53,7 +50,15 @@ class GamePlayScreen : KtxScreen {
         addSystem(AIShipSystem())
     }
 
-    private fun handleInput() {
+    init {
+        Gdx.input.inputProcessor = object : InputAdapter() {
+            override fun scrolled(amount: Int): Boolean {
+                camera.zoom *= if (amount > 0) 0.9f else 1.1f
+                println(camera.zoom)
+                camera.update()
+                return true
+            }
+        }
     }
 
     private fun update(delta: Float) {
@@ -75,7 +80,6 @@ class GamePlayScreen : KtxScreen {
     }
 
     override fun render(delta: Float) {
-        handleInput()
         update(delta)
         draw()
     }
