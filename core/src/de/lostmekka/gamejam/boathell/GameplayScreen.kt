@@ -35,12 +35,11 @@ class GamePlayScreen : KtxScreen {
         // add actors here
     }
 
-    private val renderSystem = RenderSystem(batch, shapeRenderer, viewport)
-    private val shipMovementSystem = ShipMovementSystem()
+    private val renderSystem = RenderSystem()
     private val engine = Engine().apply {
         addEntity(createLittleBoat())
         addSystem(renderSystem)
-        addSystem(shipMovementSystem)
+        addSystem(ShipMovementSystem())
     }
 
     private fun handleInput() {
@@ -54,9 +53,9 @@ class GamePlayScreen : KtxScreen {
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
 
-        batch.projectionMatrix = viewport.camera.projection
         batch.use {
-            renderSystem.render()
+            it.projectionMatrix = viewport.camera.projection
+            renderSystem.render(it)
         }
 
         shapeRenderer.use(ShapeRenderer.ShapeType.Line) {
