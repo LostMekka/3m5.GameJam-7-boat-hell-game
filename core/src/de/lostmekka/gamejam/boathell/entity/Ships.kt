@@ -10,8 +10,8 @@ import kotlin.math.*
 object Ships {
     fun addPlayerBoat(engine: Engine) {
         val sprite = Sprite(Textures.boat1)
-        val w = 4f
-        val h = 4f
+        val w = 1f
+        val h = 1f
         sprite.setBounds(-0.5f * w, -0.5f * h, w, h)
         sprite.setOriginCenter()
 
@@ -25,8 +25,8 @@ object Ships {
 
     fun addAIBoat(engine: Engine, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         val sprite = Sprite(Textures.ship1)
-        val w = 4f
-        val h = 4f
+        val w = sprite.width / 32f
+        val h = sprite.height / 32f
         sprite.setBounds(-0.5f * w, -0.5f * h, w, h)
         sprite.setOriginCenter()
 

@@ -29,7 +29,7 @@ class GamePlayScreen : KtxScreen {
         font
     }
 
-    private val viewport = ExtendViewport(50f, 25f, OrthographicCamera().also { it.zoom = 0.5f })
+    private val viewport = ScreenViewport(OrthographicCamera()).also { it.unitsPerPixel = 1.0f / 32.0f / 4.0f }
 
     private val stage = Stage(viewport).apply {
         // add actors here
