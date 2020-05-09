@@ -9,7 +9,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.Ships
-import de.lostmekka.gamejam.boathell.entity.system.*
+import de.lostmekka.gamejam.boathell.entity.system.AIShipSystem
+import de.lostmekka.gamejam.boathell.entity.system.PlayerControlledBoatSystem
+import de.lostmekka.gamejam.boathell.entity.system.RenderSystem
+import de.lostmekka.gamejam.boathell.entity.system.ShipMovementSystem
+import de.lostmekka.gamejam.boathell.entity.system.WeaponOwnerSystem
+import de.lostmekka.gamejam.boathell.entity.system.WeaponSystem
 import ktx.app.KtxScreen
 import ktx.graphics.use
 
@@ -42,7 +47,8 @@ class GamePlayScreen : KtxScreen {
 
         addSystem(renderSystem)
         addSystem(ShipMovementSystem())
-        addSystem(WeaponsSystem())
+        addSystem(WeaponSystem())
+        addSystem(WeaponOwnerSystem())
         addSystem(PlayerControlledBoatSystem())
         addSystem(AIShipSystem())
     }
