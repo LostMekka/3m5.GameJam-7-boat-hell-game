@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input.Keys
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
+import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
 import ktx.ashley.allOf
 
 class PlayerControlledBoatSystem : BaseSystem() {
@@ -17,6 +18,7 @@ class PlayerControlledBoatSystem : BaseSystem() {
 
             val position = PositionComponent.mapper.get(entity)
             val movement = ShipMovementComponent.mapper.get(entity)
+            val weapons = WeaponOwnerComponent.mapper.get(entity)
 
             if (input.isKeyPressed(Keys.RIGHT)) {
                 position.rotation -= 50 * deltaTime
@@ -31,6 +33,10 @@ class PlayerControlledBoatSystem : BaseSystem() {
             }
             if (input.isKeyPressed(Keys.DOWN) && movement.velocity > 0.0f) {
                 movement.velocity += deccel * deltaTime
+            }
+
+            if (input.isKeyPressed(Keys.SPACE)) {
+                weapons.weaponComponents.forEach { it.shoot(position, engine) }
             }
 
             movement.velocity -= movement.velocity * friction

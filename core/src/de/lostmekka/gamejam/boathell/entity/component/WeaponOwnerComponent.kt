@@ -7,6 +7,8 @@ import ktx.ashley.mapperFor
 class WeaponOwnerComponent(
     val weaponEntities: MutableList<Entity>
 ) : Component {
+    constructor(vararg weaponEntities: Entity) : this(weaponEntities.toMutableList())
+
     val weaponComponents get() = weaponEntities.map { WeaponComponent.mapper[it] }
 
     companion object {

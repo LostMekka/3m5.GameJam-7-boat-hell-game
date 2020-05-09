@@ -3,15 +3,19 @@ package de.lostmekka.gamejam.boathell.entity.component
 import com.badlogic.ashley.core.Component
 import ktx.ashley.mapperFor
 
+typealias ProjectileMovementStrategy = ProjectileMovementStrategyContext.() -> Unit
+
+data class ProjectileMovementStrategyContext(
+    val pos: PositionComponent,
+    val deltaTime: Float,
+    val totalLifetime: Float
+)
+
 class ProjectileMovementComponent(
     var maxLifeTime: Float,
     var lifeTime: Float = 0f,
-    var movementStrategy: PositionComponent.(MovementStrategyContext) -> Unit
+    var movementStrategy: ProjectileMovementStrategy
 ) : Component {
-    data class MovementStrategyContext(
-        val deltaTime: Float,
-        val totalLifetime: Float
-    )
     companion object {
         val mapper = mapperFor<ProjectileMovementComponent>()
     }

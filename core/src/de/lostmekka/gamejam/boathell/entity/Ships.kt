@@ -9,6 +9,7 @@ import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
+import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
 import kotlin.math.*
 
 private fun ensureCircleRange(input: Float): Float {
@@ -24,7 +25,17 @@ object Ships {
             PositionComponent(x = 0f, y = 0f, rotation = MathUtils.random(360f)),
             SpriteComponent(Textures.boat1.toCenteredSprite()),
             ShipMovementComponent(),
-            PlayerControlledComponent()
+            PlayerControlledComponent(),
+            WeaponOwnerComponent(
+                Weapons.addWeapon(
+                    engine = engine,
+                    cooldownTime = 1f,
+                    offsetAngle = 0f,
+                    offsetX = 0f,
+                    offsetY = 0.5f,
+                    projectileInit = WeaponTriggerStrategies.boring
+                )
+            )
         )
     }
 

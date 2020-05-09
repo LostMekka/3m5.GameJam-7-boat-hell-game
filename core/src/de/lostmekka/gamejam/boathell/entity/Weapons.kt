@@ -5,21 +5,34 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
+import de.lostmekka.gamejam.boathell.entity.component.ProjectileMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
 import de.lostmekka.gamejam.boathell.entity.component.WeaponComponent
+import de.lostmekka.gamejam.boathell.entity.component.WeaponTriggerStrategy
 
 object Weapons {
     fun addWeapon(
         engine: Engine,
-        textureRegion: TextureRegion,
         offsetX: Float,
         offsetY: Float,
         offsetAngle: Float,
         cooldownTime: Float,
-        projectileInit: WeaponComponent.ShotContext.() -> Unit
+        projectileInit: WeaponTriggerStrategy
     ) = engine.addEntityWithComponents(
         PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
-        SpriteComponent(Sprite(textureRegion)),
         WeaponComponent(cooldownTime, offsetX, offsetY, offsetAngle, projectileInit)
+        // TODO: add sprite
     )
+}
+
+object WeaponTriggerStrategies {
+    val boring: WeaponTriggerStrategy = {
+        engine.addEntityWithComponents(
+            PositionComponent(x, y, angle),
+            ProjectileMovementComponent(
+                maxLifeTime = 4f,
+                movementStrategy = ProjectileMovementStrategies.straight(angle, 1f)
+            )
+        )
+    }
 }
