@@ -1,5 +1,6 @@
 package de.lostmekka.gamejam.boathell
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.ScreenViewport
+import de.lostmekka.gamejam.boathell.entity.system.RenderSystem
 import ktx.app.KtxScreen
 import ktx.graphics.use
 
@@ -31,12 +33,17 @@ class GamePlayScreen : KtxScreen {
         // add actors here
     }
 
+    private val renderSystem = RenderSystem(batch, shapeRenderer, viewport)
+    private val engine = Engine().apply {
+        addSystem(renderSystem)
+    }
+
     private fun handleInput() {
         // handle input
     }
 
     private fun update(delta: Float) {
-        // do stuff
+        engine.update(delta)
     }
 
     private fun draw() {
@@ -45,7 +52,7 @@ class GamePlayScreen : KtxScreen {
 
         batch.projectionMatrix = viewport.camera.projection
         batch.use {
-            // draw stuff
+            renderSystem.render()
         }
 
         shapeRenderer.use(ShapeRenderer.ShapeType.Line) {
