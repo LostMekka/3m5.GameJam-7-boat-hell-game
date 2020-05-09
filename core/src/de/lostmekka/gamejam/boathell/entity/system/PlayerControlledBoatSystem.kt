@@ -16,12 +16,10 @@ class PlayerControlledBoatSystem : BaseSystem() {
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 position.rotation -= 50 * deltaTime
                 if (position.rotation < 0) position.rotation += 360
-                println(position.rotation)
             }
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 position.rotation += 50 * deltaTime
                 if (position.rotation > 360) position.rotation -= 360
-                println(position.rotation)
             }
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 velocity.velocity = 0.1f
