@@ -2,6 +2,7 @@ package de.lostmekka.gamejam.boathell.entity
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.graphics.Color
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
 import de.lostmekka.gamejam.boathell.entity.component.*
@@ -103,7 +104,7 @@ object WeaponTriggerStrategies {
         for (i in 0..5) {
             engine.addEntityWithComponents(
                 PositionComponent(x, y, angle),
-                SpriteComponent(Textures.projectile[0].toCenteredSprite(), 999),
+                SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = com.badlogic.gdx.graphics.Color.YELLOW }, 999),
                 HitBoxComponent(
                     physicsWorld = physicsWorld,
                     hitBoxWidth = 4.pixels,
@@ -131,7 +132,7 @@ object WeaponTriggerStrategies {
             val angleOffset = (i + projectilesFired) * 30
             engine.addEntityWithComponents(
                 PositionComponent(x, y, angle + angleOffset),
-                SpriteComponent(Textures.projectile[0].toCenteredSprite(), 999),
+                SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.RED }, 999),
                 HitBoxComponent(
                     physicsWorld = physicsWorld,
                     hitBoxWidth = 4.pixels,
