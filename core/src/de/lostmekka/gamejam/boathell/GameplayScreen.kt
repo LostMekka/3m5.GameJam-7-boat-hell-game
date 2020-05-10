@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
+import de.lostmekka.gamejam.boathell.asset.Music
 import de.lostmekka.gamejam.boathell.entity.Ships
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.system.*
@@ -73,6 +74,7 @@ class GamePlayScreen : KtxScreen {
                 return true
             }
         }
+        Music.loop.play()
     }
 
     private fun update(delta: Float) {
