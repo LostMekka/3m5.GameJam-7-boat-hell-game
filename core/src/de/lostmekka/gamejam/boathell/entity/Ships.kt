@@ -3,6 +3,7 @@ package de.lostmekka.gamejam.boathell.entity
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.physics.box2d.World
+import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
 import de.lostmekka.gamejam.boathell.entity.component.AIShipComponent
@@ -12,6 +13,7 @@ import de.lostmekka.gamejam.boathell.entity.component.HitBoxComponent
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
+import de.lostmekka.gamejam.boathell.entity.component.SoundComponent
 import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
 import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
 import de.lostmekka.gamejam.boathell.normalizeAngleDeg
@@ -42,6 +44,10 @@ object Ships {
             PlayerControlledComponent(),
             WeaponOwnerComponent(
                 Weapons.addBoatFrontCannon1(engine)
+            ),
+            SoundComponent(
+                deathSound = Sounds.awesomeExplosion,
+                hitSound = Sounds.hit
             )
         )
     }
@@ -62,6 +68,10 @@ object Ships {
             AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer()),
             WeaponOwnerComponent(
                 Weapons.addShip1SideCannons(engine)
+            ),
+            SoundComponent(
+                deathSound = Sounds.awesomeExplosion,
+                hitSound = Sounds.hit
             )
         )
     }
@@ -82,6 +92,10 @@ object Ships {
             AIShipComponent(AIShipMovementStrategies.flyDirectlyToAndAwayFromPlayer()),
             WeaponOwnerComponent(
                 Weapons.addShip1FrontCannon1(engine)
+            ),
+            SoundComponent(
+                deathSound = Sounds.awesomeExplosion,
+                hitSound = Sounds.hit
             )
         )
     }
@@ -102,7 +116,11 @@ object Ships {
                 Weapons.addShipRosettaCannon(engine, false)
             ),
             ShipMovementComponent(velocity = 0.01f),
-            AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer(6f))
+            AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer(6f)),
+            SoundComponent(
+                deathSound = Sounds.awesomeExplosion,
+                hitSound = Sounds.hit
+            )
         )
     }
 }

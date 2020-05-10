@@ -13,6 +13,7 @@ import de.lostmekka.gamejam.boathell.entity.component.HealthComponent
 import de.lostmekka.gamejam.boathell.entity.component.HitBoxComponent
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ProjectileMovementComponent
+import de.lostmekka.gamejam.boathell.entity.component.SoundComponent
 import de.lostmekka.gamejam.boathell.toDegrees
 import de.lostmekka.gamejam.boathell.toRadians
 import ktx.ashley.allOf
@@ -89,7 +90,13 @@ class PhysicsUpdateSystem(
 
             engine.removeEntity(projectile)
             healthComponent.health -= pComponent.damage
-            if (healthComponent.health <= 0) engine.removeEntity(ship)
+            val sounds = ship[SoundComponent.mapper]
+            if (healthComponent.health <= 0) {
+                engine.removeEntity(ship)
+                sounds?.deathSound?.play()
+            } else {
+                sounds?.hitSound?.play()
+            }
         }
 
         private val Entity.projectile get() = this[ProjectileMovementComponent.mapper]?.let { this to it }

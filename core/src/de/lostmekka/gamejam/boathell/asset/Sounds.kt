@@ -5,7 +5,8 @@ import com.badlogic.gdx.audio.Sound
 
 object Sounds {
     var volume = 0.4f
-//    val xxx by lazy { sound("xxx.ogg", 0.35f) }
+    val awesomeExplosion by lazy { sound("awesome_explosion.wav", 0.35f) }
+    val hit by lazy { sound("hit1.wav", 0.35f) }
 }
 
 class SoundWithVolume(val sound: Sound, val volume: Float) {
@@ -13,6 +14,6 @@ class SoundWithVolume(val sound: Sound, val volume: Float) {
 }
 
 fun sound(path: String, volume: Float = 1f) = SoundWithVolume(
-    Gdx.audio.newSound(Gdx.files.internal("sounds/$path")),
+    Gdx.audio.newSound(Gdx.files.internal("sound/$path")),
     volume
 )
