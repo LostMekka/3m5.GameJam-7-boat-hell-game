@@ -14,15 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.Ships
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
-import de.lostmekka.gamejam.boathell.entity.system.AIShipSystem
-import de.lostmekka.gamejam.boathell.entity.system.EnemySpawnerSystem
-import de.lostmekka.gamejam.boathell.entity.system.PhysicsUpdateSystem
-import de.lostmekka.gamejam.boathell.entity.system.PlayerControlledBoatSystem
-import de.lostmekka.gamejam.boathell.entity.system.ProjectileMovementSystem
-import de.lostmekka.gamejam.boathell.entity.system.RenderSystem
-import de.lostmekka.gamejam.boathell.entity.system.ShipMovementSystem
-import de.lostmekka.gamejam.boathell.entity.system.WeaponOwnerSystem
-import de.lostmekka.gamejam.boathell.entity.system.WeaponSystem
+import de.lostmekka.gamejam.boathell.entity.system.*
 import ktx.app.KtxScreen
 import ktx.ashley.get
 import ktx.box2d.createWorld
@@ -52,6 +44,7 @@ class GamePlayScreen : KtxScreen {
 
     private var player: Entity? = null
     private val renderSystem = RenderSystem()
+    val particleSystem = StupidParticleSystem()
     private val engine = Engine().apply {
         player = Ships.addPlayerBoat(this, physicsWorld)
 
@@ -65,6 +58,8 @@ class GamePlayScreen : KtxScreen {
         addSystem(AIShipSystem())
 
         // special
+        addSystem(StupidWaterSpawn())
+        addSystem(particleSystem)
         addSystem(renderSystem)
         addSystem(PhysicsUpdateSystem(physicsWorld))
         addSystem(EnemySpawnerSystem(physicsWorld))
@@ -105,6 +100,7 @@ class GamePlayScreen : KtxScreen {
 
         batch.use(viewport.camera.combined) {
             water.draw(time, batch)
+            particleSystem.draw(batch)
             renderSystem.render(it)
         }
 

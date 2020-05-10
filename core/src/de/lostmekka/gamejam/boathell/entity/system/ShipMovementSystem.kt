@@ -1,8 +1,11 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import com.badlogic.gdx.math.Vector2
 import de.lostmekka.gamejam.boathell.cosDeg
+import de.lostmekka.gamejam.boathell.entity.addEntityWithComponents
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
+import de.lostmekka.gamejam.boathell.entity.component.WaterParticlesComponent
 import de.lostmekka.gamejam.boathell.sinDeg
 import ktx.ashley.allOf
 import ktx.ashley.get

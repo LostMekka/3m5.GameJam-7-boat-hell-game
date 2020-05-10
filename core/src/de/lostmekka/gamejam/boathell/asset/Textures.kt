@@ -28,6 +28,11 @@ object Textures {
     val plane1 by lazy {
         TextureRegion(Texture("plane1.png").filterNearest(), 64, 31)
     }
+    val explosion1 by lazy {
+        Texture("explosion1.png")
+            .filterNearest()
+            .splitSpriteSheet(16, 16, 9, 1)
+    }
 }
 
 fun Texture.filterNearest() = apply {

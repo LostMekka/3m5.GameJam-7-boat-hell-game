@@ -2,6 +2,7 @@ package de.lostmekka.gamejam.boathell.entity
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.World
 import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.asset.Textures
@@ -16,6 +17,7 @@ import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.SoundComponent
 import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
 import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
+import de.lostmekka.gamejam.boathell.entity.component.*
 import de.lostmekka.gamejam.boathell.normalizeAngleDeg
 import de.lostmekka.gamejam.boathell.pixels
 import ktx.ashley.get
@@ -30,7 +32,7 @@ import kotlin.random.Random
 object Ships {
     fun addPlayerBoat(engine: Engine, physicsWorld: World): Entity {
         return engine.addEntityWithComponents(
-            PositionComponent(x = 0f, y = 0f, rotation = Random.nextFloat() * 360f),
+            PositionComponent(x = 0f, y = 0f, rotation = Random.nextFloat() * 0f),
             SpriteComponent(Textures.boat1.toCenteredSprite()),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
@@ -48,7 +50,8 @@ object Ships {
             SoundComponent(
                 deathSound = Sounds.awesomeExplosion,
                 hitSound = Sounds.hit
-            )
+            ),
+            ShipWaterComp(Vector2((0).pixels, (0).pixels))
         )
     }
 
@@ -72,7 +75,8 @@ object Ships {
             SoundComponent(
                 deathSound = Sounds.awesomeExplosion,
                 hitSound = Sounds.hit
-            )
+            ),
+            ShipWaterComp(Vector2((0).pixels, (0).pixels))
         )
     }
 
