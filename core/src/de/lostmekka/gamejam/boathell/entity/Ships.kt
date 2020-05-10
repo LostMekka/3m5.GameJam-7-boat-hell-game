@@ -57,11 +57,17 @@ object Ships {
         )
     }
 
-    fun addAIPlane(engine: Engine, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
+    fun addAIPlane(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
             PositionComponent(x = x, y = y, rotation = rotation),
             SpriteComponent(Textures.plane1.toCenteredSprite()),
-            ShipMovementComponent(velocity = 0.025f),
+            HitBoxComponent(
+                physicsWorld = physicsWorld,
+                hitBoxWidth = 2f - 2.pixels,
+                hitBoxHeight = 19.pixels,
+                hitBoxRotation = 0f
+            ),
+            ShipMovementComponent(velocity = 0.05f),
             AIShipComponent(AIShipMovementStrategies.flyDirectlyToAndAwayFromPlayer())
         )
     }
