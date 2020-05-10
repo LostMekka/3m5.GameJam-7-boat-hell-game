@@ -8,6 +8,7 @@ import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
 import ktx.ashley.allOf
+import kotlin.math.abs
 
 class PlayerControlledBoatSystem : BaseSystem() {
 
@@ -34,6 +35,14 @@ class PlayerControlledBoatSystem : BaseSystem() {
 
             if (input.isKeyPressed(Keys.SPACE)) {
                 weapons.weaponComponents.forEach { it.shoot() }
+            }
+
+            if (input.isKeyPressed(Keys.NUM_1)) {
+                weapons.weaponComponents.filter { wp -> abs(wp.offsetAngle) != 45f }.forEach { it.shoot() }
+            }
+
+            if (input.isKeyPressed(Keys.NUM_2)) {
+                weapons.weaponComponents.filter { wp -> abs(wp.offsetAngle) == 45f }.forEach { it.shoot() }
             }
 
             movement.velocity -= movement.velocity * GameConfig.Player.friction

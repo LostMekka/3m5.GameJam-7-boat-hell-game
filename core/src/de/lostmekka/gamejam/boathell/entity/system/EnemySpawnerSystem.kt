@@ -13,7 +13,7 @@ class EnemySpawnerSystem(
 ) : BaseSystem() {
 
     private var timeSinceLastSpawn = 10f
-    private var spawnTime = 10f
+    private var spawnTime = 8f
 
     override fun update(deltaTime: Float) {
         timeSinceLastSpawn += deltaTime

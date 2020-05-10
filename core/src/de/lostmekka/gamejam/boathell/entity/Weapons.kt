@@ -15,10 +15,10 @@ import de.lostmekka.gamejam.boathell.pixels
 // offsetY = y * 0.5f,
 
 object Weapons {
-    fun addBoatFrontCannon1(engine: Engine): Entity {
+    fun addBoatFrontCannon1(engine: Engine): MutableList<Entity> {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
-        return engine.addEntityWithComponents(
+        val frontCanon = engine.addEntityWithComponents(
             PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
             WeaponComponent(
                 cooldownTime = 0.4f,
@@ -30,6 +30,28 @@ object Weapons {
                 projectileInit = WeaponTriggerStrategies.fast()
             ),
             SpriteComponent(sprite, 1, Textures.cannon1)
+        )
+
+        fun sideCannon(x: Float, y: Float, angle: Float): Entity = engine.addEntityWithComponents(
+            PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
+            WeaponComponent(
+                cooldownTime = 0.4f,
+                offsetX = x,
+                offsetY = y,
+                offsetAngle = angle,
+                isFiring = false,
+                firingTime = 0f,
+                projectileInit = WeaponTriggerStrategies.fast()
+            ),
+            SpriteComponent(sprite, 3, Textures.cannon1)
+        )
+
+        return mutableListOf(
+            frontCanon,
+            sideCannon(10.pixels, 10.pixels, 45f),
+            sideCannon(10.pixels, (-10).pixels, -45f),
+            sideCannon(3.pixels, 10.pixels, 45f),
+            sideCannon(3.pixels, (-10).pixels, -45f)
         )
     }
 
