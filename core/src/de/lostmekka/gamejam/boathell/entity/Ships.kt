@@ -62,17 +62,14 @@ object Ships {
     fun addAIPlane(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
             PositionComponent(x = x, y = y, rotation = rotation),
-            SpriteComponent(Textures.plane1.toCenteredSprite()),
+            SpriteComponent(Textures.plane1.toCenteredSprite(), 5000),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
-                hitBoxWidth = 2f - 2.pixels,
-                hitBoxHeight = 19.pixels,
+                hitBoxWidth = 16.pixels,
+                hitBoxHeight = 16.pixels,
                 hitBoxRotation = 0f
             ),
-            WeaponOwnerComponent(
-                Weapons.addBoatFrontCannon1(engine)
-            ),
-            ShipMovementComponent(velocity = 0.05f),
+            ShipMovementComponent(velocity = 0.15f),
             AIShipComponent(AIShipMovementStrategies.flyDirectlyToAndAwayFromPlayer())
         )
     }
@@ -134,7 +131,7 @@ object AIShipMovementStrategies {
             // if ship is in critical distance -> turn around -> add 180 degree
             if (4 > distance) targetAngle += 180
             // if ship is on retreat -> add 180 degree (continue retreat)
-            else if (8 > distance && (-160 > angleDifference || angleDifference > 160)) targetAngle += 180
+            else if (12 > distance && (-160 > angleDifference || angleDifference > 160)) targetAngle += 180
 
             angleDifference = normalizeAngleDeg(targetAngle - currentAngle)
             val step = 2

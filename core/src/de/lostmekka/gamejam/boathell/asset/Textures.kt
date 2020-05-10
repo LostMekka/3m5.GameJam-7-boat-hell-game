@@ -26,28 +26,22 @@ object Textures {
             .splitSpriteSheet(8, 8, 2, 1)
     }
     val plane1 by lazy {
-        Texture("ship1.png")
-            .filterNearest()
+        TextureRegion(Texture("plane1.png").filterNearest(), 64, 31)
     }
 }
 
-fun Texture.filterNearest(): Texture {
+fun Texture.filterNearest() = apply {
     setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
-    return this
 }
 
-fun Texture.toCenteredSprite() = Sprite(this).also { sprite ->
-    val w = width / 32f
-    val h = height / 32f
-    sprite.setBounds(-0.5f * w, -0.5f * h, w, h)
-    sprite.setOriginCenter()
-}
+fun Texture.toCenteredSprite() = Sprite(this).centered()
+fun TextureRegion.toCenteredSprite() = Sprite(this).centered()
 
-fun TextureRegion.toCenteredSprite() = Sprite(this).also { sprite ->
+fun Sprite.centered() = apply {
     val w = regionWidth / 32f
     val h = regionHeight / 32f
-    sprite.setBounds(-0.5f * w, -0.5f * h, w, h)
-    sprite.setOriginCenter()
+    setBounds(-0.5f * w, -0.5f * h, w, h)
+    setOriginCenter()
 }
 
 fun Texture.splitSpriteSheet(

@@ -21,11 +21,11 @@ class PlayerControlledBoatSystem : BaseSystem() {
             val weapons = WeaponOwnerComponent.mapper.get(entity)
 
             if (input.isKeyPressed(Keys.RIGHT)) {
-                position.rotation -= 50 * deltaTime
+                position.rotation -= 80 * deltaTime
                 while (position.rotation < 0) position.rotation += 360
             }
             if (input.isKeyPressed(Keys.LEFT)) {
-                position.rotation += 50 * deltaTime
+                position.rotation += 80 * deltaTime
                 while (position.rotation > 360) position.rotation -= 360
             }
             if (input.isKeyPressed(Keys.UP) && movement.velocity < 10.0f) {
