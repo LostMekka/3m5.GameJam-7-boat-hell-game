@@ -150,7 +150,7 @@ object WeaponTriggerStrategies {
         for (i in 0..5) {
             engine.addEntityWithComponents(
                 PositionComponent(x, y, angle),
-                SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.YELLOW }, 999),
+                SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.DARK_GRAY }, 999),
                 HitBoxComponent(
                     physicsWorld = physicsWorld,
                     hitBoxWidth = 4.pixels,
