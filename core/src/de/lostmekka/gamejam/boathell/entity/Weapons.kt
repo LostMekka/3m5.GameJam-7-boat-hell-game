@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
 import de.lostmekka.gamejam.boathell.entity.component.*
+import de.lostmekka.gamejam.boathell.pixels
 
 // engine = engine,
 // cooldownTime = 1f,
@@ -33,18 +34,24 @@ object Weapons {
         )
     }
 
-    fun addWeapon(
-        engine: Engine,
-        offsetX: Float,
-        offsetY: Float,
-        offsetAngle: Float,
-        cooldownTime: Float,
-        projectileInit: WeaponTriggerStrategy
-    ) = engine.addEntityWithComponents(
-        PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
-        WeaponComponent(cooldownTime, offsetX, offsetY, offsetAngle, projectileInit)
-        // TODO: add sprite
-    )
+    fun addShip1SideCannons(engine: Engine): MutableList<Entity> {
+        val sprite = Textures.cannon1[0].toCenteredSprite()
+
+        fun sideCannon(x: Float, y: Float, angle: Float): Entity = engine.addEntityWithComponents(
+            PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
+            WeaponComponent(0.4f, x, y, angle, WeaponTriggerStrategies.boring),
+            SpriteComponent(sprite, 3, Textures.cannon1)
+        )
+
+        return mutableListOf(
+            sideCannon(10.pixels, 10.pixels, 90f),
+            sideCannon(10.pixels, (-10).pixels, -90f),
+            sideCannon(3.pixels, 10.pixels, 90f),
+            sideCannon(3.pixels, (-10).pixels, -90f),
+            sideCannon((-4).pixels, 10.pixels, 90f),
+            sideCannon((-4).pixels, (-10).pixels, -90f)
+        )
+    }
 }
 
 typealias WeaponTriggerStrategy = ShotContext.() -> Unit

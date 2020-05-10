@@ -54,7 +54,7 @@ object Ships {
             ShipMovementComponent(velocity = 0.025f),
             AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer()),
             WeaponOwnerComponent(
-                Weapons.addShip1FrontCannon1(engine)
+                Weapons.addShip1SideCannons(engine)
             )
         )
     }
