@@ -127,7 +127,7 @@ object WeaponTriggerStrategies {
         val projectilesFired: Int = (firingTime / waitTime).toInt()
         var projectilesToFire: Int = ((firingTime + deltaTime) / waitTime).toInt() - projectilesFired
         if (projectilesToFire + projectilesFired > 36) projectilesToFire = 36 - projectilesFired
-        for (i in 1..projectilesToFire) {
+        for (i in 1..projectilesToFire * 3) {
             val angleOffset = (i + projectilesFired) * 30
             engine.addEntityWithComponents(
                 PositionComponent(x, y, angle + angleOffset),

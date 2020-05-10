@@ -89,7 +89,7 @@ object Ships {
     fun addAIRosetteShip(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
             PositionComponent(x = x, y = y, rotation = rotation),
-            SpriteComponent(Textures.plane1.toCenteredSprite()),
+            SpriteComponent(Textures.ship1.toCenteredSprite()),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 2f - 2.pixels,
