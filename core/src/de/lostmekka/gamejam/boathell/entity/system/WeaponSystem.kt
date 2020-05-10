@@ -1,9 +1,13 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.badlogic.ashley.core.EntityListener
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.World
+import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
+import de.lostmekka.gamejam.boathell.entity.component.ProjectileMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShotContext
 import de.lostmekka.gamejam.boathell.entity.component.WeaponComponent
@@ -16,6 +20,20 @@ fun offsetPositionForParentRotation(weapon: WeaponComponent, parentRotation: Flo
 class WeaponSystem(
     private val physicsWorld: World
 ) : BaseSystem() {
+
+    override fun addedToEngine(engine: Engine) {
+        super.addedToEngine(engine)
+        engine.addEntityListener(allOf(ProjectileMovementComponent::class).get(), projectileListener)
+    }
+
+    private val projectileListener = object : EntityListener {
+        override fun entityRemoved(entity: Entity) {
+        }
+        override fun entityAdded(entity: Entity) {
+            // playing sounds here is not a good idea :drunk:
+        }
+    }
+
     override fun updateEntity(entity: Entity, deltaTime: Float) {
         val weapon = WeaponComponent.mapper[entity]
         weapon.cooldownCounter = max(weapon.cooldownCounter - deltaTime, 0f)

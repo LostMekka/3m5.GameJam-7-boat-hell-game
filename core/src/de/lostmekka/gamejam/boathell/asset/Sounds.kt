@@ -7,6 +7,7 @@ object Sounds {
     var volume = 0.4f
     val awesomeExplosion by lazy { sound("awesome_explosion.wav", 0.35f) }
     val hit by lazy { sound("hit1.wav", 0.35f) }
+    val shoot by lazy { sound("shoot.wav", 0.35f) }
 }
 
 class SoundWithVolume(val sound: Sound, val volume: Float) {

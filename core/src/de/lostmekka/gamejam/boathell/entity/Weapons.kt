@@ -3,6 +3,7 @@ package de.lostmekka.gamejam.boathell.entity
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
+import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
 import de.lostmekka.gamejam.boathell.entity.component.*
@@ -174,6 +175,7 @@ object WeaponTriggerStrategies {
         val projectilesFired: Int = (firingTime / waitTime).toInt()
         var projectilesToFire: Int = ((firingTime + deltaTime) / waitTime).toInt() - projectilesFired
         if (projectilesToFire + projectilesFired > totalShots) projectilesToFire = totalShots - projectilesFired
+        if (projectilesToFire > 0 && projectilesFired % 2 == 0) Sounds.shoot.play()
         for (i in 1..projectilesToFire) {
             val angleOffset = (i + projectilesFired) * 137.5f
             engine.addEntityWithComponents(
