@@ -1,7 +1,10 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import com.badlogic.ashley.core.Engine
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import de.lostmekka.gamejam.boathell.cosDeg
 import de.lostmekka.gamejam.boathell.entity.addEntityWithComponents
@@ -31,9 +34,9 @@ class StupidParticleSystem : BaseSystem() {
     }
 
     fun draw(batch: SpriteBatch) {
-        batch.color = Color(0.7f, 0.9f, 1f, 1f)
         for (entity in entities) {
             val comp = WaterParticlesComponent.mapper[entity]
+            if (comp.color != batch.color) batch.color = comp.color
             batch.draw(comp.regions[comp.frame], comp.pos.x, comp.pos.y, 16.pixels, 16.pixels)
         }
     }
@@ -54,7 +57,7 @@ class StupidWaterSpawn : BaseSystem() {
             val off = Vector2(water.off).rotate(pos.rotation)
             val spawnPos = Vector2(pos.x + off.x, pos.y + off.y)
             val vel = Vector2(0.1f, 0f).rotate(pos.rotation + dir)
-            engine.addEntityWithComponents(WaterParticlesComponent(spawnPos, vel))
+            engine.addEntityWithComponents(WaterParticlesComponent(spawnPos, vel, Color(0.7f, 0.9f, 1f, 1f)))
         }
     }
 
@@ -62,4 +65,15 @@ class StupidWaterSpawn : BaseSystem() {
         ShipWaterComp::class,
         PositionComponent::class
     )
+}
+
+fun createExplosion(entity: Entity, engine: Engine) {
+    val posComp = PositionComponent.mapper[entity]
+    val pos = Vector2(posComp.x, posComp.y)
+    for (i in 0..30) {
+        val vel = Vector2(MathUtils.random(0.2f, 1f), 0f).rotate(MathUtils.random(360f))
+        engine.addEntityWithComponents(
+            WaterParticlesComponent(Vector2(pos), vel, Color(1.0f, 0.6f + 0.3f * MathUtils.random(), 0f, 1f))
+        )
+    }
 }

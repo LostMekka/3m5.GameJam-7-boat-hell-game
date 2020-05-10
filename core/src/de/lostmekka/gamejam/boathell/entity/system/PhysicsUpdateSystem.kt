@@ -92,6 +92,7 @@ class PhysicsUpdateSystem(
             healthComponent.health -= pComponent.damage
             val sounds = ship[SoundComponent.mapper]
             if (healthComponent.health <= 0) {
+                createExplosion(ship, engine)
                 engine.removeEntity(ship)
                 sounds?.deathSound?.play()
             } else {
