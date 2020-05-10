@@ -14,42 +14,74 @@ import de.lostmekka.gamejam.boathell.pixels
 // offsetY = y * 0.5f,
 
 object Weapons {
-    fun addBoatFrontCannon1(engine: Engine): Entity {
+    fun addBoatFrontCannon1(engine: Engine, isPlayerWeapon: Boolean): Entity {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         return engine.addEntityWithComponents(
             PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
-            WeaponComponent(0.4f, 0.5f - 4f / 32f, 0f, 0f, false, 0f, WeaponTriggerStrategies.boring),
+            WeaponComponent(
+                cooldownTime = 0.4f,
+                offsetX = 0.5f - 4f / 32f,
+                offsetY = 0f,
+                offsetAngle = 0f,
+                isFiring = false,
+                firingTime = 0f,
+                projectileInit = WeaponTriggerStrategies.boring(isPlayerWeapon)
+            ),
             SpriteComponent(sprite, 1, Textures.cannon1)
         )
     }
 
-    fun addShip1FrontCannon1(engine: Engine): Entity {
+    fun addShip1FrontCannon1(engine: Engine, isPlayerWeapon: Boolean): Entity {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         return engine.addEntityWithComponents(
             PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
-            WeaponComponent(0.4f, 27f / 32f, 0.0f / 32f, 0f, false, 0f, WeaponTriggerStrategies.boring),
+            WeaponComponent(
+                cooldownTime = 0.4f,
+                offsetX = 27f / 32f,
+                offsetY = 0.0f / 32f,
+                offsetAngle = 0f,
+                isFiring = false,
+                firingTime = 0f,
+                projectileInit = WeaponTriggerStrategies.boring(isPlayerWeapon)
+            ),
             SpriteComponent(sprite, 3, Textures.cannon1)
         )
     }
 
-    fun addShip1MiddleCannon1(engine: Engine): Entity {
+    fun addShip1MiddleCannon1(engine: Engine, isPlayerWeapon: Boolean): Entity {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         return engine.addEntityWithComponents(
             PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
-            WeaponComponent(3.6f, 27f / 32f, 0.0f / 32f, 0f, false, 0f, WeaponTriggerStrategies.rosette),
+            WeaponComponent(
+                cooldownTime = 3.6f,
+                offsetX = 27f / 32f,
+                offsetY = 0.0f / 32f,
+                offsetAngle = 0f,
+                isFiring = false,
+                firingTime = 0f,
+                projectileInit = WeaponTriggerStrategies.rosette(isPlayerWeapon)
+            ),
             SpriteComponent(sprite, 3, Textures.cannon1)
         )
     }
 
-    fun addShip1SideCannons(engine: Engine): MutableList<Entity> {
+    fun addShip1SideCannons(engine: Engine, isPlayerWeapon: Boolean): MutableList<Entity> {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         fun sideCannon(x: Float, y: Float, angle: Float): Entity = engine.addEntityWithComponents(
             PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
-            WeaponComponent(0.4f, x, y, angle, false, 0f, WeaponTriggerStrategies.boring),
+            WeaponComponent(
+                cooldownTime = 0.4f,
+                offsetX = x,
+                offsetY = y,
+                offsetAngle = angle,
+                isFiring = false,
+                firingTime = 0f,
+                projectileInit = WeaponTriggerStrategies.boring(isPlayerWeapon)
+            ),
             SpriteComponent(sprite, 3, Textures.cannon1)
         )
 
@@ -67,17 +99,17 @@ object Weapons {
 typealias WeaponTriggerStrategy = ShotContext.() -> Boolean
 
 object WeaponTriggerStrategies {
-    val boring: WeaponTriggerStrategy = {
+    fun boring(isPlayerWeapon: Boolean): WeaponTriggerStrategy = {
         for (i in 0..5) {
             engine.addEntityWithComponents(
                 PositionComponent(x, y, angle),
                 SpriteComponent(Textures.projectile[0].toCenteredSprite(), 999),
                 HitBoxComponent(
                     physicsWorld = physicsWorld,
-                    hitBoxWidth = 2f - 2.pixels,
-                    hitBoxHeight = 19.pixels,
+                    hitBoxWidth = 4.pixels,
+                    hitBoxHeight = 4.pixels,
                     hitBoxRotation = 0f,
-                    category = HitBoxCategory.PlayerProjectile // TODO: set correct value!
+                    category = if (isPlayerWeapon) HitBoxCategory.PlayerProjectile else HitBoxCategory.EnemyProjectile
                 ),
                 ProjectileMovementComponent(
                     damage = 1f,
@@ -90,7 +122,7 @@ object WeaponTriggerStrategies {
         true
     }
 
-    val rosette: WeaponTriggerStrategy = {
+    fun rosette(isPlayerWeapon: Boolean): WeaponTriggerStrategy = {
         val waitTime = 0.3f
         val projectilesFired: Int = (firingTime / waitTime).toInt()
         var projectilesToFire: Int = ((firingTime + deltaTime) / waitTime).toInt() - projectilesFired
@@ -100,9 +132,17 @@ object WeaponTriggerStrategies {
             engine.addEntityWithComponents(
                 PositionComponent(x, y, angle + angleOffset),
                 SpriteComponent(Textures.projectile[0].toCenteredSprite(), 999),
+                HitBoxComponent(
+                    physicsWorld = physicsWorld,
+                    hitBoxWidth = 4.pixels,
+                    hitBoxHeight = 4.pixels,
+                    hitBoxRotation = 0f,
+                    category = if (isPlayerWeapon) HitBoxCategory.PlayerProjectile else HitBoxCategory.EnemyProjectile
+                ),
                 ProjectileMovementComponent(
                     waitTime = i.toFloat() * waitTime,
                     maxLifeTime = 15f,
+                    damage = 1f,
                     movementStrategy = ProjectileMovementStrategies.straight(angle + angleOffset, 0.5f, movementVelocity)
                 )
             )

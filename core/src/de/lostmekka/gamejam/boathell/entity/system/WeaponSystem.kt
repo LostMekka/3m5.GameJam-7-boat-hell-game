@@ -2,6 +2,7 @@ package de.lostmekka.gamejam.boathell.entity.system
 
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.physics.box2d.World
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShotContext
@@ -12,7 +13,9 @@ import kotlin.math.max
 fun offsetPositionForParentRotation(weapon: WeaponComponent, parentRotation: Float): Vector3 =
     Vector3(weapon.offsetX, weapon.offsetY, 0f).rotate(Vector3.Z, parentRotation)
 
-class WeaponSystem : BaseSystem() {
+class WeaponSystem(
+    private val physicsWorld: World
+) : BaseSystem() {
     override fun updateEntity(entity: Entity, deltaTime: Float) {
         val weapon = WeaponComponent.mapper[entity]
         weapon.cooldownCounter = max(weapon.cooldownCounter - deltaTime, 0f)
@@ -36,7 +39,8 @@ class WeaponSystem : BaseSystem() {
                     movementVelocity = vel,
                     firingTime = weapon.firingTime,
                     deltaTime = deltaTime,
-                    engine = engine
+                    engine = engine,
+                    physicsWorld = physicsWorld
                 )
                 weapon.firingTime += deltaTime
                 if (weapon.projectileInit(context)) {

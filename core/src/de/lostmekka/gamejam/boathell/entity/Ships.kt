@@ -41,7 +41,7 @@ object Ships {
             ShipMovementComponent(),
             PlayerControlledComponent(),
             WeaponOwnerComponent(
-                Weapons.addBoatFrontCannon1(engine)
+                Weapons.addBoatFrontCannon1(engine, true)
             )
         )
     }
@@ -61,7 +61,7 @@ object Ships {
             ShipMovementComponent(velocity = 0.025f),
             AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer()),
             WeaponOwnerComponent(
-                Weapons.addShip1SideCannons(engine)
+                Weapons.addShip1SideCannons(engine, false)
             )
         )
     }
@@ -79,7 +79,10 @@ object Ships {
             ),
             HealthComponent(10f),
             ShipMovementComponent(velocity = 0.15f),
-            AIShipComponent(AIShipMovementStrategies.flyDirectlyToAndAwayFromPlayer())
+            AIShipComponent(AIShipMovementStrategies.flyDirectlyToAndAwayFromPlayer()),
+            WeaponOwnerComponent(
+                Weapons.addShip1FrontCannon1(engine, false)
+            )
         )
     }
 
@@ -96,7 +99,7 @@ object Ships {
             ),
             HealthComponent(100f),
             WeaponOwnerComponent(
-                Weapons.addShip1MiddleCannon1(engine)
+                Weapons.addShip1MiddleCannon1(engine, false)
             ),
             ShipMovementComponent(velocity = 0.01f),
             AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer(6f))

@@ -56,13 +56,13 @@ class GamePlayScreen : KtxScreen {
         player = Ships.addPlayerBoat(this, physicsWorld)
 
         addSystem(ShipMovementSystem())
-        addSystem(WeaponSystem())
+        addSystem(WeaponSystem(physicsWorld))
         addSystem(WeaponOwnerSystem())
         addSystem(ProjectileMovementSystem())
 
         // controllers
-        addSystem(PlayerControlledBoatSystem(physicsWorld))
-        addSystem(AIShipSystem(physicsWorld))
+        addSystem(PlayerControlledBoatSystem())
+        addSystem(AIShipSystem())
 
         // special
         addSystem(renderSystem)
