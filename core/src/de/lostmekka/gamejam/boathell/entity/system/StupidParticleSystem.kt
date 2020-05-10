@@ -70,8 +70,8 @@ class StupidWaterSpawn : BaseSystem() {
 fun createExplosion(entity: Entity, engine: Engine) {
     val posComp = PositionComponent.mapper[entity]
     val pos = Vector2(posComp.x, posComp.y)
-    for (i in 0..30) {
-        val vel = Vector2(MathUtils.random(0.2f, 1f), 0f).rotate(MathUtils.random(360f))
+    for (i in 0..40) {
+        val vel = Vector2(MathUtils.random(0.2f, 1.5f), 0f).rotate(MathUtils.random(360f))
         engine.addEntityWithComponents(
             WaterParticlesComponent(Vector2(pos), vel, Color(1.0f, 0.6f + 0.3f * MathUtils.random(), 0f, 1f))
         )
