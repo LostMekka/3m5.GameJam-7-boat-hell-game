@@ -39,7 +39,7 @@ object Weapons {
 
         return engine.addEntityWithComponents(
             PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
-            WeaponComponent(3f, 27f / 32f, 0.0f / 32f, 0f, false, 0f, WeaponTriggerStrategies.rosette),
+            WeaponComponent(3.6f, 27f / 32f, 0.0f / 32f, 0f, false, 0f, WeaponTriggerStrategies.rosette),
             SpriteComponent(sprite, 3, Textures.cannon1)
         )
     }
@@ -83,12 +83,12 @@ object WeaponTriggerStrategies {
     }
 
     val rosette: WeaponTriggerStrategy = {
-        val waitTime = 0.227f
+        val waitTime = 0.3f
         val projectilesFired: Int = (firingTime / waitTime).toInt()
         var projectilesToFire: Int = ((firingTime + deltaTime) / waitTime).toInt() - projectilesFired
         if (projectilesToFire + projectilesFired > 36) projectilesToFire = 36 - projectilesFired
         for (i in 1..projectilesToFire) {
-            val angleOffset = (i + projectilesFired) * 20
+            val angleOffset = (i + projectilesFired) * 30
             engine.addEntityWithComponents(
                 PositionComponent(x, y, angle + angleOffset),
                 SpriteComponent(Textures.projectile[0].toCenteredSprite(), 999),
