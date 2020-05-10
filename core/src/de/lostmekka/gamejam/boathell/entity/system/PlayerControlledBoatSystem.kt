@@ -36,7 +36,7 @@ class PlayerControlledBoatSystem : BaseSystem() {
             }
 
             if (input.isKeyPressed(Keys.SPACE)) {
-                weapons.weaponComponents.forEach { it.shoot(position, engine) }
+                weapons.weaponComponents.forEach { it.shoot(entity, engine) }
             }
 
             movement.velocity -= movement.velocity * friction

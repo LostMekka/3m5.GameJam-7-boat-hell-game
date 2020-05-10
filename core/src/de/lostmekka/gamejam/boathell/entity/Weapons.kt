@@ -2,14 +2,9 @@ package de.lostmekka.gamejam.boathell.entity
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.graphics.g2d.Sprite
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
-import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
-import de.lostmekka.gamejam.boathell.entity.component.ProjectileMovementComponent
-import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
-import de.lostmekka.gamejam.boathell.entity.component.WeaponComponent
-import de.lostmekka.gamejam.boathell.entity.component.WeaponTriggerStrategy
+import de.lostmekka.gamejam.boathell.entity.component.*
 
 object Weapons {
     fun addBoatFrontCannon1(engine: Engine): Entity {
@@ -17,7 +12,7 @@ object Weapons {
 
         return engine.addEntityWithComponents(
             PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
-            WeaponComponent(0.23f, 0.5f - 4f/32f, 0f, 0f, WeaponTriggerStrategies.boring),
+            WeaponComponent(0.4f, 0.5f - 4f/32f, 0f, 0f, WeaponTriggerStrategies.boring),
             SpriteComponent(sprite, 1, Textures.cannon1)
         )
 
@@ -42,15 +37,20 @@ object Weapons {
     )
 }
 
+typealias WeaponTriggerStrategy = ShotContext.() -> Unit
+
 object WeaponTriggerStrategies {
     val boring: WeaponTriggerStrategy = {
-        engine.addEntityWithComponents(
-            PositionComponent(x, y, angle),
-            SpriteComponent(Textures.projectile[0].toCenteredSprite()),
-            ProjectileMovementComponent(
-                maxLifeTime = 2f,
-                movementStrategy = ProjectileMovementStrategies.straight(angle, 10f)
+        for (i in 0..5) {
+            engine.addEntityWithComponents(
+                PositionComponent(x, y, angle),
+                SpriteComponent(Textures.projectile[0].toCenteredSprite()),
+                ProjectileMovementComponent(
+                    waitTime = i.toFloat() * 0.016f,
+                    maxLifeTime = 3f,
+                    movementStrategy = ProjectileMovementStrategies.straight(angle, 3f, movementVelocity)
+                )
             )
-        )
+        }
     }
 }

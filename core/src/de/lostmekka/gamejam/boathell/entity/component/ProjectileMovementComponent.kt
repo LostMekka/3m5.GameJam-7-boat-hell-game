@@ -12,6 +12,7 @@ data class ProjectileMovementStrategyContext(
 )
 
 class ProjectileMovementComponent(
+    var waitTime: Float,
     var maxLifeTime: Float,
     var lifeTime: Float = 0f,
     var movementStrategy: ProjectileMovementStrategy
