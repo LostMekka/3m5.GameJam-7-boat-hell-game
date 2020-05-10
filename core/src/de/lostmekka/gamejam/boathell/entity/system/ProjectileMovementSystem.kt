@@ -13,6 +13,7 @@ class ProjectileMovementSystem : BaseSystem() {
         mov.lifeTime += deltaTime
         mov.movementStrategy(ProjectileMovementStrategyContext(pos, deltaTime, mov.lifeTime))
         if (mov.lifeTime > mov.maxLifeTime) engine.removeEntity(entity)
+        // TODO: check hit
     }
 
     override fun familyBuilder() = allOf(
