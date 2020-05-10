@@ -17,6 +17,7 @@ class WeaponOwnerSystem : BaseSystem() {
             weaponPos.apply {
                 x = ownerPos.x + localOffset.x
                 y = ownerPos.y + localOffset.y
+                rotation = ownerPos.rotation + weapon.offsetAngle
             }
         }
     }

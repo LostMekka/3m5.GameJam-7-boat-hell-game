@@ -9,9 +9,10 @@ import ktx.ashley.get
 class RenderSystem : BaseSystem() {
     // deliberately has no update method. the render system is called manually.
     fun render(spriteBatch: SpriteBatch) {
+        val entities = entities.sortedBy { SpriteComponent.mapper[it].zLayer }
         for (entity in entities) {
-            val pos = entity[PositionComponent.mapper]!!
-            val spriteComp = entity[SpriteComponent.mapper]!!
+            val pos = PositionComponent.mapper[entity]
+            val spriteComp = SpriteComponent.mapper[entity]
             val sprite = spriteComp.sprite
 
             sprite.translate(pos.x, pos.y)

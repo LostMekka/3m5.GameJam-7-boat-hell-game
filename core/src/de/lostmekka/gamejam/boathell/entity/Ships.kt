@@ -28,34 +28,7 @@ object Ships {
             ShipMovementComponent(),
             PlayerControlledComponent(),
             WeaponOwnerComponent(
-                Iterable {
-                    iterator {
-                        yield(
-                            Weapons.addWeapon(
-                                engine = engine,
-                                cooldownTime = 0.23f,
-                                offsetAngle = 0f,
-                                offsetX = 0.5f,
-                                offsetY = 0f,
-                                projectileInit = WeaponTriggerStrategies.boring
-                            )
-                        )
-                        for (x in -2..2) {
-                            for (y in -1..1 step 2) {
-                                yield(
-                                    Weapons.addWeapon(
-                                        engine = engine,
-                                        cooldownTime = 1f,
-                                        offsetAngle = y * 90f,
-                                        offsetX = x * 0.3f,
-                                        offsetY = y * 0.5f,
-                                        projectileInit = WeaponTriggerStrategies.boring
-                                    )
-                                )
-                            }
-                        }
-                    }
-                }.toMutableList()
+                Weapons.addBoatFrontCannon1(engine)
             )
         )
     }
@@ -63,7 +36,7 @@ object Ships {
     fun addAIBoat(engine: Engine, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
             PositionComponent(x = x, y = y, rotation = rotation),
-            SpriteComponent(Textures.ship1.toCenteredSprite()),
+            SpriteComponent(Textures.ship1.toCenteredSprite(), 2),
             ShipMovementComponent(velocity = 0.025f),
             AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer())
         )
