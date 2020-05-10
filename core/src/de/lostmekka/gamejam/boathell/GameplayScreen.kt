@@ -32,8 +32,10 @@ class GamePlayScreen : KtxScreen {
     private val batch = SpriteBatch()
     private val shapeRenderer = ShapeRenderer()
     private val water = Water()
+    private val infoBox = InfoBox()
     private var time = 0f
 
+    private val infoTextStage = Stage(ScreenViewport())
     private val guiViewport = ScreenViewport()
     private val someFont = FreeTypeFontGenerator(Gdx.files.internal("fonts/UbuntuMono-R.ttf")).let {
         val parameter = FreeTypeFontGenerator.FreeTypeFontParameter()
@@ -109,7 +111,6 @@ class GamePlayScreen : KtxScreen {
         }
 
         shapeRenderer.use(ShapeRenderer.ShapeType.Line) {
-            // draw shapes
         }
 
         @Suppress("ConstantConditionIf")
@@ -126,6 +127,7 @@ class GamePlayScreen : KtxScreen {
     override fun resize(width: Int, height: Int) {
         stage.viewport.update(width, height, true)
         guiViewport.update(width, height, true)
+        infoTextStage.viewport.update(width, height, true)
     }
 
     override fun dispose() {
