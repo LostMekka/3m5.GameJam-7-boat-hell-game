@@ -4,13 +4,11 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
 import com.badlogic.gdx.physics.box2d.Contact
-import com.badlogic.gdx.physics.box2d.ContactFilter
 import com.badlogic.gdx.physics.box2d.ContactImpulse
 import com.badlogic.gdx.physics.box2d.ContactListener
 import com.badlogic.gdx.physics.box2d.Manifold
 import com.badlogic.gdx.physics.box2d.World
 import de.lostmekka.gamejam.boathell.GameConfig
-import de.lostmekka.gamejam.boathell.entity.component.EntityTypeComponent
 import de.lostmekka.gamejam.boathell.entity.component.HealthComponent
 import de.lostmekka.gamejam.boathell.entity.component.HitBoxComponent
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
@@ -31,7 +29,6 @@ class PhysicsUpdateSystem(
     override fun addedToEngine(engine: Engine) {
         super.addedToEngine(engine)
         physicsWorld.setContactListener(contactListener)
-        physicsWorld.setContactFilter(contactFilter)
         engine.addEntityListener(cleanupFamily, cleanupEntityListener)
     }
 
@@ -76,16 +73,6 @@ class PhysicsUpdateSystem(
         HitBoxComponent::class,
         PositionComponent::class
     )
-
-    private val contactFilter = ContactFilter { f1, f2 ->
-        val types = listOf(f1, f2)
-            .mapNotNull { it.userData as? Entity }
-            .mapNotNull { it[EntityTypeComponent.mapper] }
-        when {
-            EntityTypeComponent.Ship in types && EntityTypeComponent.Air in types -> false
-            else -> true
-        }
-    }
 
     private val contactListener = object : ContactListener {
         override fun endContact(contact: Contact) {}
