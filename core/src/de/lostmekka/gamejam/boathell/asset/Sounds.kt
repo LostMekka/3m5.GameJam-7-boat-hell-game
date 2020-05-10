@@ -2,6 +2,8 @@ package de.lostmekka.gamejam.boathell.asset
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.audio.Sound
+import kotlin.math.max
+import kotlin.math.pow
 
 object Sounds {
     var volume = 0.4f
@@ -11,7 +13,7 @@ object Sounds {
 }
 
 class SoundWithVolume(val sound: Sound, val volume: Float) {
-    fun play() = sound.play(volume * Sounds.volume)
+    fun play(dist: Float = 0f) = sound.play(volume * Sounds.volume * (max(50f - dist, 0f) / 50f).pow(2))
 }
 
 fun sound(path: String, volume: Float = 1f) = SoundWithVolume(

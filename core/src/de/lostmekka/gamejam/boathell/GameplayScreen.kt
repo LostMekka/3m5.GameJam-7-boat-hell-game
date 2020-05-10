@@ -39,7 +39,7 @@ class GamePlayScreen : KtxScreen {
     private val physicsWorld = createWorld()
     private val physicsDebugRenderer = Box2DDebugRenderer()
 
-    private val camera = OrthographicCamera().apply { zoom = 1f }
+    private val camera = OrthographicCamera().apply { zoom = 2f }
     private val viewport = ScreenViewport(camera).apply { unitsPerPixel = 1.0f / 32.0f / 4.0f }
     private val stage = Stage(viewport)
 
