@@ -3,8 +3,13 @@ package de.lostmekka.gamejam.boathell
 import com.badlogic.gdx.math.MathUtils
 import kotlin.math.PI
 
+val Number.pixels get() = toFloat() / 32f
+
 private const val pi = PI.toFloat()
 private const val tau = PI.toFloat() * 2
+
+fun Float.toDegrees() = this / pi * 180f
+fun Float.toRadians() = this / 180f * pi
 
 fun sinDeg(angleInDegrees: Float) = MathUtils.sinDeg(angleInDegrees)
 fun cosDeg(angleInDegrees: Float) = MathUtils.cosDeg(angleInDegrees)
