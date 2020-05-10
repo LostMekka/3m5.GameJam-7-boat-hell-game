@@ -3,7 +3,7 @@ package de.lostmekka.gamejam.boathell.asset
 import com.badlogic.gdx.Gdx
 
 object Music {
-    val loop by lazy { music("gj7.ogg") }
+    val loop by lazy { music("gj7.ogg", 0.65f) }
 }
 
 fun music(path: String, volume: Float = 1f) =

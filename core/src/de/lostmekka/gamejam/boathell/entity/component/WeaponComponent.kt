@@ -40,10 +40,13 @@ class WeaponComponent(
     var parent: Entity? = null
 ) : Component {
 
-    fun shoot() {
-        if (cooldownCounter <= 0f && !isFiring) {
+    fun shoot(): Boolean {
+        return if (cooldownCounter <= 0f && !isFiring) {
             cooldownCounter = cooldownTime
             isFiring = true
+            true
+        } else {
+            false
         }
     }
 

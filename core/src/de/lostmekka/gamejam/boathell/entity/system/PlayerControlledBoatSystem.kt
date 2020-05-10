@@ -3,6 +3,7 @@ package de.lostmekka.gamejam.boathell.entity.system
 import com.badlogic.gdx.Gdx.input
 import com.badlogic.gdx.Input.Keys
 import de.lostmekka.gamejam.boathell.GameConfig
+import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
@@ -34,7 +35,8 @@ class PlayerControlledBoatSystem : BaseSystem() {
             }
 
             if (input.isKeyPressed(Keys.SPACE)) {
-                weapons.weaponComponents.forEach { it.shoot() }
+                val results = weapons.weaponComponents.map { it.shoot() }
+                if (results.any { it }) Sounds.shoot.playDirect(1.4f)
             }
 
             if (input.isKeyPressed(Keys.NUM_1)) {
