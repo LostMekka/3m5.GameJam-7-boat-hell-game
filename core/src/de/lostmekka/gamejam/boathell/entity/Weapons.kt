@@ -51,15 +51,15 @@ object Weapons {
         )
     }
 
-    fun addShip1MiddleCannon1(engine: Engine, isPlayerWeapon: Boolean): Entity {
+    fun addShipRosettaCannon(engine: Engine, isPlayerWeapon: Boolean): Entity {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         return engine.addEntityWithComponents(
             PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
             WeaponComponent(
-                cooldownTime = 3.6f,
-                offsetX = 27f / 32f,
-                offsetY = 0.0f / 32f,
+                cooldownTime = 15f,
+                offsetX = 27.pixels,
+                offsetY = 0f,
                 offsetAngle = 0f,
                 isFiring = false,
                 firingTime = 0f,
@@ -124,12 +124,13 @@ object WeaponTriggerStrategies {
     }
 
     fun rosette(isPlayerWeapon: Boolean): WeaponTriggerStrategy = {
-        val waitTime = 0.3f
+        val totalShots = 200
+        val waitTime = 0.04f
         val projectilesFired: Int = (firingTime / waitTime).toInt()
         var projectilesToFire: Int = ((firingTime + deltaTime) / waitTime).toInt() - projectilesFired
-        if (projectilesToFire + projectilesFired > 36) projectilesToFire = 36 - projectilesFired
-        for (i in 1..projectilesToFire * 3) {
-            val angleOffset = (i + projectilesFired) * 30
+        if (projectilesToFire + projectilesFired > totalShots) projectilesToFire = totalShots - projectilesFired
+        for (i in 1..projectilesToFire) {
+            val angleOffset = (i + projectilesFired) * 137.5f
             engine.addEntityWithComponents(
                 PositionComponent(x, y, angle + angleOffset),
                 SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.RED }, 999),
@@ -142,12 +143,12 @@ object WeaponTriggerStrategies {
                 ),
                 ProjectileMovementComponent(
                     waitTime = i.toFloat() * waitTime,
-                    maxLifeTime = 15f,
-                    damage = 1f,
-                    movementStrategy = ProjectileMovementStrategies.straight(angle + angleOffset, 0.5f, movementVelocity)
+                    maxLifeTime = 10f,
+                    damage = 0.5f,
+                    movementStrategy = ProjectileMovementStrategies.straight(angle + angleOffset, 1.7f, movementVelocity)
                 )
             )
         }
-        projectilesToFire + projectilesFired >= 36
+        projectilesToFire + projectilesFired >= totalShots
     }
 }

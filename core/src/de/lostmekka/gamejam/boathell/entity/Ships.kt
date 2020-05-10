@@ -57,7 +57,7 @@ object Ships {
                 hitBoxRotation = 0f,
                 category = HitBoxCategory.EnemyBoat
             ),
-            HealthComponent(100f),
+            HealthComponent(50f),
             ShipMovementComponent(velocity = 0.025f),
             AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer()),
             WeaponOwnerComponent(
@@ -97,9 +97,9 @@ object Ships {
                 hitBoxRotation = 0f,
                 category = HitBoxCategory.EnemyBoat
             ),
-            HealthComponent(100f),
+            HealthComponent(50f),
             WeaponOwnerComponent(
-                Weapons.addShip1MiddleCannon1(engine, false)
+                Weapons.addShipRosettaCannon(engine, false)
             ),
             ShipMovementComponent(velocity = 0.01f),
             AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer(6f))

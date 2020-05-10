@@ -8,7 +8,6 @@ import ktx.ashley.mapperFor
 import ktx.box2d.body
 import ktx.box2d.box
 import ktx.box2d.filter
-import kotlin.experimental.and
 import kotlin.experimental.or
 
 enum class HitBoxCategory(val bits: Short) {
@@ -47,7 +46,6 @@ class HitBoxComponent(
             filter {
                 categoryBits = category.bits
                 maskBits = category.mask
-                println("creating fixture with ${category.bits} / ${category.mask}")
             }
         }
         allowSleep = false
