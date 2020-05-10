@@ -56,6 +56,15 @@ object Ships {
             AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer())
         )
     }
+
+    fun addAIPlane(engine: Engine, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
+        engine.addEntityWithComponents(
+            PositionComponent(x = x, y = y, rotation = rotation),
+            SpriteComponent(Textures.plane1.toCenteredSprite()),
+            ShipMovementComponent(velocity = 0.025f),
+            AIShipComponent(AIShipMovementStrategies.flyDirectlyToAndAwayFromPlayer())
+        )
+    }
 }
 
 object AIShipMovementStrategies {
@@ -67,6 +76,24 @@ object AIShipMovementStrategies {
 
         val currentAngle = shipPos.rotation
         val angleDifference = normalizeAngleDeg(targetAngle - currentAngle)
+        val step = 2
+        shipPos.rotation = when {
+            abs(angleDifference) <= step -> targetAngle
+            else -> shipPos.rotation + sign(angleDifference) * step
+        }
+    }
+
+    fun flyDirectlyToAndAwayFromPlayer(): AIMovementStrategy = {
+        var targetAngle = atan2(playerPos.y - shipPos.y, playerPos.x - shipPos.x) * 180 / PI.toFloat()
+        val distance = sqrt((playerPos.x - shipPos.x).pow(2) + (playerPos.y - shipPos.y).pow(2))
+        val currentAngle = shipPos.rotation
+        var angleDifference = normalizeAngleDeg(targetAngle - currentAngle)
+        // if ship is in critical distance -> turn around -> add 180 degree
+        if (4 > distance) targetAngle += 180
+        // if ship is on retreat -> add 180 degree (continue retreat)
+        else if (8 > distance && (-160 > angleDifference || angleDifference > 160)) targetAngle += 180
+
+        angleDifference = normalizeAngleDeg(targetAngle - currentAngle)
         val step = 2
         shipPos.rotation = when {
             abs(angleDifference) <= step -> targetAngle
