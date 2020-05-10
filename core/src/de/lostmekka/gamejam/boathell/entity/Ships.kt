@@ -65,8 +65,8 @@ object Ships {
             SpriteComponent(Textures.plane1.toCenteredSprite(), 5000),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
-                hitBoxWidth = 2f - 2.pixels,
-                hitBoxHeight = 19.pixels,
+                hitBoxWidth = 16.pixels,
+                hitBoxHeight = 16.pixels,
                 hitBoxRotation = 0f
             ),
             ShipMovementComponent(velocity = 0.15f),
