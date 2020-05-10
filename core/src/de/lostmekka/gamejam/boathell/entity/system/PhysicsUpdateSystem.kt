@@ -9,11 +9,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener
 import com.badlogic.gdx.physics.box2d.Manifold
 import com.badlogic.gdx.physics.box2d.World
 import de.lostmekka.gamejam.boathell.GameConfig
-import de.lostmekka.gamejam.boathell.entity.component.HealthComponent
-import de.lostmekka.gamejam.boathell.entity.component.HitBoxComponent
-import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
-import de.lostmekka.gamejam.boathell.entity.component.ProjectileMovementComponent
-import de.lostmekka.gamejam.boathell.entity.component.SoundComponent
+import de.lostmekka.gamejam.boathell.entity.component.*
 import de.lostmekka.gamejam.boathell.toDegrees
 import de.lostmekka.gamejam.boathell.toRadians
 import ktx.ashley.allOf
@@ -93,6 +89,7 @@ class PhysicsUpdateSystem(
             val sounds = ship[SoundComponent.mapper]
             if (healthComponent.health <= 0) {
                 createExplosion(ship, engine)
+                removeWeapons(ship, engine)
                 engine.removeEntity(ship)
                 sounds?.deathSound?.play()
             } else {
@@ -109,6 +106,15 @@ class PhysicsUpdateSystem(
         override fun entityRemoved(entity: Entity) {
             val body = HitBoxComponent.mapper[entity].hitBox
             physicsWorld.destroyBody(body)
+        }
+    }
+}
+
+fun removeWeapons(e: Entity, engine: Engine) {
+    val comp = WeaponOwnerComponent.mapper[e]
+    if (comp != null) {
+        for (w in comp.weaponEntities) {
+            engine.removeEntity(w);
         }
     }
 }
