@@ -2,13 +2,16 @@ package de.lostmekka.gamejam.boathell.entity.system
 
 import com.badlogic.gdx.Gdx.input
 import com.badlogic.gdx.Input.Keys
+import com.badlogic.gdx.physics.box2d.World
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
 import ktx.ashley.allOf
 
-class PlayerControlledBoatSystem : BaseSystem() {
+class PlayerControlledBoatSystem(
+    private val physicsWorld: World
+) : BaseSystem() {
 
     override fun update(deltaTime: Float) {
         for (entity in entities) {
@@ -36,7 +39,7 @@ class PlayerControlledBoatSystem : BaseSystem() {
             }
 
             if (input.isKeyPressed(Keys.SPACE)) {
-                weapons.weaponComponents.forEach { it.shoot(entity, engine) }
+                weapons.weaponComponents.forEach { it.shoot(entity, engine, physicsWorld) }
             }
 
             movement.velocity -= movement.velocity * friction

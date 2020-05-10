@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector3
+import com.badlogic.gdx.physics.box2d.World
 import de.lostmekka.gamejam.boathell.entity.WeaponTriggerStrategy
 import ktx.ashley.mapperFor
 
@@ -12,7 +13,8 @@ data class ShotContext(
     val y: Float,
     val angle: Float,
     val movementVelocity: Vector3,
-    val engine: Engine
+    val engine: Engine,
+    val physicsWorld: World
 )
 
 class WeaponComponent(
@@ -26,7 +28,7 @@ class WeaponComponent(
     fun offsetPositionForParentRotation(parentRotation: Float): Vector3 =
         Vector3(offsetX, offsetY, 0f).rotate(Vector3.Z, parentRotation)
 
-    fun shoot(parent: Entity, engine: Engine) {
+    fun shoot(parent: Entity, engine: Engine, physicsWorld: World) {
         val parentTransform = PositionComponent.mapper[parent]
         val movement = ShipMovementComponent.mapper[parent]
 
@@ -39,7 +41,8 @@ class WeaponComponent(
                 y = parentTransform.y + pos.y,
                 angle = parentTransform.rotation + offsetAngle,
                 movementVelocity = vel,
-                engine = engine
+                engine = engine,
+                physicsWorld = physicsWorld
             )
             projectileInit(context)
             cooldownCounter = cooldownTime
