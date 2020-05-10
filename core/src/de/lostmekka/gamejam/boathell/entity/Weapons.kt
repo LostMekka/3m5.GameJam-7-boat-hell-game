@@ -15,7 +15,7 @@ import de.lostmekka.gamejam.boathell.pixels
 // offsetY = y * 0.5f,
 
 object Weapons {
-    fun addBoatFrontCannon1(engine: Engine, isPlayerWeapon: Boolean): Entity {
+    fun addBoatFrontCannon1(engine: Engine): Entity {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         return engine.addEntityWithComponents(
@@ -27,13 +27,13 @@ object Weapons {
                 offsetAngle = 0f,
                 isFiring = false,
                 firingTime = 0f,
-                projectileInit = WeaponTriggerStrategies.boring(isPlayerWeapon)
+                projectileInit = WeaponTriggerStrategies.fast()
             ),
             SpriteComponent(sprite, 1, Textures.cannon1)
         )
     }
 
-    fun addShip1FrontCannon1(engine: Engine, isPlayerWeapon: Boolean): Entity {
+    fun addShip1FrontCannon1(engine: Engine): Entity {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         return engine.addEntityWithComponents(
@@ -45,7 +45,7 @@ object Weapons {
                 offsetAngle = 0f,
                 isFiring = false,
                 firingTime = 0f,
-                projectileInit = WeaponTriggerStrategies.boring(isPlayerWeapon)
+                projectileInit = WeaponTriggerStrategies.boring()
             ),
             SpriteComponent(sprite, 3, Textures.cannon1)
         )
@@ -69,7 +69,7 @@ object Weapons {
         )
     }
 
-    fun addShip1SideCannons(engine: Engine, isPlayerWeapon: Boolean): MutableList<Entity> {
+    fun addShip1SideCannons(engine: Engine): MutableList<Entity> {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         fun sideCannon(x: Float, y: Float, angle: Float): Entity = engine.addEntityWithComponents(
@@ -81,7 +81,7 @@ object Weapons {
                 offsetAngle = angle,
                 isFiring = false,
                 firingTime = 0f,
-                projectileInit = WeaponTriggerStrategies.boring(isPlayerWeapon)
+                projectileInit = WeaponTriggerStrategies.boring()
             ),
             SpriteComponent(sprite, 3, Textures.cannon1)
         )
@@ -100,23 +100,46 @@ object Weapons {
 typealias WeaponTriggerStrategy = ShotContext.() -> Boolean
 
 object WeaponTriggerStrategies {
-    fun boring(isPlayerWeapon: Boolean): WeaponTriggerStrategy = {
+    fun boring(): WeaponTriggerStrategy = {
         for (i in 0..5) {
             engine.addEntityWithComponents(
                 PositionComponent(x, y, angle),
-                SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = com.badlogic.gdx.graphics.Color.YELLOW }, 999),
+                SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.YELLOW }, 999),
                 HitBoxComponent(
                     physicsWorld = physicsWorld,
                     hitBoxWidth = 4.pixels,
                     hitBoxHeight = 4.pixels,
                     hitBoxRotation = 0f,
-                    category = if (isPlayerWeapon) HitBoxCategory.PlayerProjectile else HitBoxCategory.EnemyProjectile
+                    category = HitBoxCategory.EnemyProjectile
                 ),
                 ProjectileMovementComponent(
                     damage = 1f,
                     waitTime = i.toFloat() * 0.016f,
                     maxLifeTime = 3f,
                     movementStrategy = ProjectileMovementStrategies.straight(angle, 3f, movementVelocity)
+                )
+            )
+        }
+        true
+    }
+
+    fun fast(): WeaponTriggerStrategy = {
+        for (i in 0..5) {
+            engine.addEntityWithComponents(
+                PositionComponent(x, y, angle),
+                SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.YELLOW }, 999),
+                HitBoxComponent(
+                    physicsWorld = physicsWorld,
+                    hitBoxWidth = 4.pixels,
+                    hitBoxHeight = 4.pixels,
+                    hitBoxRotation = 0f,
+                    category = HitBoxCategory.PlayerProjectile
+                ),
+                ProjectileMovementComponent(
+                    damage = 1f,
+                    waitTime = i.toFloat() * 0.016f,
+                    maxLifeTime = 3f,
+                    movementStrategy = ProjectileMovementStrategies.straight(angle, 10f, movementVelocity)
                 )
             )
         }
