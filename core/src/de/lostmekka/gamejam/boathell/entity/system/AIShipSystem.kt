@@ -21,7 +21,7 @@ class AIShipSystem : BaseSystem() {
         for (entity in entities) {
             val mov = AIShipComponent.mapper[entity]
             mov.movementStrategy(MovementStrategyContext(entity, playerEntities.firstOrNull()))
-            mov.firePattern(entity, engine)
+            mov.firePattern(entity)
         }
     }
 

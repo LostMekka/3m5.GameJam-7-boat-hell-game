@@ -12,6 +12,8 @@ data class ShotContext(
     val y: Float,
     val angle: Float,
     val movementVelocity: Vector3,
+    var firingTime: Float,
+    val deltaTime: Float,
     val engine: Engine
 )
 
@@ -20,29 +22,17 @@ class WeaponComponent(
     var offsetX: Float,
     var offsetY: Float,
     var offsetAngle: Float,
+    var isFiring: Boolean = false,
+    var firingTime: Float = 0f,
     var projectileInit: WeaponTriggerStrategy,
-    var cooldownCounter: Float = 0f
+    var cooldownCounter: Float = 0f,
+    var parent: Entity? = null
 ) : Component {
-    fun offsetPositionForParentRotation(parentRotation: Float): Vector3 =
-        Vector3(offsetX, offsetY, 0f).rotate(Vector3.Z, parentRotation)
 
-    fun shoot(parent: Entity, engine: Engine) {
-        val parentTransform = PositionComponent.mapper[parent]
-        val movement = ShipMovementComponent.mapper[parent]
-
-        if (cooldownCounter <= 0f) {
-            val pos = offsetPositionForParentRotation(parentTransform.rotation)
-            val vel = Vector3(movement.velocity, 0f, 0f).rotate(Vector3.Z, parentTransform.rotation)
-
-            val context = ShotContext(
-                x = parentTransform.x + pos.x,
-                y = parentTransform.y + pos.y,
-                angle = parentTransform.rotation + offsetAngle,
-                movementVelocity = vel,
-                engine = engine
-            )
-            projectileInit(context)
+    fun shoot() {
+        if (cooldownCounter <= 0f && !isFiring) {
             cooldownCounter = cooldownTime
+            isFiring = true
         }
     }
 

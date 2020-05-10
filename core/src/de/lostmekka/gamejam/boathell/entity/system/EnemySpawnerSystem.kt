@@ -3,6 +3,7 @@ package de.lostmekka.gamejam.boathell.entity.system
 import com.badlogic.gdx.physics.box2d.World
 import de.lostmekka.gamejam.boathell.entity.Ships.addAIBoat
 import de.lostmekka.gamejam.boathell.entity.Ships.addAIPlane
+import de.lostmekka.gamejam.boathell.entity.Ships.addAIRosetteShip
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
 import ktx.ashley.allOf
@@ -23,19 +24,26 @@ class EnemySpawnerSystem(
                 ?.let { PositionComponent.mapper[it] }
                 ?: PositionComponent(0f, 0f, 0f)
 
-            if (Math.random() * 2 < 1) {
+            if (Math.random() * 3 < 1) {
                 addAIBoat(
                     engine = engine,
                     physicsWorld = physicsWorld,
                     x = getRandomCoordinateInRangeAroundPlayer(playerPos.x, 10, 5),
                     y = getRandomCoordinateInRangeAroundPlayer(playerPos.y, 10, 5)
                 )
-            } else {
+            } else if (Math.random() * 2 < 1) {
                 addAIPlane(
                     engine = engine,
                     physicsWorld = physicsWorld,
                     x = getRandomCoordinateInRangeAroundPlayer(playerPos.x, 15, 10),
                     y = getRandomCoordinateInRangeAroundPlayer(playerPos.y, 15, 10)
+                )
+            } else {
+                addAIRosetteShip(
+                    engine = engine,
+                    physicsWorld = physicsWorld,
+                    x = getRandomCoordinateInRangeAroundPlayer(playerPos.x, 10, 5),
+                    y = getRandomCoordinateInRangeAroundPlayer(playerPos.y, 10, 5)
                 )
             }
         }

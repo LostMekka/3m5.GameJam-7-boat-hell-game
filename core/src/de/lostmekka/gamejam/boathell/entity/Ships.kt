@@ -69,8 +69,29 @@ object Ships {
                 hitBoxHeight = 19.pixels,
                 hitBoxRotation = 0f
             ),
+            WeaponOwnerComponent(
+                Weapons.addBoatFrontCannon1(engine)
+            ),
             ShipMovementComponent(velocity = 0.05f),
             AIShipComponent(AIShipMovementStrategies.flyDirectlyToAndAwayFromPlayer())
+        )
+    }
+
+    fun addAIRosetteShip(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
+        engine.addEntityWithComponents(
+            PositionComponent(x = x, y = y, rotation = rotation),
+            SpriteComponent(Textures.plane1.toCenteredSprite()),
+            HitBoxComponent(
+                physicsWorld = physicsWorld,
+                hitBoxWidth = 2f - 2.pixels,
+                hitBoxHeight = 19.pixels,
+                hitBoxRotation = 0f
+            ),
+            WeaponOwnerComponent(
+                Weapons.addShip1MiddleCannon1(engine)
+            ),
+            ShipMovementComponent(velocity = 0.01f),
+            AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer(6f))
         )
     }
 }
@@ -83,14 +104,14 @@ data class MovementStrategyContext(
 )
 
 object AIShipMovementStrategies {
-    fun followAndCirculatePlayer(): AIMovementStrategy = {
+    fun followAndCirculatePlayer(criticalDistance: Float = 4f): AIMovementStrategy = {
         val playerPos = PositionComponent.mapper[target]
         val shipPos = PositionComponent.mapper[me]
         if (target != null && playerPos != null && shipPos != null) {
             var targetAngle = atan2(playerPos.y - shipPos.y, playerPos.x - shipPos.x) * 180 / PI.toFloat()
             // if ship is in critical distance -> go around player -> add 90 degree
             val distance = sqrt((playerPos.x - shipPos.x).pow(2) + (playerPos.y - shipPos.y).pow(2))
-            if (4 > distance) targetAngle += 90
+            if (criticalDistance > distance) targetAngle += 90
 
             val currentAngle = shipPos.rotation
             val angleDifference = normalizeAngleDeg(targetAngle - currentAngle)

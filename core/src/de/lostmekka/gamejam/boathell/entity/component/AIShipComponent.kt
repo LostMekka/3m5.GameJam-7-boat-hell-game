@@ -1,7 +1,6 @@
 package de.lostmekka.gamejam.boathell.entity.component
 
 import com.badlogic.ashley.core.Component
-import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import de.lostmekka.gamejam.boathell.entity.AIMovementStrategy
 import ktx.ashley.get
@@ -14,11 +13,11 @@ class AIShipComponent(
         val mapper = mapperFor<AIShipComponent>()
     }
 
-    fun firePattern(me: Entity, engine: Engine) {
+    fun firePattern(me: Entity) {
         val owner = me[WeaponOwnerComponent.mapper]
         if (owner != null) {
             for (weapon in owner.weaponComponents) {
-                weapon.shoot(me, engine);
+                weapon.shoot()
             }
         }
     }

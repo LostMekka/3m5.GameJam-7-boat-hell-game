@@ -13,7 +13,8 @@ class WeaponOwnerSystem : BaseSystem() {
         for (weaponEntity in weaponEntities) {
             val weaponPos = PositionComponent.mapper[weaponEntity]
             val weapon = WeaponComponent.mapper[weaponEntity]
-            val localOffset = weapon.offsetPositionForParentRotation(ownerPos.rotation)
+            weapon.parent = entity
+            val localOffset = offsetPositionForParentRotation(weapon, ownerPos.rotation)
             weaponPos.apply {
                 x = ownerPos.x + localOffset.x
                 y = ownerPos.y + localOffset.y
