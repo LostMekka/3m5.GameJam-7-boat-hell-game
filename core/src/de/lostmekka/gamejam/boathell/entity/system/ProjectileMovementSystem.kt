@@ -12,8 +12,7 @@ class ProjectileMovementSystem : BaseSystem() {
         val mov = ProjectileMovementComponent.mapper[entity]
         mov.lifeTime += deltaTime
         mov.movementStrategy(ProjectileMovementStrategyContext(pos, deltaTime, mov.lifeTime))
-        // TODO: despawn after max lifetime
-        // TODO: check hit
+        if (mov.lifeTime > mov.maxLifeTime) engine.removeEntity(entity)
     }
 
     override fun familyBuilder() = allOf(

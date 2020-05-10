@@ -30,7 +30,7 @@ object WeaponTriggerStrategies {
             PositionComponent(x, y, angle),
             SpriteComponent(Textures.projectile[0].toCenteredSprite()),
             ProjectileMovementComponent(
-                maxLifeTime = 4f,
+                maxLifeTime = 2f,
                 movementStrategy = ProjectileMovementStrategies.straight(angle, 10f)
             )
         )
