@@ -6,6 +6,8 @@ import com.badlogic.gdx.physics.box2d.World
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
 import de.lostmekka.gamejam.boathell.entity.component.AIShipComponent
+import de.lostmekka.gamejam.boathell.entity.component.HealthComponent
+import de.lostmekka.gamejam.boathell.entity.component.HitBoxCategory
 import de.lostmekka.gamejam.boathell.entity.component.HitBoxComponent
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
@@ -14,6 +16,7 @@ import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
 import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
 import de.lostmekka.gamejam.boathell.normalizeAngleDeg
 import de.lostmekka.gamejam.boathell.pixels
+import ktx.ashley.get
 import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.pow
@@ -31,8 +34,10 @@ object Ships {
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 28.pixels,
                 hitBoxHeight = 14.pixels,
-                hitBoxRotation = 0f
+                hitBoxRotation = 0f,
+                category = HitBoxCategory.PlayerBoat
             ),
+            HealthComponent(100f),
             ShipMovementComponent(),
             PlayerControlledComponent(),
             WeaponOwnerComponent(
@@ -49,8 +54,10 @@ object Ships {
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 2f - 2.pixels,
                 hitBoxHeight = 19.pixels,
-                hitBoxRotation = 0f
+                hitBoxRotation = 0f,
+                category = HitBoxCategory.EnemyBoat
             ),
+            HealthComponent(100f),
             ShipMovementComponent(velocity = 0.025f),
             AIShipComponent(AIShipMovementStrategies.followAndCirculatePlayer()),
             WeaponOwnerComponent(
@@ -67,8 +74,10 @@ object Ships {
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 16.pixels,
                 hitBoxHeight = 16.pixels,
-                hitBoxRotation = 0f
+                hitBoxRotation = 0f,
+                category = HitBoxCategory.EnemyAir
             ),
+            HealthComponent(10f),
             ShipMovementComponent(velocity = 0.15f),
             AIShipComponent(AIShipMovementStrategies.flyDirectlyToAndAwayFromPlayer())
         )
@@ -82,8 +91,10 @@ object Ships {
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 2f - 2.pixels,
                 hitBoxHeight = 19.pixels,
-                hitBoxRotation = 0f
+                hitBoxRotation = 0f,
+                category = HitBoxCategory.EnemyBoat
             ),
+            HealthComponent(100f),
             WeaponOwnerComponent(
                 Weapons.addShip1MiddleCannon1(engine)
             ),
@@ -102,7 +113,7 @@ data class MovementStrategyContext(
 
 object AIShipMovementStrategies {
     fun followAndCirculatePlayer(criticalDistance: Float = 4f): AIMovementStrategy = {
-        val playerPos = PositionComponent.mapper[target]
+        val playerPos = target?.get(PositionComponent.mapper)
         val shipPos = PositionComponent.mapper[me]
         if (target != null && playerPos != null && shipPos != null) {
             var targetAngle = atan2(playerPos.y - shipPos.y, playerPos.x - shipPos.x) * 180 / PI.toFloat()
@@ -121,7 +132,7 @@ object AIShipMovementStrategies {
     }
 
     fun flyDirectlyToAndAwayFromPlayer(): AIMovementStrategy = {
-        val playerPos = PositionComponent.mapper[target]
+        val playerPos = target?.get(PositionComponent.mapper)
         val shipPos = PositionComponent.mapper[me]
         if (target != null && playerPos != null && shipPos != null) {
             var targetAngle = atan2(playerPos.y - shipPos.y, playerPos.x - shipPos.x) * 180 / PI.toFloat()

@@ -72,7 +72,15 @@ object WeaponTriggerStrategies {
             engine.addEntityWithComponents(
                 PositionComponent(x, y, angle),
                 SpriteComponent(Textures.projectile[0].toCenteredSprite(), 999),
+                HitBoxComponent(
+                    physicsWorld = physicsWorld,
+                    hitBoxWidth = 2f - 2.pixels,
+                    hitBoxHeight = 19.pixels,
+                    hitBoxRotation = 0f,
+                    category = HitBoxCategory.PlayerProjectile // TODO: set correct value!
+                ),
                 ProjectileMovementComponent(
+                    damage = 1f,
                     waitTime = i.toFloat() * 0.016f,
                     maxLifeTime = 3f,
                     movementStrategy = ProjectileMovementStrategies.straight(angle, 3f, movementVelocity)

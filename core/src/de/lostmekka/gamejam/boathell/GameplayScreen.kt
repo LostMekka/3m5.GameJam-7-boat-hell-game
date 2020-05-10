@@ -61,8 +61,8 @@ class GamePlayScreen : KtxScreen {
         addSystem(ProjectileMovementSystem())
 
         // controllers
-        addSystem(PlayerControlledBoatSystem())
-        addSystem(AIShipSystem())
+        addSystem(PlayerControlledBoatSystem(physicsWorld))
+        addSystem(AIShipSystem(physicsWorld))
 
         // special
         addSystem(renderSystem)
@@ -93,7 +93,8 @@ class GamePlayScreen : KtxScreen {
                 camera.position.add(
                     0.033f * (pos.x - camera.position.x),
                     0.033f * (pos.y - camera.position.y),
-                    0f)
+                    0f
+                )
                 camera.update()
             }
         }
