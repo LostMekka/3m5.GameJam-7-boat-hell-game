@@ -46,7 +46,6 @@ class GamePlayScreen : KtxScreen {
     private var player: Entity? = null
     private val engine = Engine().apply {
         player = Ships.addPlayerBoat(this)
-        Ships.addAIBoat(this, -5f, -5f)
 
         addSystem(renderSystem)
         addSystem(ShipMovementSystem())
@@ -75,7 +74,7 @@ class GamePlayScreen : KtxScreen {
 
         val player = player
         if (player != null) {
-            val pos = player.get<PositionComponent>();
+            val pos = player.get<PositionComponent>()
             if (pos != null) {
                 camera.position.add(
                     0.033f * (pos.x - camera.position.x),
