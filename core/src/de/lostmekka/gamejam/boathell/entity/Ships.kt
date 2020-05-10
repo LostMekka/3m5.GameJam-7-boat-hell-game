@@ -124,7 +124,8 @@ object Ships {
             SoundComponent(
                 deathSound = Sounds.awesomeExplosion,
                 hitSound = Sounds.hit
-            )
+            ),
+            ShipWaterComp(Vector2((0).pixels, (0).pixels))
         )
     }
 }
