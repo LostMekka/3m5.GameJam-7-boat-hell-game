@@ -9,8 +9,14 @@ import ktx.ashley.allOf
 class EnemySpawnerSystem(
     private val physicsWorld: World
 ) : BaseSystem() {
+
+    private var timeSinceLastSpawn = 10f
+    private var spawnTime = 10f
+
     override fun update(deltaTime: Float) {
-        if (Math.random() < 0.002) {
+        timeSinceLastSpawn += deltaTime
+        if (timeSinceLastSpawn > spawnTime) {
+            timeSinceLastSpawn = 0f
             val playerPos = entities
                 .firstOrNull()
                 ?.let { PositionComponent.mapper[it] }
@@ -18,11 +24,18 @@ class EnemySpawnerSystem(
             addAIBoat(
                 engine = engine,
                 physicsWorld = physicsWorld,
-                x = ((playerPos.x.toInt() - 10..playerPos.x.toInt() + 10).shuffled().first()).toFloat(),
-                y = ((playerPos.y.toInt() - 10..playerPos.y.toInt() + 10).shuffled().first()).toFloat()
+                x = getRandomCoordinateInRangeAroundPlayer(playerPos.x, 10, 5),
+                y = getRandomCoordinateInRangeAroundPlayer(playerPos.y, 10, 5)
             )
         }
     }
+
+    private fun getRandomCoordinateInRangeAroundPlayer(x: Float, maxDistance: Int, minDistance: Int): Float =
+        (((x.toInt() - maxDistance..x.toInt() - minDistance).toList() + ((x.toInt() + minDistance..x.toInt() + maxDistance))
+            .toList())
+            .shuffled()
+            .first())
+            .toFloat()
 
     override fun familyBuilder() = allOf(
         PlayerControlledComponent::class,

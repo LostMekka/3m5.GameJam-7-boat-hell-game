@@ -54,7 +54,6 @@ class GamePlayScreen : KtxScreen {
     private val renderSystem = RenderSystem()
     private val engine = Engine().apply {
         player = Ships.addPlayerBoat(this, physicsWorld)
-        Ships.addAIBoat(this, physicsWorld, -5f, -5f)
 
         addSystem(ShipMovementSystem())
         addSystem(WeaponSystem())
