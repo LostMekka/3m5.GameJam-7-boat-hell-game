@@ -46,7 +46,7 @@ class PhysicsUpdateSystem(
 
     private fun prePhysics(entity: Entity) {
         val box = HitBoxComponent.mapper[entity]
-        val pos = PositionComponent.mapper[entity]
+        val pos = TransformComponent.mapper[entity]
         box.hitBox.apply {
             setTransform(pos.x, pos.y, pos.rotation.toRadians())
             for (fixture in fixtureList) {
@@ -57,7 +57,7 @@ class PhysicsUpdateSystem(
 
     private fun postPhysics(entity: Entity) {
         val box = HitBoxComponent.mapper[entity]
-        val pos = PositionComponent.mapper[entity]
+        val pos = TransformComponent.mapper[entity]
         pos.apply {
             val physicsPos = box.hitBox.position
             x = physicsPos.x
@@ -68,7 +68,7 @@ class PhysicsUpdateSystem(
 
     override fun familyBuilder() = allOf(
         HitBoxComponent::class,
-        PositionComponent::class
+        TransformComponent::class
     )
 
     private val contactListener = object : ContactListener {

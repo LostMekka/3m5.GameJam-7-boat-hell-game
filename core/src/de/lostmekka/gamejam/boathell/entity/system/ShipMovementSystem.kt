@@ -1,11 +1,8 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
-import com.badlogic.gdx.math.Vector2
 import de.lostmekka.gamejam.boathell.cosDeg
-import de.lostmekka.gamejam.boathell.entity.addEntityWithComponents
-import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
+import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
-import de.lostmekka.gamejam.boathell.entity.component.WaterParticlesComponent
 import de.lostmekka.gamejam.boathell.sinDeg
 import ktx.ashley.allOf
 import ktx.ashley.get
@@ -14,7 +11,7 @@ class ShipMovementSystem : BaseSystem() {
 
     override fun update(deltaTime: Float) {
         for (entity in entities) {
-            val pos = entity[PositionComponent.mapper]!!
+            val pos = entity[TransformComponent.mapper]!!
             val vel = entity[ShipMovementComponent.mapper]!!
             if (vel.velocity > 0) {
                 pos.x += cosDeg(pos.rotation) * vel.velocity
@@ -24,7 +21,7 @@ class ShipMovementSystem : BaseSystem() {
     }
 
     override fun familyBuilder() = allOf(
-        PositionComponent::class,
+        TransformComponent::class,
         ShipMovementComponent::class
     )
 }

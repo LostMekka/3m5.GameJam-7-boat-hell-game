@@ -21,9 +21,9 @@ data class ShotContext(
     val physicsWorld: World
 ) {
     fun playerDistance(): Float {
-        val playerEntities = engine.getEntitiesFor(allOf(PlayerControlledComponent::class, PositionComponent::class).get())
+        val playerEntities = engine.getEntitiesFor(allOf(PlayerControlledComponent::class, TransformComponent::class).get())
         val player = playerEntities.firstOrNull()
-        val pos = PositionComponent.mapper[player]
+        val pos = TransformComponent.mapper[player]
         return Vector2(pos.x, pos.y).sub(Vector2(x, y)).len()
     }
 }

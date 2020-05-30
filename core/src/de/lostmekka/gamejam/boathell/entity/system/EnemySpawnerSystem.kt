@@ -5,7 +5,7 @@ import de.lostmekka.gamejam.boathell.entity.Ships.addAIBoat
 import de.lostmekka.gamejam.boathell.entity.Ships.addAIPlane
 import de.lostmekka.gamejam.boathell.entity.Ships.addAIRosetteShip
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
-import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
+import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import ktx.ashley.allOf
 
 class EnemySpawnerSystem(
@@ -21,8 +21,8 @@ class EnemySpawnerSystem(
             timeSinceLastSpawn = 0f
             val playerPos = entities
                 .firstOrNull()
-                ?.let { PositionComponent.mapper[it] }
-                ?: PositionComponent(0f, 0f, 0f)
+                ?.let { TransformComponent.mapper[it] }
+                ?: TransformComponent(0f, 0f, 0f)
 
             if (Math.random() * 3 < 1) {
                 addAIBoat(
@@ -58,6 +58,6 @@ class EnemySpawnerSystem(
 
     override fun familyBuilder() = allOf(
         PlayerControlledComponent::class,
-        PositionComponent::class
+        TransformComponent::class
     )
 }

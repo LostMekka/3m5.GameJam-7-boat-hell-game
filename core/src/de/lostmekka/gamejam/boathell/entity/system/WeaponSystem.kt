@@ -5,8 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.World
-import de.lostmekka.gamejam.boathell.asset.Sounds
-import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
+import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.component.ProjectileMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShotContext
@@ -44,7 +43,7 @@ class WeaponSystem(
             val weapon = WeaponComponent.mapper[entity]
             val parent = weapon.parent ?: continue
             if (weapon.isFiring) {
-                val parentTransform = PositionComponent.mapper[parent]
+                val parentTransform = TransformComponent.mapper[parent]
                 val movement = ShipMovementComponent.mapper[parent]
 
                 val pos = offsetPositionForParentRotation(weapon, parentTransform.rotation)
@@ -72,7 +71,7 @@ class WeaponSystem(
     }
 
     override fun familyBuilder() = allOf(
-        PositionComponent::class,
+        TransformComponent::class,
         WeaponComponent::class
     )
 }

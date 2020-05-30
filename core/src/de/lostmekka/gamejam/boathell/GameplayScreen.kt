@@ -2,27 +2,20 @@ package de.lostmekka.gamejam.boathell
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.graphics.OrthographicCamera
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
-import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.asset.Music
 import de.lostmekka.gamejam.boathell.entity.Ships
-import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
+import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.system.*
 import ktx.app.KtxScreen
 import ktx.ashley.*
 import ktx.box2d.createWorld
-import ktx.graphics.use
-import kotlin.reflect.typeOf
 
 class GamePlayScreen : KtxScreen {
     private var time = 0f
@@ -73,7 +66,7 @@ class GamePlayScreen : KtxScreen {
     }
 
     override fun show() {
-        Music.loop.play()
+        // Music.loop.play()
     }
 
     override fun hide() {
@@ -84,8 +77,6 @@ class GamePlayScreen : KtxScreen {
         time += delta
         cameraFollowsPlayer()
         engine.update(delta)
-        //update(delta)
-        //draw()
     }
 
     override fun resize(width: Int, height: Int) {
@@ -99,7 +90,7 @@ class GamePlayScreen : KtxScreen {
     fun cameraFollowsPlayer() {
         val player = player
         if (player != null) {
-            val pos = player.get<PositionComponent>()
+            val pos = player.get<TransformComponent>()
             if (pos != null) {
                 val camera = engine.getSystem<RenderSystem>().camera
                 camera.position.add(
@@ -110,11 +101,6 @@ class GamePlayScreen : KtxScreen {
                 camera.update()
             }
         }
-    }
-
-    private fun update(delta: Float) {
-        time += delta
-        engine.update(delta)
     }
 
     private fun draw() {

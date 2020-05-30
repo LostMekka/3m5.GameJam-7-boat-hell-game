@@ -6,7 +6,7 @@ import com.badlogic.ashley.utils.ImmutableArray
 import de.lostmekka.gamejam.boathell.entity.MovementStrategyContext
 import de.lostmekka.gamejam.boathell.entity.component.AIShipComponent
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
-import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
+import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import ktx.ashley.allOf
 
 class AIShipSystem : BaseSystem() {
@@ -14,7 +14,7 @@ class AIShipSystem : BaseSystem() {
 
     override fun addedToEngine(engine: Engine) {
         super.addedToEngine(engine)
-        playerEntities = engine.getEntitiesFor(allOf(PlayerControlledComponent::class, PositionComponent::class).get())
+        playerEntities = engine.getEntitiesFor(allOf(PlayerControlledComponent::class, TransformComponent::class).get())
     }
 
     override fun update(deltaTime: Float) {
@@ -27,6 +27,6 @@ class AIShipSystem : BaseSystem() {
 
     override fun familyBuilder() = allOf(
         AIShipComponent::class,
-        PositionComponent::class
+        TransformComponent::class
     )
 }

@@ -6,9 +6,9 @@ import ktx.ashley.mapperFor
 typealias ProjectileMovementStrategy = ProjectileMovementStrategyContext.() -> Unit
 
 data class ProjectileMovementStrategyContext(
-    val pos: PositionComponent,
-    val deltaTime: Float,
-    val totalLifetime: Float
+        val pos: TransformComponent,
+        val deltaTime: Float,
+        val totalLifetime: Float
 )
 
 class ProjectileMovementComponent(

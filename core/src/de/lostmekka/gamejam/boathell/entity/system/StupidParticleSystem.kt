@@ -6,16 +6,12 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
-import de.lostmekka.gamejam.boathell.cosDeg
 import de.lostmekka.gamejam.boathell.entity.addEntityWithComponents
-import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
+import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipWaterComp
 import de.lostmekka.gamejam.boathell.entity.component.WaterParticlesComponent
 import de.lostmekka.gamejam.boathell.pixels
-import de.lostmekka.gamejam.boathell.sinDeg
 import ktx.ashley.allOf
-import kotlin.math.sign
-import kotlin.random.Random
 
 class StupidParticleSystem : BaseSystem() {
 
@@ -52,7 +48,7 @@ class StupidWaterSpawn : BaseSystem() {
     override fun update(dt: Float) {
         dir = -dir
         for (entity in entities) {
-            val pos = PositionComponent.mapper[entity]
+            val pos = TransformComponent.mapper[entity]
             val water = ShipWaterComp.mapper[entity]
             val off = Vector2(water.off).rotate(pos.rotation)
             val spawnPos = Vector2(pos.x + off.x, pos.y + off.y)
@@ -63,12 +59,12 @@ class StupidWaterSpawn : BaseSystem() {
 
     override fun familyBuilder() = allOf(
         ShipWaterComp::class,
-        PositionComponent::class
+        TransformComponent::class
     )
 }
 
 fun createExplosion(entity: Entity, engine: Engine) {
-    val posComp = PositionComponent.mapper[entity]
+    val posComp = TransformComponent.mapper[entity]
     val pos = Vector2(posComp.x, posComp.y)
     for (i in 0..40) {
         val vel = Vector2(MathUtils.random(0.2f, 1.5f), 0f).rotate(MathUtils.random(360f))

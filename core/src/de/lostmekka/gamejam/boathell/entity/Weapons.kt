@@ -20,7 +20,7 @@ object Weapons {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         val frontCanon = engine.addEntityWithComponents(
-            PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
+            TransformComponent(0f, 0f, 0f), // will be auto set by weapon owner system
             WeaponComponent(
                 cooldownTime = 0.4f,
                 offsetX = 0.5f - 4f / 32f,
@@ -30,11 +30,11 @@ object Weapons {
                 firingTime = 0f,
                 projectileInit = WeaponTriggerStrategies.fast()
             ),
-            SpriteComponent(sprite, 1, Textures.cannon1)
+            RenderComponent(sprite, 1 /*Textures.cannon1*/)
         )
 
         fun sideCannon(x: Float, y: Float, angle: Float): Entity = engine.addEntityWithComponents(
-            PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
+            TransformComponent(0f, 0f, 0f), // will be auto set by weapon owner system
             WeaponComponent(
                 cooldownTime = 0.4f,
                 offsetX = x,
@@ -44,7 +44,7 @@ object Weapons {
                 firingTime = 0f,
                 projectileInit = WeaponTriggerStrategies.fast()
             ),
-            SpriteComponent(sprite, 3, Textures.cannon1)
+            RenderComponent(sprite, 3 /*Textures.cannon1*/)
         )
 
         return mutableListOf(
@@ -60,7 +60,7 @@ object Weapons {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         return engine.addEntityWithComponents(
-            PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
+            TransformComponent(0f, 0f, 0f), // will be auto set by weapon owner system
             WeaponComponent(
                 cooldownTime = 0.4f,
                 offsetX = 27f / 32f,
@@ -70,7 +70,7 @@ object Weapons {
                 firingTime = 0f,
                 projectileInit = WeaponTriggerStrategies.boring()
             ),
-            SpriteComponent(sprite, 3, Textures.cannon1)
+            RenderComponent(sprite, 3 /*Textures.cannon1*/)
         )
     }
 
@@ -78,7 +78,7 @@ object Weapons {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         return engine.addEntityWithComponents(
-            PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
+            TransformComponent(0f, 0f, 0f), // will be auto set by weapon owner system
             WeaponComponent(
                 cooldownTime = 15f,
                 offsetX = 27.pixels,
@@ -88,7 +88,7 @@ object Weapons {
                 firingTime = 0f,
                 projectileInit = WeaponTriggerStrategies.rosette(isPlayerWeapon)
             ),
-            SpriteComponent(sprite, 3, Textures.cannon1)
+            RenderComponent(sprite, 3 /*Textures.cannon1*/)
         )
     }
 
@@ -96,7 +96,7 @@ object Weapons {
         val sprite = Textures.cannon1[0].toCenteredSprite()
 
         fun sideCannon(x: Float, y: Float, angle: Float): Entity = engine.addEntityWithComponents(
-            PositionComponent(0f, 0f, 0f), // will be auto set by weapon owner system
+            TransformComponent(0f, 0f, 0f), // will be auto set by weapon owner system
             WeaponComponent(
                 cooldownTime = 0.4f,
                 offsetX = x,
@@ -106,7 +106,7 @@ object Weapons {
                 firingTime = 0f,
                 projectileInit = WeaponTriggerStrategies.boring()
             ),
-            SpriteComponent(sprite, 3, Textures.cannon1)
+            RenderComponent(sprite, 3 /*Textures.cannon1*/)
         )
 
         return mutableListOf(
@@ -126,8 +126,8 @@ object WeaponTriggerStrategies {
     fun boring(): WeaponTriggerStrategy = {
         for (i in 0..5) {
             engine.addEntityWithComponents(
-                PositionComponent(x, y, angle),
-                SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.YELLOW }, 999),
+                TransformComponent(x, y, angle),
+                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.YELLOW }, 999),
                 HitBoxComponent(
                     physicsWorld = physicsWorld,
                     hitBoxWidth = 4.pixels,
@@ -149,8 +149,8 @@ object WeaponTriggerStrategies {
     fun fast(): WeaponTriggerStrategy = {
         for (i in 0..5) {
             engine.addEntityWithComponents(
-                PositionComponent(x, y, angle),
-                SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.DARK_GRAY }, 999),
+                TransformComponent(x, y, angle),
+                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.DARK_GRAY }, 999),
                 HitBoxComponent(
                     physicsWorld = physicsWorld,
                     hitBoxWidth = 4.pixels,
@@ -179,8 +179,8 @@ object WeaponTriggerStrategies {
         for (i in 1..projectilesToFire) {
             val angleOffset = (i + projectilesFired) * 137.5f
             engine.addEntityWithComponents(
-                PositionComponent(x, y, angle + angleOffset),
-                SpriteComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.RED }, 999),
+                TransformComponent(x, y, angle + angleOffset),
+                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.RED }, 999),
                 HitBoxComponent(
                     physicsWorld = physicsWorld,
                     hitBoxWidth = 4.pixels,

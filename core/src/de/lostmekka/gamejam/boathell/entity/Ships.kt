@@ -12,10 +12,10 @@ import de.lostmekka.gamejam.boathell.entity.component.HealthComponent
 import de.lostmekka.gamejam.boathell.entity.component.HitBoxCategory
 import de.lostmekka.gamejam.boathell.entity.component.HitBoxComponent
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
-import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
+import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.SoundComponent
-import de.lostmekka.gamejam.boathell.entity.component.SpriteComponent
+import de.lostmekka.gamejam.boathell.entity.component.RenderComponent
 import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
 import de.lostmekka.gamejam.boathell.entity.component.*
 import de.lostmekka.gamejam.boathell.normalizeAngleDeg
@@ -32,8 +32,8 @@ import kotlin.random.Random
 object Ships {
     fun addPlayerBoat(engine: Engine, physicsWorld: World): Entity {
         return engine.addEntityWithComponents(
-            PositionComponent(x = 0f, y = 0f, rotation = Random.nextFloat() * 0f),
-            SpriteComponent(Textures.boat1.toCenteredSprite()),
+            TransformComponent(x = 0f, y = 0f, rotation = Random.nextFloat() * 0f),
+            RenderComponent(Textures.boat1.toCenteredSprite()),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 28.pixels,
@@ -57,8 +57,8 @@ object Ships {
 
     fun addAIBoat(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
-            PositionComponent(x = x, y = y, rotation = rotation),
-            SpriteComponent(Textures.ship1.toCenteredSprite(), 2),
+            TransformComponent(x = x, y = y, rotation = rotation),
+            RenderComponent(Textures.ship1.toCenteredSprite(), 2),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 2f - 2.pixels,
@@ -82,8 +82,8 @@ object Ships {
 
     fun addAIPlane(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
-            PositionComponent(x = x, y = y, rotation = rotation),
-            SpriteComponent(Textures.plane1.toCenteredSprite(), 5000),
+            TransformComponent(x = x, y = y, rotation = rotation),
+            RenderComponent(Textures.plane1.toCenteredSprite(), 5000),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 16.pixels,
@@ -106,8 +106,8 @@ object Ships {
 
     fun addAIRosetteShip(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
-            PositionComponent(x = x, y = y, rotation = rotation),
-            SpriteComponent(Textures.ship1.toCenteredSprite()),
+            TransformComponent(x = x, y = y, rotation = rotation),
+            RenderComponent(Textures.ship1.toCenteredSprite()),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 2f - 2.pixels,
@@ -139,8 +139,8 @@ data class MovementStrategyContext(
 
 object AIShipMovementStrategies {
     fun followAndCirculatePlayer(criticalDistance: Float = 4f): AIMovementStrategy = {
-        val playerPos = target?.get(PositionComponent.mapper)
-        val shipPos = PositionComponent.mapper[me]
+        val playerPos = target?.get(TransformComponent.mapper)
+        val shipPos = TransformComponent.mapper[me]
         if (target != null && playerPos != null && shipPos != null) {
             var targetAngle = atan2(playerPos.y - shipPos.y, playerPos.x - shipPos.x) * 180 / PI.toFloat()
             // if ship is in critical distance -> go around player -> add 90 degree
@@ -158,8 +158,8 @@ object AIShipMovementStrategies {
     }
 
     fun flyDirectlyToAndAwayFromPlayer(): AIMovementStrategy = {
-        val playerPos = target?.get(PositionComponent.mapper)
-        val shipPos = PositionComponent.mapper[me]
+        val playerPos = target?.get(TransformComponent.mapper)
+        val shipPos = TransformComponent.mapper[me]
         if (target != null && playerPos != null && shipPos != null) {
             var targetAngle = atan2(playerPos.y - shipPos.y, playerPos.x - shipPos.x) * 180 / PI.toFloat()
             val distance = sqrt((playerPos.x - shipPos.x).pow(2) + (playerPos.y - shipPos.y).pow(2))

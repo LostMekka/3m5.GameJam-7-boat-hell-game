@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input.Keys
 import de.lostmekka.gamejam.boathell.GameConfig
 import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
-import de.lostmekka.gamejam.boathell.entity.component.PositionComponent
+import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
 import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
 import ktx.ashley.allOf
@@ -15,7 +15,7 @@ class PlayerControlledBoatSystem : BaseSystem() {
 
     override fun update(deltaTime: Float) {
         for (entity in entities) {
-            val position = PositionComponent.mapper.get(entity)
+            val position = TransformComponent.mapper.get(entity)
             val movement = ShipMovementComponent.mapper.get(entity)
             val weapons = WeaponOwnerComponent.mapper.get(entity)
 
