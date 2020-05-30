@@ -114,7 +114,7 @@ fun removeWeapons(e: Entity, engine: Engine) {
     val comp = WeaponOwnerComponent.mapper[e]
     if (comp != null) {
         for (w in comp.weaponEntities) {
-            engine.removeEntity(w);
+            engine.removeEntity(w)
         }
     }
 }

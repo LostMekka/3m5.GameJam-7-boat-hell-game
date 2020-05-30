@@ -45,12 +45,12 @@ class Water {
 
     fun draw(t: Float, batch: SpriteBatch) {
         batch.setColor(0.2f, 0.4f, 0.5f, 1.0f)
-        water1.draw(t, batch);
+        water1.draw(t, batch)
         batch.setColor(0.35f, 0.45f, 0.9f, 1.0f)
-        water2.draw(t, batch);
+        water2.draw(t, batch)
         batch.setColor(0.4f, 0.6f, 1.0f, 1.0f)
-        water3.draw(t, batch);
+        water3.draw(t, batch)
         batch.setColor(0.4f, 0.6f, 1.0f, 1.0f)
-        water4.draw(t, batch);
+        water4.draw(t, batch)
     }
 }
