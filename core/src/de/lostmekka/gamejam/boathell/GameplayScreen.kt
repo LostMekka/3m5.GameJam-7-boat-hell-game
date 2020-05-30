@@ -26,8 +26,6 @@ import kotlin.reflect.typeOf
 
 class GamePlayScreen : KtxScreen {
     private var time = 0f
-    private val batch = SpriteBatch()
-    private val shapeRenderer = ShapeRenderer()
     private val water = Water()
     private val guiViewport = ScreenViewport(OrthographicCamera())
     private val physicsWorld = createWorld(Vector2.Zero, true)
@@ -78,8 +76,13 @@ class GamePlayScreen : KtxScreen {
         Music.loop.play()
     }
 
+    override fun hide() {
+        Music.loop.pause()
+    }
+
     override fun render(delta: Float) {
         time += delta
+        cameraFollowsPlayer()
         engine.update(delta)
         //update(delta)
         //draw()
@@ -87,16 +90,13 @@ class GamePlayScreen : KtxScreen {
 
     override fun resize(width: Int, height: Int) {
         guiViewport.update(width, height, true)
+        renderSystem.viewport.update(width, height)
     }
 
     override fun dispose() {
-        batch.dispose()
     }
 
-    private fun update(delta: Float) {
-        time += delta
-        engine.update(delta)
-
+    fun cameraFollowsPlayer() {
         val player = player
         if (player != null) {
             val pos = player.get<PositionComponent>()
@@ -112,18 +112,21 @@ class GamePlayScreen : KtxScreen {
         }
     }
 
+    private fun update(delta: Float) {
+        time += delta
+        engine.update(delta)
+    }
+
     private fun draw() {
         water.clearColor()
 
         val camera = engine.getSystem<RenderSystem>().camera
+        /*
         batch.use(camera.combined) {
             water.draw(time, batch)
             particleSystem.draw(batch)
         }
-
-        shapeRenderer.use(ShapeRenderer.ShapeType.Line) {
-            // draw shapes
-        }
+        */
 
         @Suppress("ConstantConditionIf")
         if (GameConfig.Debug.drawPhysics) {
