@@ -16,20 +16,6 @@ class WaterParticlesComponent(
     var frame = 0
     val regions = Textures.explosion1
 
-    fun animate(dt: Float) {
-        nextFrame -= dt
-
-        while (nextFrame < 0f) {
-            nextFrame += nextFrameTime
-            frame++
-        }
-
-        pos.mulAdd(vel, dt)
-    }
-
-    fun dead() = frame >= regions.size
-    fun life() = frame.toFloat() / regions.size.toFloat()
-
     companion object {
         val mapper = mapperFor<WaterParticlesComponent>()
     }

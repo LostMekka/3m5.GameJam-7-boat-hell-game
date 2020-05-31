@@ -108,13 +108,7 @@ class GamePlayScreen : KtxScreen {
     }
 
     private fun draw() {
-
         val camera = engine.getSystem<RenderSystem>().camera
-        /*
-        batch.use(camera.combined) {
-            particleSystem.draw(batch)
-        }
-        */
 
         @Suppress("ConstantConditionIf")
         if (GameConfig.Debug.drawPhysics) {
