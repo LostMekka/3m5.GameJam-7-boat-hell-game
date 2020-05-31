@@ -1,16 +1,22 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.math.Vector3
 import com.badlogic.gdx.physics.box2d.World
-import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
-import de.lostmekka.gamejam.boathell.entity.component.ProjectileMovementComponent
-import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
-import de.lostmekka.gamejam.boathell.entity.component.ShotContext
-import de.lostmekka.gamejam.boathell.entity.component.WeaponComponent
+import de.lostmekka.gamejam.boathell.asset.Sounds
+import de.lostmekka.gamejam.boathell.asset.Textures
+import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
+import de.lostmekka.gamejam.boathell.entity.system.ProjectileMovementStrategies
+import de.lostmekka.gamejam.boathell.entity.addEntityWithComponents
+import de.lostmekka.gamejam.boathell.entity.component.*
+import de.lostmekka.gamejam.boathell.pixels
 import ktx.ashley.allOf
+import ktx.ashley.mapperFor
 import kotlin.math.max
 
 fun offsetPositionForParentRotation(weapon: WeaponComponent, parentRotation: Float): Vector3 =
@@ -74,4 +80,130 @@ class WeaponSystem(
         TransformComponent::class,
         WeaponComponent::class
     )
+}
+
+typealias WeaponTriggerStrategy = ShotContext.() -> Boolean
+
+object WeaponTriggerStrategies {
+    fun boring(): WeaponTriggerStrategy = {
+        for (i in 0..5) {
+            engine.addEntityWithComponents(
+                TransformComponent(x, y, angle),
+                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.YELLOW }, 999),
+                HitBoxComponent(
+                    hitBoxWidth = 4.pixels,
+                    hitBoxHeight = 4.pixels,
+                    hitBoxRotation = 0f,
+                    category = HitBoxCategory.EnemyProjectile
+                ),
+                ProjectileMovementComponent(
+                    damage = 1f,
+                    waitTime = i.toFloat() * 0.016f,
+                    maxLifeTime = 3f,
+                    movementStrategy = ProjectileMovementStrategies.straight(angle, 3f, movementVelocity)
+                )
+            )
+        }
+        true
+    }
+
+    fun fast(): WeaponTriggerStrategy = {
+        for (i in 0..5) {
+            engine.addEntityWithComponents(
+                TransformComponent(x, y, angle),
+                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.DARK_GRAY }, 999),
+                HitBoxComponent(
+                    hitBoxWidth = 4.pixels,
+                    hitBoxHeight = 4.pixels,
+                    hitBoxRotation = 0f,
+                    category = HitBoxCategory.PlayerProjectile
+                ),
+                ProjectileMovementComponent(
+                    damage = 1f,
+                    waitTime = i.toFloat() * 0.016f,
+                    maxLifeTime = 3f,
+                    movementStrategy = ProjectileMovementStrategies.straight(angle, 10f, movementVelocity)
+                )
+            )
+        }
+        true
+    }
+
+    fun rosette(isPlayerWeapon: Boolean): WeaponTriggerStrategy = {
+        val totalShots = 200
+        val waitTime = 0.04f
+        val projectilesFired: Int = (firingTime / waitTime).toInt()
+        var projectilesToFire: Int = ((firingTime + deltaTime) / waitTime).toInt() - projectilesFired
+        if (projectilesToFire + projectilesFired > totalShots) projectilesToFire = totalShots - projectilesFired
+        if (projectilesToFire > 0 && projectilesFired % 2 == 0) Sounds.shoot.play(playerDistance())
+        for (i in 1..projectilesToFire) {
+            val angleOffset = (i + projectilesFired) * 137.5f
+            engine.addEntityWithComponents(
+                TransformComponent(x, y, angle + angleOffset),
+                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.RED }, 999),
+                HitBoxComponent(
+                    hitBoxWidth = 4.pixels,
+                    hitBoxHeight = 4.pixels,
+                    hitBoxRotation = 0f,
+                    category = if (isPlayerWeapon) HitBoxCategory.PlayerProjectile else HitBoxCategory.EnemyProjectile
+                ),
+                ProjectileMovementComponent(
+                    waitTime = i.toFloat() * waitTime,
+                    maxLifeTime = 10f,
+                    damage = 0.5f,
+                    movementStrategy = ProjectileMovementStrategies.straight(angle + angleOffset, 1.7f, movementVelocity)
+                )
+            )
+        }
+        projectilesToFire + projectilesFired >= totalShots
+    }
+}
+
+class WeaponComponent(
+    var cooldownTime: Float,
+    var offsetX: Float,
+    var offsetY: Float,
+    var offsetAngle: Float,
+    var isFiring: Boolean = false,
+    var firingTime: Float = 0f,
+    var projectileInit: WeaponTriggerStrategy,
+    var cooldownCounter: Float = 0f,
+    var parent: Entity? = null
+) : Component {
+
+    fun shoot(): Boolean {
+        return if (cooldownCounter <= 0f && !isFiring) {
+            cooldownCounter = cooldownTime
+            isFiring = true
+            true
+        } else {
+            false
+        }
+    }
+
+    companion object {
+        val mapper = mapperFor<WeaponComponent>()
+    }
+}
+
+data class ShotContext(
+    val x: Float,
+    val y: Float,
+    val angle: Float,
+    val movementVelocity: Vector3,
+    var firingTime: Float,
+    val deltaTime: Float,
+    val engine: Engine,
+    val physicsWorld: World
+) {
+    fun playerDistance(): Float {
+        val playerEntities = engine.getEntitiesFor(allOf(PlayerControlledComponent::class, TransformComponent::class).get())
+        val player = playerEntities.firstOrNull()
+        if (player != null) {
+            val pos = TransformComponent.mapper[player]
+            return Vector2(pos.x, pos.y).sub(Vector2(x, y)).len()
+        } else {
+            return Float.POSITIVE_INFINITY
+        }
+    }
 }

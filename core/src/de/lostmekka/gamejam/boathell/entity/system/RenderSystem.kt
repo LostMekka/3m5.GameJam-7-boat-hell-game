@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Affine2
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.component.RenderComponent
-import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
+import de.lostmekka.gamejam.boathell.entity.system.WeaponOwnerComponent
 import ktx.ashley.allOf
 import ktx.ashley.get
 import ktx.ashley.mapperFor

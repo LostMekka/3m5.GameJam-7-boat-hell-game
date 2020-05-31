@@ -7,7 +7,7 @@ import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
-import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
+import de.lostmekka.gamejam.boathell.entity.system.WeaponOwnerComponent
 import ktx.ashley.allOf
 import kotlin.math.abs
 

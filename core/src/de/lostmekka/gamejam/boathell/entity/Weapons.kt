@@ -2,18 +2,12 @@ package de.lostmekka.gamejam.boathell.entity
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
-import com.badlogic.gdx.graphics.Color
-import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
 import de.lostmekka.gamejam.boathell.entity.component.*
+import de.lostmekka.gamejam.boathell.entity.system.WeaponComponent
+import de.lostmekka.gamejam.boathell.entity.system.WeaponTriggerStrategies
 import de.lostmekka.gamejam.boathell.pixels
-
-// engine = engine,
-// cooldownTime = 1f,
-// offsetAngle = y * 90f,
-// offsetX = x * 0.3f,
-// offsetY = y * 0.5f,
 
 object Weapons {
     fun addBoatFrontCannon1(engine: Engine): MutableList<Entity> {
@@ -117,82 +111,5 @@ object Weapons {
             sideCannon((-4).pixels, 10.pixels, 90f),
             sideCannon((-4).pixels, (-10).pixels, -90f)
         )
-    }
-}
-
-typealias WeaponTriggerStrategy = ShotContext.() -> Boolean
-
-object WeaponTriggerStrategies {
-    fun boring(): WeaponTriggerStrategy = {
-        for (i in 0..5) {
-            engine.addEntityWithComponents(
-                TransformComponent(x, y, angle),
-                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.YELLOW }, 999),
-                HitBoxComponent(
-                    hitBoxWidth = 4.pixels,
-                    hitBoxHeight = 4.pixels,
-                    hitBoxRotation = 0f,
-                    category = HitBoxCategory.EnemyProjectile
-                ),
-                ProjectileMovementComponent(
-                    damage = 1f,
-                    waitTime = i.toFloat() * 0.016f,
-                    maxLifeTime = 3f,
-                    movementStrategy = ProjectileMovementStrategies.straight(angle, 3f, movementVelocity)
-                )
-            )
-        }
-        true
-    }
-
-    fun fast(): WeaponTriggerStrategy = {
-        for (i in 0..5) {
-            engine.addEntityWithComponents(
-                TransformComponent(x, y, angle),
-                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.DARK_GRAY }, 999),
-                HitBoxComponent(
-                    hitBoxWidth = 4.pixels,
-                    hitBoxHeight = 4.pixels,
-                    hitBoxRotation = 0f,
-                    category = HitBoxCategory.PlayerProjectile
-                ),
-                ProjectileMovementComponent(
-                    damage = 1f,
-                    waitTime = i.toFloat() * 0.016f,
-                    maxLifeTime = 3f,
-                    movementStrategy = ProjectileMovementStrategies.straight(angle, 10f, movementVelocity)
-                )
-            )
-        }
-        true
-    }
-
-    fun rosette(isPlayerWeapon: Boolean): WeaponTriggerStrategy = {
-        val totalShots = 200
-        val waitTime = 0.04f
-        val projectilesFired: Int = (firingTime / waitTime).toInt()
-        var projectilesToFire: Int = ((firingTime + deltaTime) / waitTime).toInt() - projectilesFired
-        if (projectilesToFire + projectilesFired > totalShots) projectilesToFire = totalShots - projectilesFired
-        if (projectilesToFire > 0 && projectilesFired % 2 == 0) Sounds.shoot.play(playerDistance())
-        for (i in 1..projectilesToFire) {
-            val angleOffset = (i + projectilesFired) * 137.5f
-            engine.addEntityWithComponents(
-                TransformComponent(x, y, angle + angleOffset),
-                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.RED }, 999),
-                HitBoxComponent(
-                    hitBoxWidth = 4.pixels,
-                    hitBoxHeight = 4.pixels,
-                    hitBoxRotation = 0f,
-                    category = if (isPlayerWeapon) HitBoxCategory.PlayerProjectile else HitBoxCategory.EnemyProjectile
-                ),
-                ProjectileMovementComponent(
-                    waitTime = i.toFloat() * waitTime,
-                    maxLifeTime = 10f,
-                    damage = 0.5f,
-                    movementStrategy = ProjectileMovementStrategies.straight(angle + angleOffset, 1.7f, movementVelocity)
-                )
-            )
-        }
-        projectilesToFire + projectilesFired >= totalShots
     }
 }

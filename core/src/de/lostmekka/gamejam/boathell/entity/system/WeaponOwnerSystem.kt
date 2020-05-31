@@ -1,10 +1,10 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Entity
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
-import de.lostmekka.gamejam.boathell.entity.component.WeaponComponent
-import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
 import ktx.ashley.allOf
+import ktx.ashley.mapperFor
 
 class WeaponOwnerSystem : BaseSystem() {
     override fun updateEntity(entity: Entity, deltaTime: Float) {
@@ -27,4 +27,16 @@ class WeaponOwnerSystem : BaseSystem() {
         TransformComponent::class,
         WeaponOwnerComponent::class
     )
+}
+
+class WeaponOwnerComponent(
+    val weaponEntities: MutableList<Entity>
+) : Component {
+    constructor(vararg weaponEntities: Entity) : this(weaponEntities.toMutableList())
+
+    val weaponComponents get() = weaponEntities.map { WeaponComponent.mapper[it] }
+
+    companion object {
+        val mapper = mapperFor<WeaponOwnerComponent>()
+    }
 }

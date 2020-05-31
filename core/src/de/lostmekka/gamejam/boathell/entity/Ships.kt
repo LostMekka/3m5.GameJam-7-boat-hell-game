@@ -10,6 +10,7 @@ import de.lostmekka.gamejam.boathell.entity.component.*
 import de.lostmekka.gamejam.boathell.entity.system.AIShipComponent
 import de.lostmekka.gamejam.boathell.entity.system.AIShipMovementStrategies
 import de.lostmekka.gamejam.boathell.entity.system.ShipWaterComp
+import de.lostmekka.gamejam.boathell.entity.system.WeaponOwnerComponent
 import de.lostmekka.gamejam.boathell.pixels
 import kotlin.random.Random
 
