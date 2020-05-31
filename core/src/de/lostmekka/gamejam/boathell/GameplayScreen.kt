@@ -2,6 +2,7 @@ package de.lostmekka.gamejam.boathell
 
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
+import com.badlogic.ashley.core.EntitySystem
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter
@@ -11,15 +12,16 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.asset.Music
 import de.lostmekka.gamejam.boathell.entity.Ships
+import de.lostmekka.gamejam.boathell.entity.component.RenderComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.system.*
 import ktx.app.KtxScreen
 import ktx.ashley.*
 import ktx.box2d.createWorld
+import kotlin.math.sin
 
 class GamePlayScreen : KtxScreen {
     private var time = 0f
-    private val water = Water()
     private val guiViewport = ScreenViewport(OrthographicCamera())
     private val physicsWorld = createWorld(Vector2.Zero, true)
     private val physicsDebugRenderer = Box2DDebugRenderer(true, true, false, true, false, true)
@@ -29,6 +31,7 @@ class GamePlayScreen : KtxScreen {
 
     val engine = Engine().apply {
         player = Ships.addPlayerBoat(this, physicsWorld)
+        createOceanWater(this)
 
         addSystem(ShipMovementSystem())
         addSystem(WeaponSystem(physicsWorld))
@@ -40,6 +43,7 @@ class GamePlayScreen : KtxScreen {
         addSystem(AIShipSystem())
 
         // special
+        addSystem(WaterLayerSystem())
         addSystem(StupidWaterSpawn())
         addSystem(particleSystem)
         addSystem(renderSystem)
@@ -104,12 +108,10 @@ class GamePlayScreen : KtxScreen {
     }
 
     private fun draw() {
-        water.clearColor()
 
         val camera = engine.getSystem<RenderSystem>().camera
         /*
         batch.use(camera.combined) {
-            water.draw(time, batch)
             particleSystem.draw(batch)
         }
         */

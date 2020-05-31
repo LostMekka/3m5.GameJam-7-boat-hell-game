@@ -1,12 +1,19 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import com.badlogic.ashley.core.Component
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Affine2
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.component.RenderComponent
+import de.lostmekka.gamejam.boathell.entity.component.WeaponOwnerComponent
 import ktx.ashley.allOf
+import ktx.ashley.get
+import ktx.ashley.mapperFor
+import kotlin.math.sin
 
 class RenderSystem : BaseSystem() {
     val batch = SpriteBatch()
@@ -20,6 +27,8 @@ class RenderSystem : BaseSystem() {
 
     override fun update(deltaTime: Float) {
         val entities = entities.sortedBy { RenderComponent.mapper[it].zLayer }
+
+        clearColor()
 
         batch.begin()
         batch.projectionMatrix = viewport.camera.combined
@@ -35,5 +44,10 @@ class RenderSystem : BaseSystem() {
             batch.draw(render.texRegion, width, height, finalTrans)
         }
         batch.end()
+    }
+
+    fun clearColor() {
+        Gdx.gl.glClearColor(0f, 0.5f, 1f, 1f)
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     }
 }

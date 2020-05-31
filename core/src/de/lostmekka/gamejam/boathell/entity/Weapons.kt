@@ -30,7 +30,7 @@ object Weapons {
                 firingTime = 0f,
                 projectileInit = WeaponTriggerStrategies.fast()
             ),
-            RenderComponent(sprite, 1 /*Textures.cannon1*/)
+            RenderComponent(sprite, 101 /*Textures.cannon1*/)
         )
 
         fun sideCannon(x: Float, y: Float, angle: Float): Entity = engine.addEntityWithComponents(
@@ -44,7 +44,7 @@ object Weapons {
                 firingTime = 0f,
                 projectileInit = WeaponTriggerStrategies.fast()
             ),
-            RenderComponent(sprite, 3 /*Textures.cannon1*/)
+            RenderComponent(sprite, 103 /*Textures.cannon1*/)
         )
 
         return mutableListOf(
@@ -70,7 +70,7 @@ object Weapons {
                 firingTime = 0f,
                 projectileInit = WeaponTriggerStrategies.boring()
             ),
-            RenderComponent(sprite, 3 /*Textures.cannon1*/)
+            RenderComponent(sprite, 103 /*Textures.cannon1*/)
         )
     }
 
@@ -88,7 +88,7 @@ object Weapons {
                 firingTime = 0f,
                 projectileInit = WeaponTriggerStrategies.rosette(isPlayerWeapon)
             ),
-            RenderComponent(sprite, 3 /*Textures.cannon1*/)
+            RenderComponent(sprite, 103 /*Textures.cannon1*/)
         )
     }
 
@@ -106,7 +106,7 @@ object Weapons {
                 firingTime = 0f,
                 projectileInit = WeaponTriggerStrategies.boring()
             ),
-            RenderComponent(sprite, 3 /*Textures.cannon1*/)
+            RenderComponent(sprite, 103 /*Textures.cannon1*/)
         )
 
         return mutableListOf(

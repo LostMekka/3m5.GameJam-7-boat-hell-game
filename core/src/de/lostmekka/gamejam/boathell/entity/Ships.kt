@@ -33,7 +33,7 @@ object Ships {
     fun addPlayerBoat(engine: Engine, physicsWorld: World): Entity {
         return engine.addEntityWithComponents(
             TransformComponent(x = 0f, y = 0f, rotation = Random.nextFloat() * 0f),
-            RenderComponent(Textures.boat1.toCenteredSprite()),
+            RenderComponent(Textures.boat1.toCenteredSprite(), 100),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 28.pixels,
@@ -58,7 +58,7 @@ object Ships {
     fun addAIBoat(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
             TransformComponent(x = x, y = y, rotation = rotation),
-            RenderComponent(Textures.ship1.toCenteredSprite(), 2),
+            RenderComponent(Textures.ship1.toCenteredSprite(), 102),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 2f - 2.pixels,
@@ -107,7 +107,7 @@ object Ships {
     fun addAIRosetteShip(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
             TransformComponent(x = x, y = y, rotation = rotation),
-            RenderComponent(Textures.ship1.toCenteredSprite()),
+            RenderComponent(Textures.ship1.toCenteredSprite(), 102),
             HitBoxComponent(
                 physicsWorld = physicsWorld,
                 hitBoxWidth = 2f - 2.pixels,

@@ -10,7 +10,7 @@ import ktx.ashley.mapperFor
 
 class RenderComponent(
     var texRegion: TextureRegion,
-    var zLayer: Int = 0,
+    var zLayer: Int = 100,
     var color: Color = Color.WHITE,
     var transform: Affine2 = Affine2()
 ) : Component {
