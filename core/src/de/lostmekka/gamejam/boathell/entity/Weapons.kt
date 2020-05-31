@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
 import de.lostmekka.gamejam.boathell.entity.component.*
+import de.lostmekka.gamejam.boathell.entity.system.RenderComponent
 import de.lostmekka.gamejam.boathell.entity.system.WeaponComponent
 import de.lostmekka.gamejam.boathell.entity.system.WeaponTriggerStrategies
 import de.lostmekka.gamejam.boathell.pixels

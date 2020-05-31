@@ -3,13 +3,16 @@ package de.lostmekka.gamejam.boathell.entity.system
 import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Camera
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Affine2
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
-import de.lostmekka.gamejam.boathell.entity.component.RenderComponent
+import de.lostmekka.gamejam.boathell.entity.system.RenderComponent
 import de.lostmekka.gamejam.boathell.entity.system.WeaponOwnerComponent
 import ktx.ashley.allOf
 import ktx.ashley.get
@@ -50,4 +53,18 @@ class RenderSystem(camera: Camera) : BaseSystem() {
         Gdx.gl.glClearColor(0f, 0.5f, 1f, 1f)
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     }
+}
+
+class RenderComponent(
+    var texRegion: TextureRegion,
+    var zLayer: Int = 100,
+    var color: Color = Color.WHITE,
+    var transform: Affine2 = Affine2()
+) : Component {
+    companion object {
+        val mapper = mapperFor<RenderComponent>()
+    }
+
+    constructor(sprite: Sprite, zLayer: Int = 0)
+        : this(sprite, zLayer, Color.WHITE, Affine2().translate(-sprite.originX, -sprite.originY))
 }

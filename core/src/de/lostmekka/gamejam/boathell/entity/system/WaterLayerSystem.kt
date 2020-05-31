@@ -7,7 +7,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureRegion
-import de.lostmekka.gamejam.boathell.entity.component.RenderComponent
+import de.lostmekka.gamejam.boathell.entity.system.RenderComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import ktx.ashley.allOf
 import ktx.ashley.mapperFor

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import de.lostmekka.gamejam.boathell.asset.Textures
-import de.lostmekka.gamejam.boathell.entity.component.RenderComponent
+import de.lostmekka.gamejam.boathell.entity.system.RenderComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.system.WaterParticlesComponent
 

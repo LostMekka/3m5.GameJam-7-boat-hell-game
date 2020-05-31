@@ -7,10 +7,7 @@ import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
 import de.lostmekka.gamejam.boathell.entity.component.*
-import de.lostmekka.gamejam.boathell.entity.system.AIShipComponent
-import de.lostmekka.gamejam.boathell.entity.system.AIShipMovementStrategies
-import de.lostmekka.gamejam.boathell.entity.system.ShipWaterComp
-import de.lostmekka.gamejam.boathell.entity.system.WeaponOwnerComponent
+import de.lostmekka.gamejam.boathell.entity.system.*
 import de.lostmekka.gamejam.boathell.pixels
 import kotlin.random.Random
 
