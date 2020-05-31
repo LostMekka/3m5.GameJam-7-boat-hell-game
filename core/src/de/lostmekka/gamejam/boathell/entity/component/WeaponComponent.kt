@@ -23,8 +23,12 @@ data class ShotContext(
     fun playerDistance(): Float {
         val playerEntities = engine.getEntitiesFor(allOf(PlayerControlledComponent::class, TransformComponent::class).get())
         val player = playerEntities.firstOrNull()
-        val pos = TransformComponent.mapper[player]
-        return Vector2(pos.x, pos.y).sub(Vector2(x, y)).len()
+        if (player != null) {
+            val pos = TransformComponent.mapper[player]
+            return Vector2(pos.x, pos.y).sub(Vector2(x, y)).len()
+        } else {
+            return Float.POSITIVE_INFINITY
+        }
     }
 }
 
