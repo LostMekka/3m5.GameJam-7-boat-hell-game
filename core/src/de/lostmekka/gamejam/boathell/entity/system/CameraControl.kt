@@ -14,7 +14,7 @@ class CameraControl : BaseSystem() {
     }
 
     override fun update(deltaTime: Float) {
-        val player = entities.first()
+        val player = entities.firstOrNull()
         if (player != null) {
             val trans = TransformComponent.mapper[player]
 
