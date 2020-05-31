@@ -30,12 +30,11 @@ import kotlin.math.sign
 import kotlin.random.Random
 
 object Ships {
-    fun addPlayerBoat(engine: Engine, physicsWorld: World): Entity {
+    fun addPlayerBoat(engine: Engine): Entity {
         return engine.addEntityWithComponents(
             TransformComponent(x = 0f, y = 0f, rotation = Random.nextFloat() * 0f),
             RenderComponent(Textures.boat1.toCenteredSprite(), 100),
             HitBoxComponent(
-                physicsWorld = physicsWorld,
                 hitBoxWidth = 28.pixels,
                 hitBoxHeight = 14.pixels,
                 hitBoxRotation = 0f,
@@ -55,12 +54,11 @@ object Ships {
         )
     }
 
-    fun addAIBoat(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
+    fun addAIBoat(engine: Engine, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
             TransformComponent(x = x, y = y, rotation = rotation),
             RenderComponent(Textures.ship1.toCenteredSprite(), 102),
             HitBoxComponent(
-                physicsWorld = physicsWorld,
                 hitBoxWidth = 2f - 2.pixels,
                 hitBoxHeight = 19.pixels,
                 hitBoxRotation = 0f,
@@ -80,12 +78,11 @@ object Ships {
         )
     }
 
-    fun addAIPlane(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
+    fun addAIPlane(engine: Engine, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
             TransformComponent(x = x, y = y, rotation = rotation),
             RenderComponent(Textures.plane1.toCenteredSprite(), 5000),
             HitBoxComponent(
-                physicsWorld = physicsWorld,
                 hitBoxWidth = 16.pixels,
                 hitBoxHeight = 16.pixels,
                 hitBoxRotation = 0f,
@@ -104,12 +101,11 @@ object Ships {
         )
     }
 
-    fun addAIRosetteShip(engine: Engine, physicsWorld: World, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
+    fun addAIRosetteShip(engine: Engine, x: Float = 0f, y: Float = 0f, rotation: Float = 0f) {
         engine.addEntityWithComponents(
             TransformComponent(x = x, y = y, rotation = rotation),
             RenderComponent(Textures.ship1.toCenteredSprite(), 102),
             HitBoxComponent(
-                physicsWorld = physicsWorld,
                 hitBoxWidth = 2f - 2.pixels,
                 hitBoxHeight = 19.pixels,
                 hitBoxRotation = 0f,

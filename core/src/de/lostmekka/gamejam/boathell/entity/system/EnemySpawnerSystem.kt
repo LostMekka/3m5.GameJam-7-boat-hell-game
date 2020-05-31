@@ -27,21 +27,18 @@ class EnemySpawnerSystem(
             if (Math.random() * 3 < 1) {
                 addAIBoat(
                     engine = engine,
-                    physicsWorld = physicsWorld,
                     x = getRandomCoordinateInRangeAroundPlayer(playerPos.x, 10, 5),
                     y = getRandomCoordinateInRangeAroundPlayer(playerPos.y, 10, 5)
                 )
             } else if (Math.random() * 2 < 1) {
                 addAIPlane(
                     engine = engine,
-                    physicsWorld = physicsWorld,
                     x = getRandomCoordinateInRangeAroundPlayer(playerPos.x, 15, 10),
                     y = getRandomCoordinateInRangeAroundPlayer(playerPos.y, 15, 10)
                 )
             } else {
                 addAIRosetteShip(
                     engine = engine,
-                    physicsWorld = physicsWorld,
                     x = getRandomCoordinateInRangeAroundPlayer(playerPos.x, 10, 5),
                     y = getRandomCoordinateInRangeAroundPlayer(playerPos.y, 10, 5)
                 )

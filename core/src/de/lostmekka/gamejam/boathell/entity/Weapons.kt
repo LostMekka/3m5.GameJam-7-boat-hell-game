@@ -129,7 +129,6 @@ object WeaponTriggerStrategies {
                 TransformComponent(x, y, angle),
                 RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.YELLOW }, 999),
                 HitBoxComponent(
-                    physicsWorld = physicsWorld,
                     hitBoxWidth = 4.pixels,
                     hitBoxHeight = 4.pixels,
                     hitBoxRotation = 0f,
@@ -152,7 +151,6 @@ object WeaponTriggerStrategies {
                 TransformComponent(x, y, angle),
                 RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.DARK_GRAY }, 999),
                 HitBoxComponent(
-                    physicsWorld = physicsWorld,
                     hitBoxWidth = 4.pixels,
                     hitBoxHeight = 4.pixels,
                     hitBoxRotation = 0f,
@@ -182,7 +180,6 @@ object WeaponTriggerStrategies {
                 TransformComponent(x, y, angle + angleOffset),
                 RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.RED }, 999),
                 HitBoxComponent(
-                    physicsWorld = physicsWorld,
                     hitBoxWidth = 4.pixels,
                     hitBoxHeight = 4.pixels,
                     hitBoxRotation = 0f,

@@ -3,17 +3,15 @@ package de.lostmekka.gamejam.boathell.entity.system
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
-import com.badlogic.gdx.physics.box2d.Contact
-import com.badlogic.gdx.physics.box2d.ContactImpulse
-import com.badlogic.gdx.physics.box2d.ContactListener
-import com.badlogic.gdx.physics.box2d.Manifold
-import com.badlogic.gdx.physics.box2d.World
+import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.*
 import de.lostmekka.gamejam.boathell.GameConfig
 import de.lostmekka.gamejam.boathell.entity.component.*
 import de.lostmekka.gamejam.boathell.toDegrees
 import de.lostmekka.gamejam.boathell.toRadians
 import ktx.ashley.allOf
 import ktx.ashley.get
+import ktx.box2d.create
 
 class PhysicsUpdateSystem(
     private val physicsWorld: World
@@ -31,6 +29,7 @@ class PhysicsUpdateSystem(
 
     override fun removedFromEngine(engine: Engine) {
         super.removedFromEngine(engine)
+        physicsWorld.setContactListener(null)
         engine.removeEntityListener(cleanupEntityListener)
     }
 
@@ -47,22 +46,18 @@ class PhysicsUpdateSystem(
     private fun prePhysics(entity: Entity) {
         val box = HitBoxComponent.mapper[entity]
         val pos = TransformComponent.mapper[entity]
-        box.hitBox.apply {
+        box.body?.apply {
             setTransform(pos.x, pos.y, pos.rotation.toRadians())
-            for (fixture in fixtureList) {
-                fixture.userData = entity
-            }
         }
     }
 
     private fun postPhysics(entity: Entity) {
         val box = HitBoxComponent.mapper[entity]
         val pos = TransformComponent.mapper[entity]
-        pos.apply {
-            val physicsPos = box.hitBox.position
-            x = physicsPos.x
-            y = physicsPos.y
-            rotation = box.hitBox.angle.toDegrees()
+        box.body?.apply {
+            pos.x = position.x
+            pos.y = position.y
+            pos.rotation = angle.toDegrees()
         }
     }
 
@@ -102,10 +97,21 @@ class PhysicsUpdateSystem(
     }
 
     private val cleanupEntityListener = object : EntityListener {
-        override fun entityAdded(entity: Entity) {}
+        override fun entityAdded(entity: Entity) {
+            val hitbox = HitBoxComponent.mapper[entity]
+            val body = physicsWorld.create(hitbox.def)
+
+            hitbox.body = body
+            for (fixture in body.fixtureList) {
+                fixture.userData = entity
+            }
+        }
+
         override fun entityRemoved(entity: Entity) {
-            val body = HitBoxComponent.mapper[entity].hitBox
-            physicsWorld.destroyBody(body)
+            val body = HitBoxComponent.mapper[entity].body
+            if (body != null) {
+                physicsWorld.destroyBody(body)
+            }
         }
     }
 }

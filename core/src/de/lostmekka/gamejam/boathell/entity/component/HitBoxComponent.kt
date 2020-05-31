@@ -2,12 +2,11 @@ package de.lostmekka.gamejam.boathell.entity.component
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import ktx.ashley.mapperFor
-import ktx.box2d.body
-import ktx.box2d.box
-import ktx.box2d.filter
+import ktx.box2d.*
 import kotlin.experimental.or
 
 enum class HitBoxCategory(val bits: Short) {
@@ -35,20 +34,21 @@ enum class HitBoxCategory(val bits: Short) {
 }
 
 class HitBoxComponent(
-    physicsWorld: World,
     hitBoxWidth: Float,
     hitBoxHeight: Float,
     hitBoxRotation: Float,
     category: HitBoxCategory
 ) : Component {
-    val hitBox = physicsWorld.body(BodyDef.BodyType.DynamicBody) {
+    var body: Body? = null
+    val def = BodyDefinition().apply {
+        type = BodyDef.BodyType.DynamicBody
+        allowSleep = false
         box(hitBoxWidth, hitBoxHeight, Vector2.Zero, hitBoxRotation) {
             filter {
                 categoryBits = category.bits
                 maskBits = category.mask
             }
         }
-        allowSleep = false
     }
 
     companion object {

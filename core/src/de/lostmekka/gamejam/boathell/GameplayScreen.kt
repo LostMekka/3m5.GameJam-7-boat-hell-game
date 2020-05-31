@@ -16,9 +16,6 @@ class GamePlayScreen : KtxScreen {
     val engine = Engine().apply {
         val physicsWorld = createWorld(Vector2.Zero, true)
 
-        Ships.addPlayerBoat(this, physicsWorld)
-        createOceanWater(this)
-
         addSystem(ShipMovementSystem())
         addSystem(WeaponSystem(physicsWorld))
         addSystem(WeaponOwnerSystem())
@@ -38,6 +35,9 @@ class GamePlayScreen : KtxScreen {
         addSystem(PhysicsUpdateSystem(physicsWorld))
         addSystem(EnemySpawnerSystem(physicsWorld))
         addSystem(PhysicsDebugRenderer(cameraControl.camera, physicsWorld))
+
+        Ships.addPlayerBoat(this)
+        createOceanWater(this)
 
         Gdx.input.inputProcessor = object : InputAdapter() {
             override fun scrolled(amount: Int): Boolean {
