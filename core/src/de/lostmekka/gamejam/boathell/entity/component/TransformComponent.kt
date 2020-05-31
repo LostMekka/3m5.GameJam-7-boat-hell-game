@@ -1,6 +1,7 @@
 package de.lostmekka.gamejam.boathell.entity.component
 
 import com.badlogic.ashley.core.Component
+import com.badlogic.gdx.math.Vector2
 import ktx.ashley.mapperFor
 
 class TransformComponent(
@@ -12,4 +13,6 @@ class TransformComponent(
     companion object  {
         val mapper = mapperFor<TransformComponent>()
     }
+
+    fun vec() = Vector2(x, y)
 }

@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.EntityListener
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 import de.lostmekka.gamejam.boathell.GameConfig
+import de.lostmekka.gamejam.boathell.entity.addExplosion
 import de.lostmekka.gamejam.boathell.entity.component.*
 import de.lostmekka.gamejam.boathell.toDegrees
 import de.lostmekka.gamejam.boathell.toRadians
@@ -83,7 +84,8 @@ class PhysicsUpdateSystem(
             healthComponent.health -= pComponent.damage
             val sounds = ship[SoundComponent.mapper]
             if (healthComponent.health <= 0) {
-                createExplosion(ship, engine)
+                val trans = TransformComponent.mapper[ship]
+                engine.addExplosion(trans.vec())
                 removeWeapons(ship, engine)
                 engine.removeEntity(ship)
                 sounds?.deathSound?.play()
