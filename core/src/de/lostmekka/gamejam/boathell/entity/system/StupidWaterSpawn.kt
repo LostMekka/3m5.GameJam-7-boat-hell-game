@@ -1,10 +1,11 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.math.Vector2
 import de.lostmekka.gamejam.boathell.entity.addWaterSplash
-import de.lostmekka.gamejam.boathell.entity.component.ShipWaterComp
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import ktx.ashley.allOf
+import ktx.ashley.mapperFor
 
 class StupidWaterSpawn : BaseSystem() {
     var dir = 90f
@@ -25,4 +26,12 @@ class StupidWaterSpawn : BaseSystem() {
             ShipWaterComp::class,
             TransformComponent::class
     )
+}
+
+class ShipWaterComp(
+    val off: Vector2
+) : Component {
+    companion object {
+        val mapper = mapperFor<ShipWaterComp>()
+    }
 }

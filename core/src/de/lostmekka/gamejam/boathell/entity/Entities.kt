@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.entity.component.RenderComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
-import de.lostmekka.gamejam.boathell.entity.component.WaterParticlesComponent
+import de.lostmekka.gamejam.boathell.entity.system.WaterParticlesComponent
 
 fun Engine.addEntityWithComponents(vararg components: Component) =
     entityWithComponents(*components).also { addEntity(it) }

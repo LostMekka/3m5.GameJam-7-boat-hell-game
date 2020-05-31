@@ -1,10 +1,14 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import com.badlogic.ashley.core.Component
+import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.math.Vector2
+import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.entity.component.RenderComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
-import de.lostmekka.gamejam.boathell.entity.component.WaterParticlesComponent
 import ktx.ashley.allOf
 import ktx.ashley.get
+import ktx.ashley.mapperFor
 import kotlin.math.min
 
 class StupidParticleSystem : BaseSystem() {
@@ -40,5 +44,20 @@ class StupidParticleSystem : BaseSystem() {
                 engine.removeEntity(entity)
             }
         }
+    }
+}
+
+class WaterParticlesComponent(
+    var pos: Vector2,
+    var vel: Vector2,
+    var color: Color
+) : Component {
+    var nextFrameTime = 0.1f
+    var nextFrame = nextFrameTime
+    var frame = 0
+    val regions = Textures.explosion1
+
+    companion object {
+        val mapper = mapperFor<WaterParticlesComponent>()
     }
 }
