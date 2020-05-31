@@ -2,6 +2,7 @@ package de.lostmekka.gamejam.boathell.entity.system
 
 import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
@@ -15,9 +16,8 @@ import ktx.ashley.get
 import ktx.ashley.mapperFor
 import kotlin.math.sin
 
-class RenderSystem : BaseSystem() {
+class RenderSystem(camera: Camera) : BaseSystem() {
     val batch = SpriteBatch()
-    val camera = OrthographicCamera().apply { zoom = 2f }
     val viewport = ScreenViewport(camera).apply { unitsPerPixel = 1.0f / 32.0f / 4.0f }
 
     override fun familyBuilder() = allOf(
