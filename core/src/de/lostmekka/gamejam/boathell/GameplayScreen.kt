@@ -33,7 +33,7 @@ class GamePlayScreen : KtxScreen {
         addSystem(StupidParticleSystem())
         addSystem(RenderSystem(cameraControl.camera))
         addSystem(PhysicsUpdateSystem(physicsWorld))
-        addSystem(EnemySpawnerSystem(physicsWorld))
+        addSystem(EnemySpawnerSystem())
         addSystem(PhysicsDebugRenderer(cameraControl.camera, physicsWorld))
 
         Ships.addPlayerBoat(this)

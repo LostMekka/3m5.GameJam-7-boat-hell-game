@@ -1,14 +1,14 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
+import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.Gdx.input
 import com.badlogic.gdx.Input.Keys
 import de.lostmekka.gamejam.boathell.GameConfig
 import de.lostmekka.gamejam.boathell.asset.Sounds
-import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import de.lostmekka.gamejam.boathell.entity.component.ShipMovementComponent
-import de.lostmekka.gamejam.boathell.entity.system.WeaponOwnerComponent
 import ktx.ashley.allOf
+import ktx.ashley.mapperFor
 import kotlin.math.abs
 
 class PlayerControlledBoatSystem : BaseSystem() {
@@ -55,4 +55,10 @@ class PlayerControlledBoatSystem : BaseSystem() {
         PlayerControlledComponent::class,
         ShipMovementComponent::class
     )
+}
+
+class PlayerControlledComponent : Component {
+    companion object {
+        val mapper = mapperFor<PlayerControlledComponent>()
+    }
 }

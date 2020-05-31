@@ -5,19 +5,14 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
-import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.math.Affine2
 import com.badlogic.gdx.utils.viewport.ScreenViewport
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
-import de.lostmekka.gamejam.boathell.entity.system.RenderComponent
-import de.lostmekka.gamejam.boathell.entity.system.WeaponOwnerComponent
 import ktx.ashley.allOf
-import ktx.ashley.get
 import ktx.ashley.mapperFor
-import kotlin.math.sin
 
 class RenderSystem(camera: Camera) : BaseSystem() {
     val batch = SpriteBatch()

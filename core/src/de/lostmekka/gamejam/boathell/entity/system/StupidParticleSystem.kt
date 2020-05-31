@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.Vector2
 import de.lostmekka.gamejam.boathell.asset.Textures
-import de.lostmekka.gamejam.boathell.entity.system.RenderComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import ktx.ashley.allOf
 import ktx.ashley.get

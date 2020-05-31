@@ -4,9 +4,7 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.utils.ImmutableArray
-import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
-import de.lostmekka.gamejam.boathell.entity.system.WeaponOwnerComponent
 import de.lostmekka.gamejam.boathell.normalizeAngleDeg
 import ktx.ashley.allOf
 import ktx.ashley.get

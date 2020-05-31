@@ -3,7 +3,6 @@ package de.lostmekka.gamejam.boathell.entity.system
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.*
 import de.lostmekka.gamejam.boathell.GameConfig
 import de.lostmekka.gamejam.boathell.entity.addExplosion

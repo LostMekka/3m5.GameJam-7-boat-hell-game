@@ -1,16 +1,12 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
-import com.badlogic.gdx.physics.box2d.World
 import de.lostmekka.gamejam.boathell.entity.Ships.addAIBoat
 import de.lostmekka.gamejam.boathell.entity.Ships.addAIPlane
 import de.lostmekka.gamejam.boathell.entity.Ships.addAIRosetteShip
-import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import ktx.ashley.allOf
 
-class EnemySpawnerSystem(
-    private val physicsWorld: World
-) : BaseSystem() {
+class EnemySpawnerSystem() : BaseSystem() {
 
     private var timeSinceLastSpawn = 10f
     private var spawnTime = 8f

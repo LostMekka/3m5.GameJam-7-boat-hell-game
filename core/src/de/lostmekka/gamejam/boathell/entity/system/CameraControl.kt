@@ -2,7 +2,6 @@ package de.lostmekka.gamejam.boathell.entity.system
 
 import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.graphics.OrthographicCamera
-import de.lostmekka.gamejam.boathell.entity.component.PlayerControlledComponent
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import ktx.ashley.allOf
 
