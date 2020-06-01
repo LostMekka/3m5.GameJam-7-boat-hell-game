@@ -11,13 +11,14 @@ import com.badlogic.gdx.physics.box2d.World
 import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.asset.Textures
 import de.lostmekka.gamejam.boathell.asset.toCenteredSprite
-import de.lostmekka.gamejam.boathell.entity.system.ProjectileMovementStrategies
 import de.lostmekka.gamejam.boathell.entity.addEntityWithComponents
+import de.lostmekka.gamejam.boathell.entity.addStraightProjectile
 import de.lostmekka.gamejam.boathell.entity.component.*
 import de.lostmekka.gamejam.boathell.pixels
 import ktx.ashley.allOf
 import ktx.ashley.mapperFor
 import kotlin.math.max
+import kotlin.math.min
 
 fun offsetPositionForParentRotation(weapon: WeaponComponent, parentRotation: Float): Vector3 =
     Vector3(weapon.offsetX, weapon.offsetY, 0f).rotate(Vector3.Z, parentRotation)
@@ -86,74 +87,32 @@ typealias WeaponTriggerStrategy = ShotContext.() -> Boolean
 
 object WeaponTriggerStrategies {
     fun boring(): WeaponTriggerStrategy = {
-        for (i in 0..5) {
-            engine.addEntityWithComponents(
-                TransformComponent(x, y, angle),
-                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.YELLOW }, 999),
-                HitBoxComponent(
-                    hitBoxWidth = 4.pixels,
-                    hitBoxHeight = 4.pixels,
-                    hitBoxRotation = 0f,
-                    category = HitBoxCategory.EnemyProjectile
-                ),
-                ProjectileMovementComponent(
-                    damage = 1f,
-                    waitTime = i.toFloat() * 0.016f,
-                    maxLifeTime = 3f,
-                    movementStrategy = ProjectileMovementStrategies.straight(angle, 3f, movementVelocity)
-                )
-            )
-        }
+        val color = Color.YELLOW
+        val category = HitBoxCategory.EnemyProjectile
+        for (i in 0..5) engine.addStraightProjectile(this, color, category, i.toFloat() * 0.016f, 1f, 3f, 3f)
         true
     }
 
     fun fast(): WeaponTriggerStrategy = {
-        for (i in 0..5) {
-            engine.addEntityWithComponents(
-                TransformComponent(x, y, angle),
-                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.DARK_GRAY }, 999),
-                HitBoxComponent(
-                    hitBoxWidth = 4.pixels,
-                    hitBoxHeight = 4.pixels,
-                    hitBoxRotation = 0f,
-                    category = HitBoxCategory.PlayerProjectile
-                ),
-                ProjectileMovementComponent(
-                    damage = 1f,
-                    waitTime = i.toFloat() * 0.016f,
-                    maxLifeTime = 3f,
-                    movementStrategy = ProjectileMovementStrategies.straight(angle, 10f, movementVelocity)
-                )
-            )
-        }
+        val color = Color.DARK_GRAY
+        val category = HitBoxCategory.PlayerProjectile
+        for (i in 0..5) engine.addStraightProjectile(this, color, category, i.toFloat() * 0.016f, 1f, 3f, 10f)
         true
     }
 
     fun rosette(isPlayerWeapon: Boolean): WeaponTriggerStrategy = {
+        val color = Color.RED
+        val category = if (isPlayerWeapon) HitBoxCategory.PlayerProjectile else HitBoxCategory.EnemyProjectile
         val totalShots = 200
         val waitTime = 0.04f
-        val projectilesFired: Int = (firingTime / waitTime).toInt()
-        var projectilesToFire: Int = ((firingTime + deltaTime) / waitTime).toInt() - projectilesFired
-        if (projectilesToFire + projectilesFired > totalShots) projectilesToFire = totalShots - projectilesFired
+        val projectilesFired = (firingTime / waitTime).toInt()
+        val projectilesCouldHaveFired = ((firingTime + deltaTime) / waitTime).toInt()
+        val projectilesToFire = min(totalShots, projectilesCouldHaveFired) - projectilesFired
         if (projectilesToFire > 0 && projectilesFired % 2 == 0) Sounds.shoot.play(playerDistance())
         for (i in 1..projectilesToFire) {
             val angleOffset = (i + projectilesFired) * 137.5f
-            engine.addEntityWithComponents(
-                TransformComponent(x, y, angle + angleOffset),
-                RenderComponent(Textures.projectile[0].toCenteredSprite().apply { color = Color.RED }, 999),
-                HitBoxComponent(
-                    hitBoxWidth = 4.pixels,
-                    hitBoxHeight = 4.pixels,
-                    hitBoxRotation = 0f,
-                    category = if (isPlayerWeapon) HitBoxCategory.PlayerProjectile else HitBoxCategory.EnemyProjectile
-                ),
-                ProjectileMovementComponent(
-                    waitTime = i.toFloat() * waitTime,
-                    maxLifeTime = 10f,
-                    damage = 0.5f,
-                    movementStrategy = ProjectileMovementStrategies.straight(angle + angleOffset, 1.7f, movementVelocity)
-                )
-            )
+            val ctx = this.copy(angle = angle + angleOffset)
+            engine.addStraightProjectile(ctx, color, category, i.toFloat() * 0.04f, 0.5f, 10f, 1.7f)
         }
         projectilesToFire + projectilesFired >= totalShots
     }

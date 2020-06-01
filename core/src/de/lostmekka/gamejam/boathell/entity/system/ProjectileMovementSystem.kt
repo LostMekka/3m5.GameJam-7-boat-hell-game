@@ -45,8 +45,8 @@ class ProjectileMovementComponent(
     var damage: Float,
     var waitTime: Float,
     var maxLifeTime: Float,
-    var lifeTime: Float = 0f,
-    var movementStrategy: ProjectileMovementStrategy
+    var movementStrategy: ProjectileMovementStrategy,
+    var lifeTime: Float = 0f
 ) : Component {
     companion object {
         val mapper = mapperFor<ProjectileMovementComponent>()
