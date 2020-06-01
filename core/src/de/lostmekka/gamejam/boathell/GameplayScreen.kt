@@ -31,6 +31,7 @@ class GamePlayScreen : KtxScreen {
         addSystem(WaterLayerSystem())
         addSystem(StupidWaterSpawn())
         addSystem(StupidParticleSystem())
+        addSystem(TrackingSystem())
         addSystem(RenderSystem(cameraControl.camera))
         addSystem(PhysicsUpdateSystem(physicsWorld))
         addSystem(EnemySpawnerSystem())

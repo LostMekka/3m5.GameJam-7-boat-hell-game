@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.math.Affine2
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.math.Vector2
 import de.lostmekka.gamejam.boathell.asset.Textures
@@ -37,9 +38,17 @@ fun Engine.addExplosion(pos: Vector2) {
     }
 }
 
-fun Engine.addStraightProjectile(ctx: ShotContext, color: Color, category: HitBoxCategory, waitTime: Float, damage: Float, maxLifeTime: Float, speed: Float) = addEntityWithComponents(
-    TransformComponent(ctx.x, ctx.y, ctx.angle),
-    RenderComponent(Textures.projectile[0].toCenteredSprite(), 999, color),
-    ProjectileMovementComponent(damage, waitTime, maxLifeTime, ProjectileMovementStrategies.straight(ctx.angle, speed, ctx.movementVelocity)),
-    HitBoxComponent(4.pixels, 4.pixels, 0f, category)
-)
+fun Engine.addStraightProjectile(ctx: ShotContext, color: Color, category: HitBoxCategory, waitTime: Float, damage: Float, maxLifeTime: Float, speed: Float) {
+    val projectile = addEntityWithComponents(
+        TransformComponent(ctx.x, ctx.y, ctx.angle),
+        RenderComponent(Textures.projectile[0].toCenteredSprite(), 999, color),
+        ProjectileMovementComponent(damage, waitTime, maxLifeTime, ProjectileMovementStrategies.straight(ctx.angle, speed, ctx.movementVelocity)),
+        HitBoxComponent(4.pixels, 4.pixels, 0f, category)
+    )
+    // simple shadow
+    addEntityWithComponents(
+        TransformComponent(),
+        TrackingComponent(projectile, Affine2().translate(0f, -0.3f)),
+        RenderComponent(Textures.projectile[0].toCenteredSprite(), 20, Color(0f, 0f, 0f, 0.1f))
+    )
+}

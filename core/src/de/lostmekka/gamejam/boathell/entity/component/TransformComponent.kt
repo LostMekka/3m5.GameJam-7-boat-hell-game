@@ -10,7 +10,7 @@ class TransformComponent(
     var rotation: Float = 0.0f
 ) : Component {
 
-    companion object  {
+    companion object {
         val mapper = mapperFor<TransformComponent>()
     }
 
