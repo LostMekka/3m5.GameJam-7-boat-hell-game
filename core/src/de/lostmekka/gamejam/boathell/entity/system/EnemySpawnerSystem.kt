@@ -5,6 +5,8 @@ import de.lostmekka.gamejam.boathell.entity.Ships.addAIPlane
 import de.lostmekka.gamejam.boathell.entity.Ships.addAIRosetteShip
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import ktx.ashley.allOf
+import kotlin.math.withSign
+import kotlin.random.Random
 
 class EnemySpawnerSystem() : BaseSystem() {
 
@@ -15,39 +17,21 @@ class EnemySpawnerSystem() : BaseSystem() {
         timeSinceLastSpawn += deltaTime
         if (timeSinceLastSpawn > spawnTime) {
             timeSinceLastSpawn = 0f
-            val playerPos = entities
-                .firstOrNull()
-                ?.let { TransformComponent.mapper[it] }
-                ?: TransformComponent(0f, 0f, 0f)
 
-            if (Math.random() * 3 < 1) {
-                addAIBoat(
-                    engine = engine,
-                    x = getRandomCoordinateInRangeAroundPlayer(playerPos.x, 10, 5),
-                    y = getRandomCoordinateInRangeAroundPlayer(playerPos.y, 10, 5)
-                )
-            } else if (Math.random() * 2 < 1) {
-                addAIPlane(
-                    engine = engine,
-                    x = getRandomCoordinateInRangeAroundPlayer(playerPos.x, 15, 10),
-                    y = getRandomCoordinateInRangeAroundPlayer(playerPos.y, 15, 10)
-                )
-            } else {
-                addAIRosetteShip(
-                    engine = engine,
-                    x = getRandomCoordinateInRangeAroundPlayer(playerPos.x, 10, 5),
-                    y = getRandomCoordinateInRangeAroundPlayer(playerPos.y, 10, 5)
-                )
+            val trans = entities.firstOrNull()?.let { TransformComponent.mapper[it] }
+
+            if (trans != null) {
+                val choice = Math.random()
+                val r1 = (Random.nextFloat() - 0.5f) * 5f
+                val r2 = (Random.nextFloat() - 0.5f) * 5f
+                when {
+                    choice < 0.3 -> addAIBoat(engine, trans.x + 5f.withSign(r1) + r1, trans.y + 5f.withSign(r2) + r2)
+                    choice < 0.7 -> addAIPlane(engine, trans.x + 5f.withSign(r1) + r1, trans.y + 5f.withSign(r2) + r2)
+                    else -> addAIRosetteShip(engine, trans.x + 10f.withSign(r1) + r1, trans.y + 10f.withSign(r2) + r2)
+                }
             }
         }
     }
-
-    private fun getRandomCoordinateInRangeAroundPlayer(x: Float, maxDistance: Int, minDistance: Int): Float =
-        (((x.toInt() - maxDistance..x.toInt() - minDistance).toList() + ((x.toInt() + minDistance..x.toInt() + maxDistance))
-            .toList())
-            .shuffled()
-            .first())
-            .toFloat()
 
     override fun familyBuilder() = allOf(
         PlayerControlledComponent::class,
