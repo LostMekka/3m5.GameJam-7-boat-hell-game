@@ -6,7 +6,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
 import de.lostmekka.gamejam.boathell.asset.Music
-import de.lostmekka.gamejam.boathell.entity.Ships
+import de.lostmekka.gamejam.boathell.entity.addPlayerBoat
 import de.lostmekka.gamejam.boathell.entity.system.*
 import ktx.app.KtxScreen
 import ktx.ashley.*
@@ -37,7 +37,7 @@ class GamePlayScreen : KtxScreen {
         addSystem(EnemySpawnerSystem())
         addSystem(PhysicsDebugRenderer(cameraControl.camera, physicsWorld))
 
-        Ships.addPlayerBoat(this)
+        this.addPlayerBoat()
         createOceanWater(this)
 
         Gdx.input.inputProcessor = object : InputAdapter() {

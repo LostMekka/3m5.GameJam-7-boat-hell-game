@@ -1,8 +1,8 @@
 package de.lostmekka.gamejam.boathell.entity.system
 
-import de.lostmekka.gamejam.boathell.entity.Ships.addAIBoat
-import de.lostmekka.gamejam.boathell.entity.Ships.addAIPlane
-import de.lostmekka.gamejam.boathell.entity.Ships.addAIRosetteShip
+import de.lostmekka.gamejam.boathell.entity.addAIBoat
+import de.lostmekka.gamejam.boathell.entity.addAIPlane
+import de.lostmekka.gamejam.boathell.entity.addAIRosetteShip
 import de.lostmekka.gamejam.boathell.entity.component.TransformComponent
 import ktx.ashley.allOf
 import kotlin.math.withSign
@@ -25,9 +25,9 @@ class EnemySpawnerSystem() : BaseSystem() {
                 val r1 = (Random.nextFloat() - 0.5f) * 5f
                 val r2 = (Random.nextFloat() - 0.5f) * 5f
                 when {
-                    choice < 0.3 -> addAIBoat(engine, trans.x + 5f.withSign(r1) + r1, trans.y + 5f.withSign(r2) + r2)
-                    choice < 0.7 -> addAIPlane(engine, trans.x + 5f.withSign(r1) + r1, trans.y + 5f.withSign(r2) + r2)
-                    else -> addAIRosetteShip(engine, trans.x + 10f.withSign(r1) + r1, trans.y + 10f.withSign(r2) + r2)
+                    choice < 0.3 -> engine.addAIBoat(trans.x + 5f.withSign(r1) + r1, trans.y + 5f.withSign(r2) + r2)
+                    choice < 0.7 -> engine.addAIPlane(trans.x + 5f.withSign(r1) + r1, trans.y + 5f.withSign(r2) + r2)
+                    else -> engine.addAIRosetteShip(trans.x + 10f.withSign(r1) + r1, trans.y + 10f.withSign(r2) + r2)
                 }
             }
         }
