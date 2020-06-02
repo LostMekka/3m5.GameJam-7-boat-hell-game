@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.math.Vector2
 import de.lostmekka.gamejam.boathell.asset.Music
+import de.lostmekka.gamejam.boathell.asset.Sounds
 import de.lostmekka.gamejam.boathell.entity.addPlayerBoat
 import de.lostmekka.gamejam.boathell.entity.system.*
 import ktx.app.KtxScreen
@@ -49,6 +50,7 @@ class GamePlayScreen : KtxScreen {
             override fun keyDown(keycode: Int): Boolean {
                 when (keycode) {
                     Input.Keys.ESCAPE -> Gdx.app.exit()
+                    Input.Keys.M -> toggleGlobalMute()
                 }
                 return false
             }
@@ -56,11 +58,9 @@ class GamePlayScreen : KtxScreen {
     }
 
     override fun show() {
-        // Music.loop.play()
     }
 
     override fun hide() {
-        Music.loop.pause()
     }
 
     override fun render(delta: Float) {
@@ -74,5 +74,15 @@ class GamePlayScreen : KtxScreen {
         } catch (err: MissingEntitySystemException) {
             // ignore
         }
+    }
+
+    fun toggleGlobalMute() {
+        if (Music.loop.isPlaying) {
+            Music.loop.pause()
+        } else {
+            Music.loop.play()
+        }
+
+        Sounds.volume = 1f - Sounds.volume
     }
 }
