@@ -33,7 +33,7 @@ class GamePlayScreen : KtxScreen {
         addSystem(StupidParticleSystem())
         addSystem(TrackingSystem())
         addSystem(RenderSystem(cameraControl.camera))
-        addSystem(PhysicsUpdateSystem(physicsWorld))
+        addSystem(PhysicsUpdateSystem(physicsWorld, ProjectileHitHandler(this)))
         addSystem(EnemySpawnerSystem())
         addSystem(PhysicsDebugRenderer(cameraControl.camera, physicsWorld))
 

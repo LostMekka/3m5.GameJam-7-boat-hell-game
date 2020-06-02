@@ -1,12 +1,14 @@
 package de.lostmekka.gamejam.boathell.entity.component
 
 import com.badlogic.ashley.core.Component
+import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.Body
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import ktx.ashley.mapperFor
 import ktx.box2d.*
+import java.util.*
 import kotlin.experimental.or
 
 enum class HitBoxCategory(val bits: Short) {
@@ -39,6 +41,7 @@ class HitBoxComponent(
     hitBoxRotation: Float,
     category: HitBoxCategory
 ) : Component {
+    val contacts = LinkedList<Entity>()
     var body: Body? = null
     val def = BodyDefinition().apply {
         type = BodyDef.BodyType.DynamicBody

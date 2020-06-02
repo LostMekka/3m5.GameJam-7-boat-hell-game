@@ -3,6 +3,7 @@ package de.lostmekka.gamejam.boathell.entity.system
 import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.EntityListener
+import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.physics.box2d.*
 import de.lostmekka.gamejam.boathell.GameConfig
 import de.lostmekka.gamejam.boathell.entity.addExplosion
@@ -14,7 +15,8 @@ import ktx.ashley.get
 import ktx.box2d.create
 
 class PhysicsUpdateSystem(
-    private val physicsWorld: World
+    private val physicsWorld: World,
+    private val projectileHitHandler: ProjectileHitHandler
 ) : BaseSystem(10) {
     private val stepTime = 1f / GameConfig.Physics.stepsPerSecond.toFloat()
     private var counter = 0f
@@ -46,6 +48,7 @@ class PhysicsUpdateSystem(
     private fun prePhysics(entity: Entity) {
         val box = HitBoxComponent.mapper[entity]
         val pos = TransformComponent.mapper[entity]
+        box.contacts.clear()
         box.body?.apply {
             setTransform(pos.x, pos.y, pos.rotation.toRadians())
         }
@@ -75,26 +78,15 @@ class PhysicsUpdateSystem(
             val e1 = contact.fixtureA.userData as? Entity ?: return
             val e2 = contact.fixtureB.userData as? Entity ?: return
 
-            // this assumes that there are no entities with health AND projectile movement
-            val (projectile, pComponent) = e1.projectile ?: e2.projectile ?: return
-            val (ship, healthComponent) = e1.health ?: e2.health ?: return
+            HitBoxComponent.mapper[e1].contacts.add(e2)
+            HitBoxComponent.mapper[e2].contacts.add(e1)
 
-            engine.removeEntity(projectile)
-            healthComponent.health -= pComponent.damage
-            val sounds = ship[SoundComponent.mapper]
-            if (healthComponent.health <= 0) {
-                val trans = TransformComponent.mapper[ship]
-                engine.addExplosion(trans.vec())
-                removeWeapons(ship, engine)
-                engine.removeEntity(ship)
-                sounds?.deathSound?.play()
-            } else {
-                sounds?.hitSound?.play()
+            val family: Family = projectileHitHandler.familyBuilder().get()
+            if (family.matches(e1) || family.matches(e2)) {
+                val (eMatch, eOther) = if (family.matches(e1)) Pair(e1, e2) else Pair(e2, e1)
+                projectileHitHandler.onHit(eMatch, eOther)
             }
         }
-
-        private val Entity.projectile get() = this[ProjectileMovementComponent.mapper]?.let { this to it }
-        private val Entity.health get() = this[HealthComponent.mapper]?.let { this to it }
     }
 
     private val cleanupEntityListener = object : EntityListener {
